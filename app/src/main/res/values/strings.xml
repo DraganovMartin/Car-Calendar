@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Car Calendar</string>
+    <string name="enter_username">Enter username :</string>
+    <string name="enter_password">Enter password :</string>
+    <string name="login_btn">Login</string>
+    <string name="register_btn">Register</string>
+
+</resources>
