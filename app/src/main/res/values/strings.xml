@@ -4,5 +4,7 @@
     <string name="enter_password">Enter password :</string>
     <string name="login_btn">Login</string>
     <string name="register_btn">Register</string>
+    <string name="enter_e_mail">Enter e-mail :</string>
+    <string name="save_data_btn">Save data</string>
 
 </resources>
