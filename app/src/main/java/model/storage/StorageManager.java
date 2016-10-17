@@ -2,7 +2,7 @@ package model.storage;
 
 import model.Vehicle.Vehicle;
 
-public class StorageManager implements Storable{
+public class StorageManager implements Storable {
     private static StorageManager ourInstance = new StorageManager();
 
     public static StorageManager getInstance() {
