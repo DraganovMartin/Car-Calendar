@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentPadding="@dimen/card_content_padding"
+    app:cardElevation="2dp"
+    android:layout_margin="@dimen/card_margin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_height">
+
+        <ImageView
+            android:id="@+id/vehicle_image"
+            android:layout_width="@dimen/vehicle_icon_size"
+            android:layout_height="@dimen/vehicle_icon_size"
+            android:src="@mipmap/ic_motorcycle_white_48dp"/>
+
+        <ImageView
+            android:id="@+id/ic_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="@+id/vehicle_description"
+            android:src="@mipmap/ic_keyboard_arrow_right_white_36dp"/>
+
+        <TextView
+            android:id="@+id/vehicle_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="Car name "
+            style="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/vehicle_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/vehicle_image"
+            android:layout_toEndOf="@+id/vehicle_image"
+            android:layout_toStartOf="@id/ic_arrow"
+            android:layout_toLeftOf="@id/ic_arrow"
+            android:layout_below="@id/vehicle_name"
+            android:paddingTop="10dp"
+            android:text="Some info about the car ...\nTesting text view text, text text."/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
