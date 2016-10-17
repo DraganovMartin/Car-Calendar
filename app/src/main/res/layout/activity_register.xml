@@ -21,30 +21,6 @@
         android:layout_marginTop="93dp"
         android:id="@+id/regUserTextET" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="@string/enter_password"
-        android:ems="10"
-        android:layout_below="@+id/regUserTextET"
-        android:layout_alignRight="@+id/regUserTextET"
-        android:layout_alignEnd="@+id/regUserTextET"
-        android:layout_marginTop="43dp"
-        android:id="@+id/regPassET" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:hint="@string/enter_e_mail"
-        android:ems="10"
-        android:layout_below="@+id/regPassET"
-        android:layout_alignRight="@+id/regPassET"
-        android:layout_alignEnd="@+id/regPassET"
-        android:layout_marginTop="41dp"
-        android:id="@+id/regEmailET" />
-
     <Button
         android:text="@string/save_data_btn"
         android:layout_width="wrap_content"
@@ -53,4 +29,40 @@
         android:id="@+id/saveBtn"
         android:layout_below="@+id/regEmailET"
         android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="@string/enter_password"
+        android:ems="10"
+        android:id="@+id/regPassET"
+        android:layout_below="@+id/regAgeET"
+        android:layout_alignLeft="@+id/regAgeET"
+        android:layout_alignStart="@+id/regAgeET"
+        android:layout_marginTop="23dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="@string/enter_age"
+        android:ems="10"
+        android:id="@+id/regAgeET"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/regUserTextET"
+        android:layout_alignLeft="@+id/regUserTextET"
+        android:layout_alignStart="@+id/regUserTextET" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="@string/enter_e_mail"
+        android:ems="10"
+        android:layout_marginTop="18dp"
+        android:id="@+id/regEmailET"
+        android:layout_below="@+id/regPassET"
+        android:layout_alignLeft="@+id/regPassET"
+        android:layout_alignStart="@+id/regPassET" />
 </RelativeLayout>
