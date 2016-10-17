@@ -1,13 +1,11 @@
 package model;
 
-import java.util.TreeSet;
-
-import model.authentication.UserAuthenticator;
+import model.authentication.ICredentialChecker;
 
 /**
  * Singleton class UserManager for creating, registering and managing users.
  */
-public class UserManager implements UserAuthenticator{
+public class UserManager implements ICredentialChecker {
     private static UserManager manager = new UserManager();
 
     public static UserManager getInstance() {
