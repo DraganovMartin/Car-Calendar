@@ -10,6 +10,7 @@ import model.authentication.IUserAuthenticator;
  * Singleton class UserManager for creating, registering and managing users.
  */
 public class UserManager implements IUserAuthenticator {
+
     private static UserManager manager = new UserManager();
     public static UserManager getInstance() {
         return manager;
