@@ -10,37 +10,33 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.carcalendar.dmdev.carcalendar.RegisterActivity">
 
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:visibility="visible"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="@string/save_data_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/saveBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="46dp" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:hint="@string/enter_username"
         android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="93dp"
-        android:id="@+id/regUserTextET" />
-
-    <Button
-        android:text="@string/save_data_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="51dp"
-        android:id="@+id/saveBtn"
-        android:layout_below="@+id/regEmailET"
+        android:id="@+id/regUserTextET"
+        android:layout_above="@+id/regAgeET"
+        android:layout_marginBottom="30dp"
         android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="@string/enter_password"
-        android:ems="10"
-        android:id="@+id/regPassET"
-        android:layout_below="@+id/regAgeET"
-        android:layout_alignLeft="@+id/regAgeET"
-        android:layout_alignStart="@+id/regAgeET"
-        android:layout_marginTop="23dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -49,20 +45,20 @@
         android:hint="@string/enter_age"
         android:ems="10"
         android:id="@+id/regAgeET"
-        android:layout_marginTop="25dp"
-        android:layout_below="@+id/regUserTextET"
+        android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/regUserTextET"
         android:layout_alignStart="@+id/regUserTextET" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:hint="@string/enter_e_mail"
+        android:inputType="textPassword"
+        android:hint="@string/enter_password"
         android:ems="10"
-        android:layout_marginTop="18dp"
-        android:id="@+id/regEmailET"
-        android:layout_below="@+id/regPassET"
-        android:layout_alignLeft="@+id/regPassET"
-        android:layout_alignStart="@+id/regPassET" />
+        android:id="@+id/regPassET"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/regAgeET"
+        android:layout_alignLeft="@+id/regAgeET"
+        android:layout_alignStart="@+id/regAgeET" />
+
 </RelativeLayout>

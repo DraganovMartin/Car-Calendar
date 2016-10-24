@@ -1,28 +1,80 @@
 package com.carcalendar.dmdev.carcalendar;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.UserManager;
 import model.Vehicle.Vehicle;
+import model.authentication.RunningStatus;
 
 public class GarageActivity extends AppCompatActivity {
+
+    private RecyclerView vehicleList;
+    private RecyclerView.LayoutManager vehicleListManager;
+    private TextView usernameTV;
+    private UserManager manager;
+    private Menu menu = null;
+    private RunningStatus runStatus = RunningStatus.getInstance();
+
+    private boolean doubleBackToExitPressedOnce;
+    private Handler mHandler = new Handler();
+    private Intent intentFromLoginAfterFileReading;
+    private Intent intentFromLogin;
+
+    private final Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            doubleBackToExitPressedOnce = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_garage);
+        Log.e("atStart",String.valueOf(UserManager.getInstance().getLoggedUser() != null));
+        Log.e("atStart","UserManager != null " + String.valueOf(UserManager.getInstance() != null));
+       // Log.e("atStart","loggedUser username : " + UserManager.getInstance().getLoggedUserName());
+        usernameTV = (TextView) findViewById(R.id.Username);
+        intentFromLoginAfterFileReading = getIntent();
+        intentFromLogin = getIntent();
+        Log.e("status",String.valueOf(runStatus.stillRunning()));
+        if(checkAvailableFile() && intentFromLoginAfterFileReading.getSerializableExtra("UserManager") != null){
+            Log.e("check","Are you here fuck ");
+            manager = loadDataUserManager();
+        }
+        else{
+            Log.e("check","Vlizash li tuka");
+            manager = UserManager.getInstance();
+        }
+        Log.e("user","loggedUser is null : " + String.valueOf(manager.getLoggedUser() == null));
 
-        RecyclerView vehicleList = (RecyclerView) findViewById(R.id.view_vehicle_list);
+        usernameTV.setText(intentFromLogin.getStringExtra("LoggedUserName"));
+
+        vehicleList = (RecyclerView) findViewById(R.id.view_vehicle_list);
         vehicleList.setHasFixedSize(true);
 
-        RecyclerView.LayoutManager vehicleListManager = new LinearLayoutManager(this);
+        vehicleListManager = new LinearLayoutManager(this);
         vehicleList.setLayoutManager(vehicleListManager);
 
         vehicleList.setAdapter(new VehicleAdapter(createDemoList()));
@@ -44,5 +96,102 @@ public class GarageActivity extends AppCompatActivity {
             }
         });
         return vehicles;
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        if (mHandler != null) { mHandler.removeCallbacks(mRunnable); }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        runStatus.setStatus(false);
+        saveDataUserManager(manager);
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        mHandler.postDelayed(mRunnable, 2000);
+    }
+
+    /**
+     *  Serializing the UserManager object to internal storage  with openFileOutput()
+     * @param x - UserManager
+     */
+    private void saveDataUserManager(final UserManager x){
+
+        /*Thread save = new Thread(new Runnable() {
+            @Override
+            public void run() {*/
+
+                try {
+                    ObjectOutputStream out = new ObjectOutputStream(openFileOutput("UsermanagerDATA.txt", Context.MODE_PRIVATE));
+                    out.writeObject(x);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        /*    }
+        });
+        save.start();*/
+
+    }
+
+    private UserManager loadDataUserManager(){
+        /*Thread load = new Thread(new Runnable() {
+            @Override
+            public void run() {*/
+                try {
+                    ObjectInputStream in = new ObjectInputStream(openFileInput("UsermanagerDATA.txt"));
+                    UserManager temp = (UserManager) in.readObject();
+                    return temp;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            /*}
+        });
+        load.start();
+        */
+        return null;
+    }
+
+    /**
+     * Checks if UsermanagerDATA file is available
+     * @return true or false
+     */
+    public boolean checkAvailableFile(){
+        String path= this.getFilesDir().getAbsolutePath()+"/UsermanagerDATA.txt";
+        File file = new File(path);
+        if(file.exists()) return true;
+        else return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.Logout:
+                    manager.userLogout();
+                    saveDataUserManager(manager);
+                    Intent intent = new Intent(this.getApplicationContext(),LoginActivity.class);
+                    finish();
+                    startActivity(intent);
+                    return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

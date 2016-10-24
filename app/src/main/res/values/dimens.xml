@@ -6,4 +6,5 @@
     <dimen name="card_margin">5dp</dimen>
     <dimen name="card_height">80dp</dimen>
     <dimen name="vehicle_icon_size">75dp</dimen>
+    <dimen name="greeting_text_size">20sp</dimen>
 </resources>

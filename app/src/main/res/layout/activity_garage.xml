@@ -13,6 +13,36 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/view_vehicle_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/HelloLayout"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        />
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/HelloLayout"
+        >
+
+        <TextView
+            android:text="@string/hello_user"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/greeting_text_size"
+            android:id="@+id/HelloUser" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:textSize="@dimen/greeting_text_size"
+            android:layout_height="wrap_content"
+            android:id="@+id/Username" />
+
+    </LinearLayout>
 
 </RelativeLayout>
