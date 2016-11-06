@@ -1,8 +1,7 @@
 package model;
 
-import android.os.Parcelable;
-import android.util.Log;
-
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -37,15 +36,6 @@ public class UserManager implements IUserAuthenticator,Serializable {
         return tmp;
     }
 
-    /**
-     *  Creates user without incrementing user id, this method should be used only for getting the user from intents,bundle,etc..
-     *
-     */
-    /*public User createUser(User x){
-        User tmp = x;
-        return tmp;
-    }*/
-
     private boolean isPasswordGood(String password){
         final Pattern passPattern = Pattern.compile( "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})");
         Matcher matcher = passPattern.matcher(password);
@@ -55,15 +45,6 @@ public class UserManager implements IUserAuthenticator,Serializable {
     public void registerUser(User x){
         registeredUsers.add(x);
     }
-
-   /* public int getLoggedUserID(String mail, String password){
-        for (User x: registeredUsers.values()) {
-            if(x.email.equals(mail) && x.password.equals(password)){
-                return x.id;
-            }
-        }
-        return -1;
-    }*/
 
     public String getLoggedUserName() {
        return loggedUser.name;
@@ -83,7 +64,15 @@ public class UserManager implements IUserAuthenticator,Serializable {
     public void userLogout(){
         loggedUser = null;
     }
-    public void userLogin(User x){loggedUser = x;}
+
+    private Object readResolve(){
+        return manager;
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        manager = this;
+    }
 
     /**
      *
@@ -97,8 +86,7 @@ public class UserManager implements IUserAuthenticator,Serializable {
         username.trim();
         for (User x: registeredUsers) {
             if(x.name.equals(username) && x.password.equals(password)){
-                Log.e("authenticate",x.name);
-                this.userLogin(x);
+                loggedUser = x;
                 return true;
             }
         }

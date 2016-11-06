@@ -32,14 +32,12 @@ public class GarageActivity extends AppCompatActivity {
     private RecyclerView vehicleList;
     private RecyclerView.LayoutManager vehicleListManager;
     private TextView usernameTV;
-    private UserManager manager;
+    private UserManager manager = UserManager.getInstance();
     private Menu menu = null;
     private RunningStatus runStatus = RunningStatus.getInstance();
 
     private boolean doubleBackToExitPressedOnce;
     private Handler mHandler = new Handler();
-    private Intent intentFromLoginAfterFileReading;
-    private Intent intentFromLogin;
 
     private final Runnable mRunnable = new Runnable() {
         @Override
@@ -52,24 +50,8 @@ public class GarageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_garage);
-        Log.e("atStart",String.valueOf(UserManager.getInstance().getLoggedUser() != null));
-        Log.e("atStart","UserManager != null " + String.valueOf(UserManager.getInstance() != null));
-       // Log.e("atStart","loggedUser username : " + UserManager.getInstance().getLoggedUserName());
         usernameTV = (TextView) findViewById(R.id.Username);
-        intentFromLoginAfterFileReading = getIntent();
-        intentFromLogin = getIntent();
-        Log.e("status",String.valueOf(runStatus.stillRunning()));
-        if(checkAvailableFile() && intentFromLoginAfterFileReading.getSerializableExtra("UserManager") != null){
-            Log.e("check","Are you here fuck ");
-            manager = loadDataUserManager();
-        }
-        else{
-            Log.e("check","Vlizash li tuka");
-            manager = UserManager.getInstance();
-        }
-        Log.e("user","loggedUser is null : " + String.valueOf(manager.getLoggedUser() == null));
-
-        usernameTV.setText(intentFromLogin.getStringExtra("LoggedUserName"));
+        usernameTV.setText(manager.getLoggedUserName());
 
         vehicleList = (RecyclerView) findViewById(R.id.view_vehicle_list);
         vehicleList.setHasFixedSize(true);
@@ -161,17 +143,6 @@ public class GarageActivity extends AppCompatActivity {
         load.start();
         */
         return null;
-    }
-
-    /**
-     * Checks if UsermanagerDATA file is available
-     * @return true or false
-     */
-    public boolean checkAvailableFile(){
-        String path= this.getFilesDir().getAbsolutePath()+"/UsermanagerDATA.txt";
-        File file = new File(path);
-        if(file.exists()) return true;
-        else return false;
     }
 
     @Override

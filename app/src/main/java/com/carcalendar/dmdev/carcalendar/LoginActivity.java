@@ -25,33 +25,28 @@ public class LoginActivity extends AppCompatActivity {
     public static final int DATA_OKEY = 0;
     public static final int BAD_DATA = -1;
     public static final int NO_DATA = -10;
-    private UserManager manager = UserManager.getInstance();
+    private UserManager manager;
     private RunningStatus runStatus = RunningStatus.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if(checkLoggedUserState()){
-            Intent toMain = new Intent(this.getApplicationContext(),GarageActivity.class);
+        if(checkAvailableFile()){
             manager = loadDataUserManager();
-            toMain.putExtra("UserManager",manager);
-            finish();
-            startActivity(toMain);
+            if(manager.getLoggedUser() != null){
+                Intent toMain = new Intent(this.getApplicationContext(),GarageActivity.class);
+                finish();
+                startActivity(toMain);
+            }
         }
-        Log.e("run",String.valueOf(!runStatus.stillRunning()));
-        if(new File(this.getFilesDir().getAbsolutePath()+"/UsermanagerDATA.txt").length() > 0 && !runStatus.stillRunning()){
-            manager = loadDataUserManager();
-            Log.e("marto",String.valueOf(manager.getRegisteredUsers().size()));
-        }
+        manager = UserManager.getInstance();
         usernameET = (EditText) findViewById(R.id.usernameET);
         passET = (EditText) findViewById(R.id.passET);
         loginBtn = (Button) findViewById(R.id.loginBtn);
         registerBTn = (Button) findViewById(R.id.regBtn);
 
-
         runStatus.setStatus(true);
-
 
         registerBTn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,12 +60,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                if(manager.authenticateLogin(usernameET.getText().toString(),passET.getText().toString())){
-                   Log.e("setLogged","are you setting it well bitch : " + String.valueOf(manager.getLoggedUser() != null));
                    Intent toMain = new Intent(view.getContext(),GarageActivity.class);
-                   manager.userLogin(manager.getLoggedUser());
-                   toMain.putExtra("LoggedUserName",manager.getLoggedUserName());
-                   finish();
                    startActivity(toMain);
+                   finish();
                }
                 else{
                    Toast.makeText(view.getContext(),"Wrong data or not registered !",Toast.LENGTH_SHORT).show();
@@ -95,26 +87,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Checks if loggedUser is null file is available
-     * @return true if it's null, false otherwise
+     * Checks if UsermanagerDATA file is available
+     * @return true or false
      */
-    public boolean checkLoggedUserState(){
-        try {
-            ObjectInputStream in = new ObjectInputStream(openFileInput("UsermanagerDATA.txt"));
-            UserManager tmp = (UserManager) in.readObject();
-            if(tmp.getLoggedUser() != null){
-                Log.e("droide","inside if");
-                return true;
-            }
-            else return false;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return false;
+    public boolean checkAvailableFile(){
+        String path= this.getFilesDir().getAbsolutePath()+"/UsermanagerDATA.txt";
+        File file = new File(path);
+        if(file.exists()) return true;
+        else return false;
     }
+
+    /**
+     * Checks if loggedUser is null file is available
+     * @return true if it's not null, false otherwise
+     */
 
     private UserManager loadDataUserManager(){
         /*Thread load = new Thread(new Runnable() {
