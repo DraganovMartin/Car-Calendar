@@ -1,9 +1,13 @@
 <resources>
+    <!-- Overflow style -->
+    <style name="OverFlow" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:src">@mipmap/ic_settings_white_24dp</item>
+    </style>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
-
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
 
 </resources>

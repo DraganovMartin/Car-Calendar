@@ -11,15 +11,21 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".GarageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
-
             </intent-filter>
+        </activity>
+        <activity android:name=".HelpActivity"
+            android:parentActivityName="com.carcalendar.dmdev.carcalendar.GarageActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.carcalendar.dmdev.carcalendar.GarageActivity" />
         </activity>
     </application>
 

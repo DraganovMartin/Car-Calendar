@@ -9,5 +9,9 @@
     <string name="enter_age">Enter age :</string>
     <string name="hello_user">Hello</string>
     <string name="logout">Logout</string>
+    <string name="it_help_txt">Help</string>
+    <string name="act_help_text">
+        This is your garage!\n\nYou can add a vehicle by clicking the \'+\' button in the previous activity.
+    </string>
 
 </resources>
