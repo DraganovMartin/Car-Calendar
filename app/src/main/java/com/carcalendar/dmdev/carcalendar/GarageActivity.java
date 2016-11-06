@@ -52,7 +52,7 @@ public class GarageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_garage);
         usernameTV = (TextView) findViewById(R.id.Username);
         usernameTV.setText(manager.getLoggedUserName());
-
+        
         vehicleList = (RecyclerView) findViewById(R.id.view_vehicle_list);
         vehicleList.setHasFixedSize(true);
 
@@ -123,26 +123,6 @@ public class GarageActivity extends AppCompatActivity {
         });
         save.start();*/
 
-    }
-
-    private UserManager loadDataUserManager(){
-        /*Thread load = new Thread(new Runnable() {
-            @Override
-            public void run() {*/
-                try {
-                    ObjectInputStream in = new ObjectInputStream(openFileInput("UsermanagerDATA.txt"));
-                    UserManager temp = (UserManager) in.readObject();
-                    return temp;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            /*}
-        });
-        load.start();
-        */
-        return null;
     }
 
     @Override
