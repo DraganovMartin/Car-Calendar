@@ -1,7 +1,5 @@
 package model;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -65,13 +63,14 @@ public class UserManager implements IUserAuthenticator,Serializable {
         loggedUser = null;
     }
 
-    private Object readResolve(){
-        return manager;
-    }
-
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
-        manager = this;
+    /**
+     * IF YOU UPDATE USERMANAGER FROM FILE YOU MUST USE ONLY THIS METHOD AS A SOLUTION !!!
+     * @param x - UserManager Singleton
+     */
+    public void updateFromFile(UserManager x){
+        this.loggedUser = x.loggedUser;
+        this.registeredUsers = x.registeredUsers;
+        userId = x.registeredUsers.last().getId();
     }
 
     /**
@@ -143,6 +142,10 @@ public class UserManager implements IUserAuthenticator,Serializable {
             this.password = x.password;
             ownedVehicles = x.ownedVehicles;
             this.id = x.id;
+        }
+
+        public int getId() {
+            return id;
         }
 
         private void addVehicle(Vehicle x) {

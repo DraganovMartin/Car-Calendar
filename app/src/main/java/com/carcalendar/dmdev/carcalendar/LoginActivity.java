@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final int DATA_OKEY = 0;
     public static final int BAD_DATA = -1;
     public static final int NO_DATA = -10;
-    private UserManager manager;
+    private UserManager manager = UserManager.getInstance();
     private RunningStatus runStatus = RunningStatus.getInstance();
 
     @Override
@@ -33,14 +33,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         if(checkAvailableFile()){
-            manager = loadDataUserManager();
+            manager.updateFromFile(loadDataUserManager());
             if(manager.getLoggedUser() != null){
                 Intent toMain = new Intent(this.getApplicationContext(),GarageActivity.class);
                 finish();
                 startActivity(toMain);
             }
+        }else {
+            manager = UserManager.getInstance();
         }
-        manager = UserManager.getInstance();
         usernameET = (EditText) findViewById(R.id.usernameET);
         passET = (EditText) findViewById(R.id.passET);
         loginBtn = (Button) findViewById(R.id.loginBtn);
@@ -108,8 +109,8 @@ public class LoginActivity extends AppCompatActivity {
             public void run() {*/
         try {
             ObjectInputStream in = new ObjectInputStream(openFileInput("UsermanagerDATA.txt"));
-            manager = (UserManager) in.readObject();
-            return manager;
+           UserManager managerTmp = (UserManager) in.readObject();
+            return managerTmp;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
