@@ -129,6 +129,9 @@ public class GarageActivity extends AppCompatActivity {
                     finish();
                     startActivity(intent);
                     return true;
+            case R.id.it_help:
+                Intent helpAct = new Intent(this,HelpActivity.class);
+                startActivity(helpAct);
         }
         return super.onOptionsItemSelected(item);
     }
