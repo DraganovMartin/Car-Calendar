@@ -1,11 +1,14 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.Vehicle.Vehicle;
 import model.authentication.IUserAuthenticator;
+import model.authentication.UsedUsernameException;
 
 /**
  * Singleton class UserManager for creating, registering and managing users.
@@ -50,6 +53,10 @@ public class UserManager implements IUserAuthenticator,Serializable {
 
     public User getLoggedUser() {
         return loggedUser;
+    }
+
+    public List<Vehicle> getRegisteredUserVehicles(){
+        return new ArrayList<>(loggedUser.ownedVehicles);
     }
 
     public TreeSet<User> getRegisteredUsers() {
@@ -99,7 +106,7 @@ public class UserManager implements IUserAuthenticator,Serializable {
      * @return true if mail and password are good, false otherwise
      */
     @Override
-    public boolean validateRegister(String username, String password) {
+    public boolean validateRegister(String username, String password) throws UsedUsernameException{
         username.trim();
         if(registeredUsers.isEmpty()){
 
@@ -112,7 +119,7 @@ public class UserManager implements IUserAuthenticator,Serializable {
             if(!username.isEmpty() && isPasswordGood(password)){
                 for (User x : registeredUsers) {
                     if (x.name.equals(username)) {
-                        return false;
+                        throw new UsedUsernameException();
                     }
                 }
                 return true;
@@ -142,6 +149,10 @@ public class UserManager implements IUserAuthenticator,Serializable {
             this.password = x.password;
             ownedVehicles = x.ownedVehicles;
             this.id = x.id;
+        }
+
+        public TreeSet<Vehicle> getOwnedVehicles() {
+            return ownedVehicles;
         }
 
         public int getId() {

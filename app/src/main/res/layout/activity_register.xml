@@ -10,14 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.carcalendar.dmdev.carcalendar.RegisterActivity">
 
-    <ImageView
-        android:id="@+id/profileImage"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:visibility="visible"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
     <Button
         android:text="@string/save_data_btn"
         android:layout_width="wrap_content"
@@ -60,5 +52,14 @@
         android:layout_below="@+id/regAgeET"
         android:layout_alignLeft="@+id/regAgeET"
         android:layout_alignStart="@+id/regAgeET" />
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:visibility="visible"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/saveBtn"
+        android:layout_alignStart="@+id/saveBtn" />
 
 </RelativeLayout>

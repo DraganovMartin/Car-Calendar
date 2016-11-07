@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ public class GarageActivity extends AppCompatActivity {
     private UserManager manager = UserManager.getInstance();
     private Menu menu = null;
     private RunningStatus runStatus = RunningStatus.getInstance();
-
+    private TextView noVehicles;
     private boolean doubleBackToExitPressedOnce;
     private Handler mHandler = new Handler();
 
@@ -52,32 +53,18 @@ public class GarageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_garage);
         usernameTV = (TextView) findViewById(R.id.Username);
         usernameTV.setText(manager.getLoggedUserName());
-        
+        noVehicles = (TextView) findViewById(R.id.NoVehicles);
+
         vehicleList = (RecyclerView) findViewById(R.id.view_vehicle_list);
         vehicleList.setHasFixedSize(true);
-
         vehicleListManager = new LinearLayoutManager(this);
         vehicleList.setLayoutManager(vehicleListManager);
 
-        vehicleList.setAdapter(new VehicleAdapter(createDemoList()));
-    }
-
-    private List<Vehicle> createDemoList(){
-        List<Vehicle> vehicles = new ArrayList<>(2);
-        vehicles.add(new Vehicle(1,2,3,"Test1") {
-            @Override
-            public int getId() {
-                return 0;
-            }
-        });
-
-        vehicles.add(new Vehicle(5,6,7,"Test2") {
-            @Override
-            public int getId() {
-                return 0;
-            }
-        });
-        return vehicles;
+        vehicleList.setAdapter(new VehicleAdapter(manager.getRegisteredUserVehicles()));
+        if(vehicleListManager.getChildCount() < 1){
+            vehicleList.setVisibility(View.INVISIBLE);
+            noVehicles.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

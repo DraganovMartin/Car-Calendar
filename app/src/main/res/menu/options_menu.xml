@@ -6,5 +6,10 @@
     <item android:id="@+id/Logout"
         android:icon="@mipmap/ic_logout"
         android:title="@string/logout"
-        android:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/Help"
+        android:icon="@mipmap/help_circle"
+        android:title="@string/Help"
+        app:showAsAction="ifRoom"/>
 </menu>

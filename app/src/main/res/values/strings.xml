@@ -9,5 +9,8 @@
     <string name="enter_age">Enter age :</string>
     <string name="hello_user">Hello</string>
     <string name="logout">Logout</string>
+    <string name="helperText">It\'s strongly advised to have a strong password. That\'s why we enforce this pattern. Password must include at least one upper case letter, a digit and six symbols minimum !</string>
+    <string name="Help">Help</string>
+    <string name="NoVehicles">No vehicles added</string>
 
 </resources>

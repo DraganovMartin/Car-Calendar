@@ -4,10 +4,15 @@ import android.content.Intent;
 import android.os.UserManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import model.authentication.UsedUsernameException;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -29,26 +34,51 @@ public class RegisterActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(userManager.validateRegister(usernameET.getText().toString(),passET.getText().toString())){
-                    int age = Integer.parseInt(ageET.getText().toString());
-                    if(age < 16){
-                        ageET.setError("You must be 16 and above");
-                        return;
+                try {
+                    if(userManager.validateRegister(usernameET.getText().toString(),passET.getText().toString())){
+                        int age = Integer.parseInt(ageET.getText().toString());
+                        if(age < 16){
+                            ageET.setError("You must be 16 and above");
+                            return;
+                        }
+                        userManager.registerUser(userManager.createUser(usernameET.getText().toString(),passET.getText().toString(),age));
+                        Intent dataToLogin = new Intent();
+                        dataToLogin.putExtra("Username",usernameET.getText().toString());
+                        dataToLogin.putExtra("Password",passET.getText().toString());
+                        setResult(LoginActivity.DATA_OKEY,dataToLogin);
+                        finish();
                     }
-                    userManager.registerUser(userManager.createUser(usernameET.getText().toString(),passET.getText().toString(),age));
-                    Intent dataToLogin = new Intent();
-                    dataToLogin.putExtra("Username",usernameET.getText().toString());
-                    dataToLogin.putExtra("Password",passET.getText().toString());
-                    setResult(LoginActivity.DATA_OKEY,dataToLogin);
-                    finish();
-                }
-                else{
-                    Toast.makeText(view.getContext(),"Weak password !",Toast.LENGTH_SHORT).show();
+                    else{
+                        Toast.makeText(view.getContext(),"Weak password !",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (UsedUsernameException e) {
+                    Toast.makeText(view.getContext(),"Username already used !!!",Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.Logout:
+                this.onBackPressed();
+                break;
+            case R.id.Help:
+                Intent intent = new Intent(getApplicationContext(),RegisterHelp.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
