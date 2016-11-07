@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,15 +16,10 @@ import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import model.UserManager;
-import model.Vehicle.Vehicle;
 import model.authentication.RunningStatus;
 
 public class GarageActivity extends AppCompatActivity {
@@ -129,8 +123,8 @@ public class GarageActivity extends AppCompatActivity {
                     finish();
                     startActivity(intent);
                     return true;
-            case R.id.it_help:
-                Intent helpAct = new Intent(this,HelpActivity.class);
+            case R.id.Help:
+                Intent helpAct = new Intent(this,GarageHelp.class);
                 startActivity(helpAct);
         }
         return super.onOptionsItemSelected(item);

@@ -2,14 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/Settings"
+        android:icon="@mipmap/ic_settings_white_24dp"
+        android:title="@string/settings"
+        app:showAsAction = "always" >
+            <menu xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <item android:id="@+id/Logout"
+                    android:icon="@mipmap/ic_logout"
+                    android:title="@string/logout"
+                    app:showAsAction="never"/>
 
-    <item android:id="@+id/Logout"
-        android:icon="@mipmap/ic_logout"
-        android:title="@string/logout"
-        app:showAsAction="ifRoom"/>
-
-    <item android:id="@+id/Help"
-        android:icon="@mipmap/help_circle"
-        android:title="@string/Help"
-        app:showAsAction="ifRoom"/>
+                <item android:id="@+id/Help"
+                    android:icon="@mipmap/help_circle"
+                    android:title="@string/Help"
+                    app:showAsAction="never"/>
+            </menu>
+    </item>
 </menu>

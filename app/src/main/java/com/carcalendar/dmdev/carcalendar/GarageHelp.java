@@ -5,27 +5,29 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 
-import org.w3c.dom.Text;
+public class GarageHelp extends AppCompatActivity {
 
-public class HelpActivity extends AppCompatActivity {
-
+    Button okay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
-
-        TextView helpTxt = (TextView) findViewById(R.id.txt_help);
-        helpTxt.setText(getString(R.string.act_help_text));
-
+        setContentView(R.layout.activity_garage_help);
         ActionBar actionBar = getSupportActionBar();
-
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }else{
             throw new NullPointerException("Action bar was not retrieved properly!");
         }
+        okay = (Button) findViewById(R.id.okay_garage_help);
+        okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -34,7 +36,7 @@ public class HelpActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button (API < 15)
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

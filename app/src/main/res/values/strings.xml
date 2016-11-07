@@ -14,7 +14,8 @@
     <string name="NoVehicles">No vehicles added</string>
     <string name="it_help_txt">Help</string>
     <string name="act_help_text">
-        This is your garage!\n\nYou can add a vehicle by clicking the \'+\' button in the previous activity.
+        This is your garage!\n\nYou can add a vehicle by clicking the \'+\' button.
     </string>
+    <string name="settings">Settings</string>
 
 </resources>
