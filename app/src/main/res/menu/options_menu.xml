@@ -2,9 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <item android:id="@+id/Logout"
         android:icon="@mipmap/ic_logout"
         android:title="@string/logout"
-        android:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/it_help"
+        android:title="@string/it_help_txt"
+        app:showAsAction="never"/>
 </menu>
