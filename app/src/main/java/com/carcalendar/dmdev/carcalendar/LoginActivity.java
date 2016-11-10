@@ -1,12 +1,14 @@
 package com.carcalendar.dmdev.carcalendar;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.File;
@@ -14,7 +16,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import model.UserManager;
-import model.authentication.RunningStatus;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -22,11 +23,11 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passET;
     private Button loginBtn;
     private Button registerBTn;
+    private ProgressBar progressBar;
     public static final int DATA_OKEY = 0;
     public static final int BAD_DATA = -1;
     public static final int NO_DATA = -10;
     private UserManager manager = UserManager.getInstance();
-    private RunningStatus runStatus = RunningStatus.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         passET = (EditText) findViewById(R.id.passET);
         loginBtn = (Button) findViewById(R.id.loginBtn);
         registerBTn = (Button) findViewById(R.id.regBtn);
-
-        runStatus.setStatus(true);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         registerBTn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        runStatus.setStatus(false);
         super.onDestroy();
     }
+
 }

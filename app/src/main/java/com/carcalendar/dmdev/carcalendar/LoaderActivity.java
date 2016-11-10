@@ -1,0 +1,81 @@
+package com.carcalendar.dmdev.carcalendar;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+import model.UserManager;
+
+public class LoaderActivity extends AppCompatActivity {
+
+    private ProgressBar bar;
+    private UserManager manager = UserManager.getInstance();
+    private File file;
+    public static final String USERMANAGER_FILE_STORAGE = "UsermanagerDATA.txt";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_loader);
+        String path= this.getFilesDir().getAbsolutePath()+"/"+USERMANAGER_FILE_STORAGE;
+        file = new File(path);
+        bar = (ProgressBar) findViewById(R.id.progressBar);
+        if(file.exists()) {
+            ManagerLoader loader = new ManagerLoader(this);
+            loader.execute();
+        }
+        else {
+            Intent intent = new Intent(this,LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+    }
+
+    private class ManagerLoader extends AsyncTask<Void,Void,Void>
+    {
+        private Activity loaderActivity;
+
+        ManagerLoader(Activity activity)
+        {
+            this.loaderActivity = activity;
+        }
+        @Override
+        protected void onPreExecute() {
+            bar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            if(file.exists()) {
+                try {
+                    ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+                    manager.updateFromFile((UserManager)in.readObject());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Intent intent = new Intent(loaderActivity,LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+}
+
+

@@ -29,7 +29,6 @@ public class GarageActivity extends AppCompatActivity {
     private TextView usernameTV;
     private UserManager manager = UserManager.getInstance();
     private Menu menu = null;
-    private RunningStatus runStatus = RunningStatus.getInstance();
     private TextView noVehicles;
     private boolean doubleBackToExitPressedOnce;
     private Handler mHandler = new Handler();
@@ -77,7 +76,6 @@ public class GarageActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        runStatus.setStatus(false);
         saveDataUserManager(manager);
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
