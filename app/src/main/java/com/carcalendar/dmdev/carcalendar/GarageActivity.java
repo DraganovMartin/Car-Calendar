@@ -93,21 +93,22 @@ public class GarageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(!fabMenuShown) {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                return;
-            }
 
-            this.doubleBackToExitPressedOnce = true;
-            saveDataUserManager(manager);
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-            mHandler.postDelayed(mRunnable, 2000);
-        }else{
+        if(fabMenuShown){
             fabMenu.setVisibility(View.GONE);
             fabMenuShown = false;
         }
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        saveDataUserManager(manager);
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        mHandler.postDelayed(mRunnable, 2000);
+
     }
 
     /**
