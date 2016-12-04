@@ -1,6 +1,5 @@
 package com.carcalendar.dmdev.carcalendar;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +15,8 @@ import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 import model.UserManager;
-import model.authentication.RunningStatus;
+import model.storage.StorageManager;
 
 public class GarageActivity extends AppCompatActivity {
 
@@ -32,6 +28,7 @@ public class GarageActivity extends AppCompatActivity {
     private TextView noVehicles;
     private boolean doubleBackToExitPressedOnce;
     private Handler mHandler = new Handler();
+    public static final String SAVE_USER_MANAGER = "USER_MANAGER_SAVE";
 
     private final Runnable mRunnable = new Runnable() {
         @Override
@@ -87,21 +84,9 @@ public class GarageActivity extends AppCompatActivity {
      * @param x - UserManager
      */
     private void saveDataUserManager(final UserManager x){
-
-        /*Thread save = new Thread(new Runnable() {
-            @Override
-            public void run() {*/
-
-                try {
-                    ObjectOutputStream out = new ObjectOutputStream(openFileOutput("UsermanagerDATA.txt", Context.MODE_PRIVATE));
-                    out.writeObject(x);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        /*    }
-        });
-        save.start();*/
-
+        Intent intent = new Intent(this,StorageManager.class);
+        intent.putExtra(SAVE_USER_MANAGER,x);
+        startService(intent);
     }
 
     @Override

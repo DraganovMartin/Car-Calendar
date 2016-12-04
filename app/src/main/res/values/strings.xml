@@ -17,5 +17,6 @@
         This is your garage!\n\nYou can add a vehicle by clicking the \'+\' button.
     </string>
     <string name="settings">Settings</string>
+    <string name="loading_data">Loading data. Please wait !</string>
 
 </resources>

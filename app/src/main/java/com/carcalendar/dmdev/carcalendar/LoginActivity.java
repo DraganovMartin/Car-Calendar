@@ -1,8 +1,6 @@
 package com.carcalendar.dmdev.carcalendar;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,10 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import model.UserManager;
 
@@ -33,16 +27,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if(checkAvailableFile()){
-            manager.updateFromFile(loadDataUserManager());
+        if(LoaderActivity.userManagerFileAvailable(this)){
             if(manager.getLoggedUser() != null){
                 Intent toMain = new Intent(this.getApplicationContext(),GarageActivity.class);
                 finish();
                 startActivity(toMain);
             }
-        }else {
-            manager = UserManager.getInstance();
         }
+
         usernameET = (EditText) findViewById(R.id.usernameET);
         passET = (EditText) findViewById(R.id.passET);
         loginBtn = (Button) findViewById(R.id.loginBtn);
@@ -91,37 +83,7 @@ public class LoginActivity extends AppCompatActivity {
      * Checks if UsermanagerDATA file is available
      * @return true or false
      */
-    public boolean checkAvailableFile(){
-        String path= this.getFilesDir().getAbsolutePath()+"/UsermanagerDATA.txt";
-        File file = new File(path);
-        if(file.exists()) return true;
-        else return false;
-    }
 
-    /**
-     * Checks if loggedUser is null file is available
-     * @return true if it's not null, false otherwise
-     */
-
-    private UserManager loadDataUserManager(){
-        /*Thread load = new Thread(new Runnable() {
-            @Override
-            public void run() {*/
-        try {
-            ObjectInputStream in = new ObjectInputStream(openFileInput("UsermanagerDATA.txt"));
-           UserManager managerTmp = (UserManager) in.readObject();
-            return managerTmp;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-            /*}
-        });
-        load.start();
-        */
-        return null;
-    }
 
     @Override
     protected void onDestroy() {
