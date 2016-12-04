@@ -3,6 +3,7 @@ package com.carcalendar.dmdev.carcalendar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,17 +23,19 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import model.UserManager;
-import model.authentication.RunningStatus;
 
 public class GarageActivity extends AppCompatActivity {
 
     private RecyclerView vehicleList;
     private RecyclerView.LayoutManager vehicleListManager;
     private TextView usernameTV;
+    private FloatingActionButton btnAddVechicle;
     private UserManager manager = UserManager.getInstance();
     private Menu menu = null;
     private TextView noVehicles;
+    private ListView fabMenu;
     private boolean doubleBackToExitPressedOnce;
+    private boolean fabMenuShown = false;
     private Handler mHandler = new Handler();
 
     private final Runnable mRunnable = new Runnable() {
@@ -47,6 +52,7 @@ public class GarageActivity extends AppCompatActivity {
         usernameTV = (TextView) findViewById(R.id.Username);
         usernameTV.setText(manager.getLoggedUserName());
         noVehicles = (TextView) findViewById(R.id.NoVehicles);
+        btnAddVechicle = (FloatingActionButton) findViewById(R.id.btn_add_vehicle);
 
         vehicleList = (RecyclerView) findViewById(R.id.view_vehicle_list);
         vehicleList.setHasFixedSize(true);
@@ -54,9 +60,28 @@ public class GarageActivity extends AppCompatActivity {
         vehicleList.setLayoutManager(vehicleListManager);
 
         vehicleList.setAdapter(new VehicleAdapter(manager.getRegisteredUserVehicles()));
+
+        // Insert the static items in FAB's list
+        String[] vehicleTypes = getResources().getStringArray(R.array.VehicleTypes);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.fab_list_item, vehicleTypes);
+
+        fabMenu = (ListView) findViewById(R.id.list_vehicle_types);
+        fabMenu.setAdapter(adapter);
+
         if(vehicleListManager.getChildCount() < 1){
             vehicleList.setVisibility(View.INVISIBLE);
             noVehicles.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void toggleFabMenu(View view){
+        if(!fabMenuShown) {
+            fabMenu.setVisibility(View.VISIBLE);
+            fabMenuShown = true;
+        }else{
+            fabMenu.setVisibility(View.GONE);
+            fabMenuShown = false;
         }
     }
 
@@ -70,16 +95,21 @@ public class GarageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
+        if(!fabMenuShown) {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            saveDataUserManager(manager);
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            mHandler.postDelayed(mRunnable, 2000);
+        }else{
+            fabMenu.setVisibility(View.GONE);
+            fabMenuShown = false;
         }
-
-        this.doubleBackToExitPressedOnce = true;
-        saveDataUserManager(manager);
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        mHandler.postDelayed(mRunnable, 2000);
     }
 
     /**
