@@ -17,6 +17,10 @@
         This is your garage!\n\nYou can add a vehicle by clicking the \'+\' button.
     </string>
     <string name="settings">Settings</string>
+    <string-array name="VehicleTypes">
+        <item>Car</item>
+        <item>Motorbike</item>
+    </string-array>
     <string name="loading_data">Loading data. Please wait !</string>
 
 </resources>
