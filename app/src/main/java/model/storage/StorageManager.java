@@ -10,12 +10,14 @@ import com.carcalendar.dmdev.carcalendar.LoaderActivity;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import model.UserManager;
 import model.Vehicle.Vehicle;
 
 public class StorageManager extends IntentService implements Storable {
 
     public static final String USER_MANAGER_SAVED = "USER_MANAGER_SAVED";
     public static boolean isRunning = false;
+    public final Object lock = new Object();
 
     public StorageManager() {
         super("StorageManager");
@@ -48,7 +50,11 @@ public class StorageManager extends IntentService implements Storable {
 
     @Override
     public void onDestroy() {
-        isRunning = false;
+        UserManager manager = UserManager.getInstance();
+        synchronized(manager) {
+            isRunning = false;
+            manager.notify();
+        }
         super.onDestroy();
     }
 }

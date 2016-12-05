@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#01072e</color>
     <color name="colorAccent">#FF4081</color>
     <color name="BlackBackground">#212121</color>
+    <color name="fab_list_text_color">#000000</color>
 </resources>
