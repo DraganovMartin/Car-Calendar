@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import model.UserManager;
+import model.storage.StorageManager;
 
 public class LoaderActivity extends AppCompatActivity {
 
@@ -65,10 +67,18 @@ public class LoaderActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            
-            while (model.storage.StorageManager.isRunning){
-
+            Log.i("sync","Hello I am trying to read from storage");
+            synchronized (manager){
+                while (model.storage.StorageManager.isRunning){
+                    try {
+                        manager.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
+
+            Log.i("sync","Hello I executed synchronously");
 
             if(userManagerFileAvailable(getApplicationContext())) {
                 try {

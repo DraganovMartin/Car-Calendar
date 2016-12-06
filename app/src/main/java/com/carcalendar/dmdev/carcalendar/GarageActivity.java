@@ -12,7 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,8 @@ public class GarageActivity extends AppCompatActivity {
     private Menu menu = null;
     private TextView noVehicles;
     private ListView fabMenu;
+    private RelativeLayout garageContainer;
+    private LinearLayout helloLayout;
     private boolean doubleBackToExitPressedOnce;
     private boolean fabMenuShown = false;
     private Handler mHandler = new Handler();
@@ -73,14 +77,54 @@ public class GarageActivity extends AppCompatActivity {
         }
     }
 
+    /*
+     * Toggles the FAB menu.
+     * Changes the container background and changes the clickable property
+     * of its children to false
+     */
     public void toggleFabMenu(View view){
+        garageContainer = (RelativeLayout) findViewById(R.id.activity_garage);
+        helloLayout = (LinearLayout) findViewById(R.id.HelloLayout);
         if(!fabMenuShown) {
-            fabMenu.setVisibility(View.VISIBLE);
-            fabMenuShown = true;
+            doBackgroundDefocus();
+            showFabMenu();
         }else{
-            fabMenu.setVisibility(View.GONE);
-            fabMenuShown = false;
+            hideFabMenu();
+            undoBackgroundDefocus();
         }
+    }
+
+    /*
+    *Removes the Fab menu when the layout outside it is pressed
+    *
+    */
+    public void restoreLayout(View view){
+        if(fabMenuShown){
+            hideFabMenu();
+            undoBackgroundDefocus();
+        }
+    }
+
+    private void doBackgroundDefocus(){
+        garageContainer.setBackgroundColor(0xBFFFFFFF);
+        vehicleList.setClickable(false);
+        helloLayout.setClickable(false);
+    }
+
+    private void undoBackgroundDefocus(){
+        garageContainer.setBackgroundColor(0x00000000);
+        vehicleList.setClickable(true);
+        helloLayout.setClickable(true);
+    }
+
+    private void showFabMenu(){
+        fabMenu.setVisibility(View.VISIBLE);
+        fabMenuShown = true;
+    }
+
+    private void hideFabMenu(){
+        fabMenu.setVisibility(View.GONE);
+        fabMenuShown = false;
     }
 
     @Override
@@ -95,8 +139,8 @@ public class GarageActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         if(fabMenuShown){
-            fabMenu.setVisibility(View.GONE);
-            fabMenuShown = false;
+            hideFabMenu();
+            undoBackgroundDefocus();
         }
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
