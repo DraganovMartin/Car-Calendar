@@ -3,14 +3,20 @@ package com.carcalendar.dmdev.carcalendar;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewGroupCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -23,7 +29,7 @@ import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
 import model.UserManager;
 import model.storage.StorageManager;
 
-public class GarageActivity extends AppCompatActivity {
+public class GarageActivity extends FragmentActivity {
 
     private RecyclerView vehicleList;
     private RecyclerView.LayoutManager vehicleListManager;
@@ -51,6 +57,10 @@ public class GarageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_garage);
+
+        garageContainer = (RelativeLayout) findViewById(R.id.activity_garage);
+        helloLayout = (LinearLayout) findViewById(R.id.HelloLayout);
+
         usernameTV = (TextView) findViewById(R.id.Username);
         usernameTV.setText(manager.getLoggedUserName());
         noVehicles = (TextView) findViewById(R.id.NoVehicles);
@@ -75,7 +85,35 @@ public class GarageActivity extends AppCompatActivity {
             vehicleList.setVisibility(View.INVISIBLE);
             noVehicles.setVisibility(View.VISIBLE);
         }
+
+        fabMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView parent, View v, int position, long id){
+                switch (position){
+                    case 0:
+                        //createFragment(R.id.fragment_add_car);
+                }
+            }
+        });
+
     }
+
+    /**
+     * Method for creating and displaying fragment based on layout id
+     *
+     */
+
+//    public void createFragment(int id){
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        VehicleFragment fragment = new VehicleFragment();
+//        LayoutInflater inflater = getLayoutInflater();
+//        ViewGroup view = (ViewGroup) findViewById(R.id.activity_garage);
+//        inflater.inflate(id,view);
+//        Bundle onSaveInstanceState = new Bundle();
+//        fragmentTransaction.add(R.id.activity_garage,fragment);
+//        fragmentTransaction.commit();
+//    }
 
     /*
      * Toggles the FAB menu.
@@ -83,8 +121,6 @@ public class GarageActivity extends AppCompatActivity {
      * of its children to false
      */
     public void toggleFabMenu(View view){
-        garageContainer = (RelativeLayout) findViewById(R.id.activity_garage);
-        helloLayout = (LinearLayout) findViewById(R.id.HelloLayout);
         if(!fabMenuShown) {
             doBackgroundDefocus();
             showFabMenu();
@@ -131,6 +167,7 @@ public class GarageActivity extends AppCompatActivity {
     protected void onDestroy()
     {
         super.onDestroy();
+        saveDataUserManager(manager);
 
         if (mHandler != null) { mHandler.removeCallbacks(mRunnable); }
     }
@@ -148,7 +185,6 @@ public class GarageActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        saveDataUserManager(manager);
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
         mHandler.postDelayed(mRunnable, 2000);
@@ -188,4 +224,5 @@ public class GarageActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

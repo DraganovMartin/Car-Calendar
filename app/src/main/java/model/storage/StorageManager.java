@@ -16,8 +16,7 @@ import model.Vehicle.Vehicle;
 public class StorageManager extends IntentService implements Storable {
 
     public static final String USER_MANAGER_SAVED = "USER_MANAGER_SAVED";
-    public static boolean isRunning = false;
-    public final Object lock = new Object();
+    private UserManager manager = UserManager.getInstance();
 
     public StorageManager() {
         super("StorageManager");
@@ -35,26 +34,22 @@ public class StorageManager extends IntentService implements Storable {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        isRunning = true;
-        try {
-            ObjectOutputStream out = new ObjectOutputStream(openFileOutput(LoaderActivity.USERMANAGER_FILE_STORAGE, Context.MODE_PRIVATE));
-            out.writeObject(intent.getSerializableExtra(GarageActivity.SAVE_USER_MANAGER));
-            Thread.sleep(10000);
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        synchronized (manager) {
+            try {
+                ObjectOutputStream out = new ObjectOutputStream(openFileOutput(LoaderActivity.USERMANAGER_FILE_STORAGE, Context.MODE_PRIVATE));
+                out.writeObject(intent.getSerializableExtra(GarageActivity.SAVE_USER_MANAGER));
+                Thread.sleep(10000);
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void onDestroy() {
-        UserManager manager = UserManager.getInstance();
-        synchronized(manager) {
-            isRunning = false;
-            manager.notify();
-        }
         super.onDestroy();
     }
 }

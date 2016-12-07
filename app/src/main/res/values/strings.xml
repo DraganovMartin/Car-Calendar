@@ -22,5 +22,10 @@
         <item>Motorbike</item>
     </string-array>
     <string name="loading_data">Loading data. Please wait !</string>
+    <string name="image_car_TView">Choose image for your car.</string>
+    <string name="type_car">Type : </string>
+    <string name="engine_car">Engine :</string>
+    <string name="year">Year :</string>
+    <string name="range">Range :\n in km</string>
 
 </resources>

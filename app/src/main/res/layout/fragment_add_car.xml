@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_add_car"
+    >
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+        app:srcCompat="@mipmap/car_add_image"
+        android:layout_marginTop="41dp"
+        android:id="@+id/imageButton_car_fragment"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="@string/image_car_TView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageButton_car_fragment"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:id="@+id/selectCarTV" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/TypeTView"
+        android:layout_toRightOf="@+id/TypeTView"
+        android:layout_toEndOf="@+id/TypeTView"
+        android:layout_marginLeft="31dp"
+        android:layout_marginStart="31dp"
+        android:id="@+id/spinner_type_car"
+        android:layout_toLeftOf="@+id/imageButton_car_fragment"
+        android:layout_toStartOf="@+id/imageButton_car_fragment" />
+
+    <TextView
+        android:text="@string/engine_car"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/TypeTView"
+        android:layout_alignRight="@+id/selectCarTV"
+        android:layout_alignEnd="@+id/selectCarTV"
+        android:id="@+id/engine_car_TView" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_car_engine"
+        android:layout_alignTop="@+id/engine_car_TView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toLeftOf="@id/engine_car_TView"
+        android:layout_toRightOf="@+id/engine_car_TView"
+        android:layout_toEndOf="@+id/engine_car_TView" />
+
+    <TextView
+        android:text="@string/type_car"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="51dp"
+        android:id="@+id/TypeTView"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp"
+        android:layout_below="@+id/selectCarTV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/TypeTView"
+        android:layout_alignStart="@+id/TypeTView"
+        android:id="@+id/yearTView" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:inputType="number"
+        android:ems="5"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/TypeTView"
+        android:layout_toEndOf="@+id/TypeTView"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:id="@+id/yearEText"
+        android:text="20" />
+
+    <TextView
+        android:text="@string/range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/engine_car_TView"
+        android:layout_alignStart="@+id/engine_car_TView"
+        android:id="@+id/textView4" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:inputType="number"
+        android:text="100000"
+        android:ems="4"
+        android:layout_alignTop="@+id/yearEText"
+        android:layout_alignLeft="@+id/spinner_car_engine"
+        android:layout_alignStart="@+id/spinner_car_engine"
+        android:id="@+id/editText2" />
+
+</RelativeLayout>

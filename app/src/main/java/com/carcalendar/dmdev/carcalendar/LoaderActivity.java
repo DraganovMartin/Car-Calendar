@@ -67,29 +67,19 @@ public class LoaderActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Log.i("sync","Hello I am trying to read from storage");
-            synchronized (manager){
-                while (model.storage.StorageManager.isRunning){
+            synchronized (manager) {
+
+                if (userManagerFileAvailable(getApplicationContext())) {
                     try {
-                        manager.wait();
-                    } catch (InterruptedException e) {
+                        String path = getApplicationContext().getFilesDir().getAbsolutePath() + "/" + USERMANAGER_FILE_STORAGE;
+                        File file = new File(path);
+                        ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+                        manager.updateFromFile((UserManager) in.readObject());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
-                }
-            }
-
-            Log.i("sync","Hello I executed synchronously");
-
-            if(userManagerFileAvailable(getApplicationContext())) {
-                try {
-                    String path= getApplicationContext().getFilesDir().getAbsolutePath()+"/"+USERMANAGER_FILE_STORAGE;
-                    File file = new File(path);
-                    ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-                    manager.updateFromFile((UserManager)in.readObject());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
                 }
             }
             return null;
