@@ -5,17 +5,12 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewGroupCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -45,6 +40,7 @@ public class GarageActivity extends FragmentActivity {
     private boolean fabMenuShown = false;
     private Handler mHandler = new Handler();
     public static final String SAVE_USER_MANAGER = "USER_MANAGER_SAVE";
+    public static final int VEHICLE_ADDED_SUCCESSFULLY = 0;
 
     private final Runnable mRunnable = new Runnable() {
         @Override
@@ -87,33 +83,19 @@ public class GarageActivity extends FragmentActivity {
         }
 
         fabMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView parent, View v, int position, long id){
-                switch (position){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
                     case 0:
-                        //createFragment(R.id.fragment_add_car);
+                        Intent intent = new Intent(getApplicationContext(),AddVehicleCarActivity.class);
+                        startActivityForResult(intent,VEHICLE_ADDED_SUCCESSFULLY);
+                        break;
                 }
             }
         });
 
     }
 
-    /**
-     * Method for creating and displaying fragment based on layout id
-     *
-     */
-
-//    public void createFragment(int id){
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        VehicleFragment fragment = new VehicleFragment();
-//        LayoutInflater inflater = getLayoutInflater();
-//        ViewGroup view = (ViewGroup) findViewById(R.id.activity_garage);
-//        inflater.inflate(id,view);
-//        Bundle onSaveInstanceState = new Bundle();
-//        fragmentTransaction.add(R.id.activity_garage,fragment);
-//        fragmentTransaction.commit();
-//    }
 
     /*
      * Toggles the FAB menu.
@@ -225,4 +207,10 @@ public class GarageActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == VEHICLE_ADDED_SUCCESSFULLY){
+            Toast.makeText(this,"Vehicle added successfully !!!",Toast.LENGTH_SHORT).show();
+        }
+    }
 }

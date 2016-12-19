@@ -3,6 +3,6 @@
     <string name="it_help_txt">Help</string>
     <string-array name="VehicleTypes">
         <item>Car</item>
-        <item>Motorbike</item>
+        <item>Motorcycle</item>
     </string-array>
 </resources>

@@ -16,7 +16,7 @@ import model.Vehicle.Vehicle;
 public class StorageManager extends IntentService implements Storable {
 
     public static final String USER_MANAGER_SAVED = "USER_MANAGER_SAVED";
-    private UserManager manager = UserManager.getInstance();
+    private final UserManager manager = UserManager.getInstance();
 
     public StorageManager() {
         super("StorageManager");

@@ -17,15 +17,44 @@
         This is your garage!\n\nYou can add a vehicle by clicking the \'+\' button.
     </string>
     <string name="settings">Settings</string>
+
     <string-array name="VehicleTypes">
         <item>Car</item>
-        <item>Motorbike</item>
+        <item>Motorcycle</item>
     </string-array>
+
+    <string-array name="CarTypes">
+        <item>Sedan</item>
+        <item>Jeep</item>
+        <item>Hatchback</item>
+        <item>Coupe</item>
+    </string-array>
+
+    <string-array name="VignetteTypes">
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Annual</item>
+    </string-array>
+
+    <string-array name="EngineTypes">
+        <item>Gasoline</item>
+        <item>Diesel</item>
+        <item>Hybrid</item>
+    </string-array>
+
     <string name="loading_data">Loading data. Please wait !</string>
     <string name="image_car_TView">Choose image for your car.</string>
     <string name="type_car">Type : </string>
     <string name="engine_car">Engine :</string>
     <string name="year">Year :</string>
     <string name="range">Range :\n in km</string>
+    <string name="vignette_type">Vignette :\n type</string>
+    <string name="vignette_start_day">Vignette : \n start day</string>
+    <string name="pick_date">Pick \ndate</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="save_btn">Save</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
