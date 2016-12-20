@@ -10,6 +10,7 @@ import com.carcalendar.dmdev.carcalendar.R;
 
 import java.util.List;
 
+import model.Vehicle.Car;
 import model.Vehicle.Vehicle;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder>{
@@ -30,11 +31,16 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder>{
 
     @Override
     public void onBindViewHolder(VehicleViewHolder holder, int position) {
-        Vehicle vechicle = vehicleList.get(position);
+        Vehicle vehicle = vehicleList.get(position);
+        Car car = null;
+        if(vehicleList.get(position) instanceof Car){
+            car =(Car) vehicleList.get(position);
+        }
         // TODO set data from a vehicle object
-        holder.vehicleImage.setImageResource(R.mipmap.ic_motorcycle_white_48dp);
-        holder.vehicleName.setText("Renault megan");
-        holder.vehicleDescription.setText("Very spacious and nice car.\nColor blue.");
+        holder.vehicleImage.setImageResource(car.getImage());
+        holder.vehicleName.setText(car.getCarType());
+        holder.vehicleYear.setText(String.valueOf(car.getProductionYear()));
+        holder.vehicleRange.setText(car.getKmRange());
     }
 
     @Override

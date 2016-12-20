@@ -47,6 +47,10 @@ public class UserManager implements IUserAuthenticator,Serializable {
         registeredUsers.add(x);
     }
 
+    public void addVehicle(Vehicle x){
+        loggedUser.addVehicle(x);
+    }
+
     public String getLoggedUserName() {
        return loggedUser.name;
    }
@@ -159,7 +163,7 @@ public class UserManager implements IUserAuthenticator,Serializable {
             return id;
         }
 
-        private void addVehicle(Vehicle x) {
+        public void addVehicle(Vehicle x) {
             if (x != null) {
                 ownedVehicles.add(x);
             } else {
@@ -167,7 +171,7 @@ public class UserManager implements IUserAuthenticator,Serializable {
             }
         }
 
-        private void removeVehicle(Vehicle x) {
+        public void removeVehicle(Vehicle x) {
             if (ownedVehicles.contains(x)) {
                 ownedVehicles.remove(x);
             }

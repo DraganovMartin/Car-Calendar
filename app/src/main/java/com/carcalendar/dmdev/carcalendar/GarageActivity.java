@@ -5,8 +5,11 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +27,7 @@ import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
 import model.UserManager;
 import model.storage.StorageManager;
 
-public class GarageActivity extends FragmentActivity {
+public class GarageActivity extends AppCompatActivity {
 
     private RecyclerView vehicleList;
     private RecyclerView.LayoutManager vehicleListManager;
@@ -41,6 +44,7 @@ public class GarageActivity extends FragmentActivity {
     private Handler mHandler = new Handler();
     public static final String SAVE_USER_MANAGER = "USER_MANAGER_SAVE";
     public static final int VEHICLE_ADDED_SUCCESSFULLY = 0;
+    public static final int VEHICLE_ADDED_UNSUCCESSFULLY = 1;
 
     private final Runnable mRunnable = new Runnable() {
         @Override
@@ -77,11 +81,11 @@ public class GarageActivity extends FragmentActivity {
         fabMenu = (ListView) findViewById(R.id.list_vehicle_types);
         fabMenu.setAdapter(adapter);
 
+        Log.e("marto",String.valueOf(manager.getRegisteredUserVehicles().size()));
         if(vehicleListManager.getChildCount() < 1){
             vehicleList.setVisibility(View.INVISIBLE);
             noVehicles.setVisibility(View.VISIBLE);
         }
-
         fabMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -89,6 +93,8 @@ public class GarageActivity extends FragmentActivity {
                     case 0:
                         Intent intent = new Intent(getApplicationContext(),AddVehicleCarActivity.class);
                         startActivityForResult(intent,VEHICLE_ADDED_SUCCESSFULLY);
+                        hideFabMenu();
+                        undoBackgroundDefocus();
                         break;
                 }
             }
@@ -96,12 +102,22 @@ public class GarageActivity extends FragmentActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(manager.getRegisteredUserVehicles().size() > 0){
+            vehicleList.setAdapter(new VehicleAdapter(manager.getRegisteredUserVehicles()));
+            vehicleList.setVisibility(View.VISIBLE);
+            noVehicles.setVisibility(View.INVISIBLE);
+        }
+
+    }
 
     /*
-     * Toggles the FAB menu.
-     * Changes the container background and changes the clickable property
-     * of its children to false
-     */
+         * Toggles the FAB menu.
+         * Changes the container background and changes the clickable property
+         * of its children to false
+         */
     public void toggleFabMenu(View view){
         if(!fabMenuShown) {
             doBackgroundDefocus();
@@ -211,6 +227,9 @@ public class GarageActivity extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == VEHICLE_ADDED_SUCCESSFULLY){
             Toast.makeText(this,"Vehicle added successfully !!!",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this,"Something went wrong !!!",Toast.LENGTH_SHORT).show();
         }
     }
 }

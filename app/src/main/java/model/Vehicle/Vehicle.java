@@ -1,22 +1,36 @@
 package model.Vehicle;
 
+import java.io.Serializable;
+
+import model.Stickers.IVignette;
+
 /**
  *  Abstract Vehicle class
  */
 
-public abstract class Vehicle {
+public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     private int productionYear;
-    private int productionMonth;
-    private int productionDay;
     private String registrationPlate;
+    private IVignette vignette;
     private static int id=0;
 
-    public Vehicle(int productionYear,int productionMonth,int productionDay,String registrationPlate){
+    public Vehicle(){
+
+    }
+
+    public Vehicle(int productionYear,String registrationPlate, IVignette vignette){
         this.productionYear = productionYear;
-        this.productionMonth = productionMonth;
-        this.productionDay = productionDay;
         this.registrationPlate = registrationPlate;
+        this.vignette = vignette;
         id++;
+    }
+
+    public void setProductionYear(int productionYear) {
+        this.productionYear = productionYear;
+    }
+
+    public void setVignette(IVignette vignette) {
+        this.vignette = vignette;
     }
 
     public int getId(){
@@ -27,15 +41,19 @@ public abstract class Vehicle {
         return productionYear;
     }
 
-    public int getProductionMonth() {
-        return productionMonth;
-    }
-
-    public int getProductionDay() {
-        return productionDay;
-    }
 
     public String getRegistrationPlate() {
         return registrationPlate;
+    }
+
+    public IVignette getVignette(){
+        return vignette;
+    }
+
+    @Override
+    public int compareTo(Vehicle vehicle) {
+        if(id < vehicle.getId()) return -1;
+        if(id == vehicle.getId()) return 0;
+        return 1;
     }
 }
