@@ -128,13 +128,13 @@ public class UserManager implements IUserAuthenticator,Serializable {
         private String password;
         private int age;
         private int id;
-        private ArrayList<Vehicle> ownedVehicles;
+        private TreeSet<Vehicle> ownedVehicles;
 
         private User(String name, String password, int age, int id) {
             this.name = name;
             this.age = age;
             this.password = password;
-            ownedVehicles = new ArrayList<>();
+            ownedVehicles = new TreeSet<>();
             this.id = id;
         }
 //        private User(User x){

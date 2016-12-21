@@ -8,7 +8,7 @@ import model.Stickers.IVignette;
  *  Abstract Vehicle class
  */
 
-public abstract class Vehicle implements Serializable {
+public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     private String brand;
     private String model;
     private int productionYear;
@@ -76,4 +76,15 @@ public abstract class Vehicle implements Serializable {
         return vignette;
     }
 
+    @Override
+    public int compareTo(Vehicle vehicle) {
+        if(this.brand.compareTo(vehicle.brand) == 0){
+            if(this.model.compareTo(vehicle.model) == 0){
+                if(this.myId == vehicle.myId) return 0;
+                else return 1;
+            }
+        }
+        else return this.brand.compareTo(vehicle.brand);
+         return this.brand.compareTo(vehicle.brand);
+    }
 }

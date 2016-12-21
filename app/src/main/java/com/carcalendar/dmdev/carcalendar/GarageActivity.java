@@ -3,10 +3,8 @@ package com.carcalendar.dmdev.carcalendar;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,11 +27,12 @@ import model.storage.StorageManager;
 
 public class GarageActivity extends AppCompatActivity {
 
+    private UserManager manager = UserManager.getInstance();
     private RecyclerView vehicleList;
+    private VehicleAdapter adapter;
     private RecyclerView.LayoutManager vehicleListManager;
     private TextView usernameTV;
     private FloatingActionButton btnAddVechicle;
-    private UserManager manager = UserManager.getInstance();
     private Menu menu = null;
     private TextView noVehicles;
     private ListView fabMenu;

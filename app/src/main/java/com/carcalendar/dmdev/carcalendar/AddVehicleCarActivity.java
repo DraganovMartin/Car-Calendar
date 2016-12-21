@@ -17,6 +17,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import model.Stickers.AnnualVignette;
 import model.Stickers.IVignette;
 import model.Stickers.MonthVignette;
@@ -36,6 +38,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     final Car car = new Car();
     private IVignette vignette = null;
     private UserManager manager = UserManager.getInstance();
+    private boolean datePickerActivated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,10 +169,16 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     }
                 }
 
+                if(!datePickerActivated){
+                    Toast.makeText(getApplicationContext(),"Please choose vignette start day !!!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 car.setImage(R.mipmap.car_add_image);
+                car.setBrand("brand" + String.valueOf(car.getId()));
+                car.setModel("model" + String.valueOf(car.getId()));
 
-                manager.addVehicle(new Car(car));
-                Log.e("marto",String.valueOf(manager.getRegisteredUserVehicles().size()));
+                manager.addVehicle(car);
+                Log.e("calendar",String.valueOf(((WeekVignette) vignette).getStartDateObject().get(Calendar.YEAR)) + " " + ((WeekVignette) vignette).getStartDateObject().get(Calendar.MONTH) + " " + ((WeekVignette) vignette).getStartDateObject().get(Calendar.DAY_OF_MONTH));
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
                 finish();
 
@@ -200,13 +209,20 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     public void selectDate(View view){
         DatePickerFragment dialogFragment = new DatePickerFragment();
         dialogFragment.show(getSupportFragmentManager(),"datePick");
+        datePickerActivated = true;
     }
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         //TODO date verification and add in classes
-        if(year == 2015){
-            Toast.makeText(this,"2015",Toast.LENGTH_SHORT).show();
+        if(vignette instanceof WeekVignette){
+            ((WeekVignette) vignette).setStartDate(year,month,day);
+        }
+        if(vignette instanceof  MonthVignette){
+            ((MonthVignette) vignette).setStartDate(year,month,day);
+        }
+        if(vignette instanceof  AnnualVignette){
+            ((AnnualVignette) vignette).setStartDate(year,month,day);
         }
     }
 

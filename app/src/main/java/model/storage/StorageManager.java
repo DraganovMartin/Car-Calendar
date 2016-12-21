@@ -38,11 +38,8 @@ public class StorageManager extends IntentService implements Storable {
             try {
                 ObjectOutputStream out = new ObjectOutputStream(openFileOutput(LoaderActivity.USERMANAGER_FILE_STORAGE, Context.MODE_PRIVATE));
                 out.writeObject(intent.getSerializableExtra(GarageActivity.SAVE_USER_MANAGER));
-                Thread.sleep(10000);
                 out.close();
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
