@@ -33,8 +33,7 @@ public class UserManager implements IUserAuthenticator,Serializable {
      */
     public User createUser(String name,String password, int age){
         userId++;
-        User tmp = new User(name,password,age,userId);
-        return tmp;
+        return new User(name,password,age,userId);
     }
 
     private boolean isPasswordGood(String password){
@@ -63,9 +62,6 @@ public class UserManager implements IUserAuthenticator,Serializable {
         return new ArrayList<>(loggedUser.ownedVehicles);
     }
 
-    public TreeSet<User> getRegisteredUsers() {
-        return registeredUsers;
-    }
 
     /**
      *  setting "loggedUser" to null !!
@@ -93,7 +89,6 @@ public class UserManager implements IUserAuthenticator,Serializable {
     @Override
     public boolean authenticateLogin(String username, String password)
     {
-        username.trim();
         for (User x: registeredUsers) {
             if(x.name.equals(username) && x.password.equals(password)){
                 loggedUser = x;
@@ -111,13 +106,8 @@ public class UserManager implements IUserAuthenticator,Serializable {
      */
     @Override
     public boolean validateRegister(String username, String password) throws UsedUsernameException{
-        username.trim();
         if(registeredUsers.isEmpty()){
-
-            if(!username.isEmpty() && isPasswordGood(password)){
-                return true;
-            }
-            else return false;
+            return (!username.isEmpty() && isPasswordGood(password));
         }
         if(!registeredUsers.isEmpty()) {
             if(!username.isEmpty() && isPasswordGood(password)){
@@ -138,32 +128,29 @@ public class UserManager implements IUserAuthenticator,Serializable {
         private String password;
         private int age;
         private int id;
-        private TreeSet<Vehicle> ownedVehicles;
+        private ArrayList<Vehicle> ownedVehicles;
 
         private User(String name, String password, int age, int id) {
             this.name = name;
             this.age = age;
             this.password = password;
-            ownedVehicles = new TreeSet<Vehicle>();
+            ownedVehicles = new ArrayList<>();
             this.id = id;
         }
-        private User(User x){
-            this.name = x.name;
-            this.age = x.age;
-            this.password = x.password;
-            ownedVehicles = x.ownedVehicles;
-            this.id = x.id;
-        }
+//        private User(User x){
+//            this.name = x.name;
+//            this.age = x.age;
+//            this.password = x.password;
+//            ownedVehicles = x.ownedVehicles;
+//            this.id = x.id;
+//        }
 
-        public TreeSet<Vehicle> getOwnedVehicles() {
-            return ownedVehicles;
-        }
 
         public int getId() {
             return id;
         }
 
-        public void addVehicle(Vehicle x) {
+         void addVehicle(Vehicle x) {
             if (x != null) {
                 ownedVehicles.add(x);
             } else {

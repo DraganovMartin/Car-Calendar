@@ -18,11 +18,20 @@ public class Car extends Vehicle implements Serializable {
     private int image;
 
     public Car(){
-
+        super();
     }
 
-    public Car(int productionYear, String registrationPlate, IVignette vignette) {
-        super(productionYear, registrationPlate, vignette);
+//    public Car(int productionYear, String registrationPlate, IVignette vignette) {
+//        super(productionYear, registrationPlate, vignette);
+//    }
+
+    public Car(Car x){
+        super(x.getBrand(),x.getModel(),x.getProductionYear(),x.getRegistrationPlate(),x.getVignette());
+        this.engineType = x.engineType;
+        this.carType = x.carType;
+        this.kmRange = x.kmRange;
+        this.vehicleTaxAmmount = x.vehicleTaxAmmount;
+        this.image = x.image;
     }
 
     public String getEngineType() {

@@ -71,7 +71,6 @@ public class GarageActivity extends AppCompatActivity {
         vehicleListManager = new LinearLayoutManager(this);
         vehicleList.setLayoutManager(vehicleListManager);
 
-        vehicleList.setAdapter(new VehicleAdapter(manager.getRegisteredUserVehicles()));
 
         // Insert the static items in FAB's list
         String[] vehicleTypes = getResources().getStringArray(R.array.VehicleTypes);
@@ -82,10 +81,7 @@ public class GarageActivity extends AppCompatActivity {
         fabMenu.setAdapter(adapter);
 
         Log.e("marto",String.valueOf(manager.getRegisteredUserVehicles().size()));
-        if(vehicleListManager.getChildCount() < 1){
-            vehicleList.setVisibility(View.INVISIBLE);
-            noVehicles.setVisibility(View.VISIBLE);
-        }
+
         fabMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -105,8 +101,12 @@ public class GarageActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(manager.getRegisteredUserVehicles().size() > 0){
-            vehicleList.setAdapter(new VehicleAdapter(manager.getRegisteredUserVehicles()));
+        vehicleList.setAdapter(new VehicleAdapter(manager.getRegisteredUserVehicles()));
+        if(vehicleList.getAdapter().getItemCount() < 1){
+            vehicleList.setVisibility(View.INVISIBLE);
+            noVehicles.setVisibility(View.VISIBLE);
+        }
+        else{
             vehicleList.setVisibility(View.VISIBLE);
             noVehicles.setVisibility(View.INVISIBLE);
         }
