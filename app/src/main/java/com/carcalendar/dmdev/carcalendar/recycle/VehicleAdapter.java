@@ -1,6 +1,7 @@
 package com.carcalendar.dmdev.carcalendar.recycle;
 
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,13 @@ import com.carcalendar.dmdev.carcalendar.R;
 
 import java.util.List;
 
+import model.UserManager;
 import model.Vehicle.Car;
 import model.Vehicle.Vehicle;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder>{
     private List<Vehicle> vehicleList;
+    private boolean defocused = false;
 
     public VehicleAdapter(List<Vehicle> vehicleList){
         this.vehicleList = vehicleList;
@@ -31,6 +34,12 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder>{
 
     @Override
     public void onBindViewHolder(VehicleViewHolder holder, int position) {
+        if (defocused){
+            holder.itemView.setBackgroundColor(0xBFFFFFFF);
+        }else{
+            holder.itemView.setBackgroundColor(0xFF424242);
+        }
+
         Vehicle vehicle = vehicleList.get(position);
         Car car = null;
         if(vehicleList.get(position) instanceof Car){
@@ -46,5 +55,16 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder>{
     @Override
     public int getItemCount() {
         return vehicleList.size();
+    }
+
+    public void setItemDefocus(boolean defocused){
+        this.defocused = defocused;
+        notifyDataSetChanged();
+    }
+
+    public void updateVechicleList(Vehicle v){
+        UserManager.getInstance().addVehicle(v);
+        vehicleList.add(v);
+        notifyDataSetChanged();
     }
 }
