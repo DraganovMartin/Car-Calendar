@@ -167,10 +167,11 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 }
 
                 car.setImage(R.mipmap.car_add_image);
+                Intent data = new Intent();
+                data.putExtra("Car object",car);
 
-                manager.addVehicle(new Car(car));
                 Log.e("marto",String.valueOf(manager.getRegisteredUserVehicles().size()));
-                setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
+                setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY,data);
                 finish();
 
             }
