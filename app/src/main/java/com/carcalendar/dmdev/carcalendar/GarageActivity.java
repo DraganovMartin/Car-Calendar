@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
 
 import model.UserManager;
+import model.Vehicle.Vehicle;
 import model.storage.StorageManager;
 
 public class GarageActivity extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class GarageActivity extends AppCompatActivity {
     private ListView fabMenu;
     private RelativeLayout garageContainer;
     private LinearLayout helloLayout;
+    private VehicleAdapter vAdapter;
     private boolean doubleBackToExitPressedOnce;
     private boolean fabMenuShown = false;
     private Handler mHandler = new Handler();
@@ -69,6 +71,8 @@ public class GarageActivity extends AppCompatActivity {
         vehicleList.setHasFixedSize(true);
         vehicleListManager = new LinearLayoutManager(this);
         vehicleList.setLayoutManager(vehicleListManager);
+        vAdapter = new VehicleAdapter(manager.getRegisteredUserVehicles());
+        vehicleList.setAdapter(vAdapter);
 
 
         // Insert the static items in FAB's list
@@ -100,8 +104,7 @@ public class GarageActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        vehicleList.setAdapter(new VehicleAdapter(manager.getRegisteredUserVehicles()));
-        if(vehicleList.getAdapter().getItemCount() < 1){
+        if(vAdapter.getItemCount() < 1){
             vehicleList.setVisibility(View.INVISIBLE);
             noVehicles.setVisibility(View.VISIBLE);
         }
@@ -140,13 +143,17 @@ public class GarageActivity extends AppCompatActivity {
 
     private void doBackgroundDefocus(){
         garageContainer.setBackgroundColor(0xBFFFFFFF);
+        vAdapter.setItemDefocus(true);
         vehicleList.setClickable(false);
+        vehicleList.setLayoutFrozen(true);
         helloLayout.setClickable(false);
     }
 
     private void undoBackgroundDefocus(){
         garageContainer.setBackgroundColor(0x00000000);
+        vAdapter.setItemDefocus(false);
         vehicleList.setClickable(true);
+        vehicleList.setLayoutFrozen(false);
         helloLayout.setClickable(true);
     }
 
@@ -226,6 +233,7 @@ public class GarageActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == VEHICLE_ADDED_SUCCESSFULLY){
             Toast.makeText(this,"Vehicle added successfully !!!",Toast.LENGTH_SHORT).show();
+            vAdapter.updateVechicleList((Vehicle) data.getSerializableExtra("Car object"));
         }
         else{
             Toast.makeText(this,"Something went wrong !!!",Toast.LENGTH_SHORT).show();
