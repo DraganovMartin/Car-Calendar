@@ -50,12 +50,17 @@
     <string name="range">Range :\n in km</string>
     <string name="vignette_type">Vignette :\n type</string>
     <string name="vignette_start_day">Vignette : \n start day</string>
-    <string name="pick_date">Pick \ndate</string>
+    <string name="pick_date">Pick date</string>
     <string name="cancel_btn">Cancel</string>
     <string name="save_btn">Save</string>
-
+    <string name="registration_number">Registration number :</string>
+    <string name="lplate_num_hint">XY1234ZP</string>
+    <string name="vehicle_brand">Brand :</string>
+    <string name="vehicle_brand_hint">Porsche</string>
+    <string name="vehicle_model">Model :</string>
+    <string name="vehicle_model_hint">Panamera</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="registration_number">Registration number :</string>
+
 
 </resources>
