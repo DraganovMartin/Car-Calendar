@@ -203,7 +203,12 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
     }
 
-    private void populateSpinner(Spinner spinner,String [] arr){
+    @Override
+    public void onBackPressed() {
+        cancelBtn.callOnClick();
+    }
+
+    private void populateSpinner(Spinner spinner, String [] arr){
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,arr);
         spinner.setAdapter(adapter);
     }
