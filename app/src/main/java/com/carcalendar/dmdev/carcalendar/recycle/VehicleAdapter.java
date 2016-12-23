@@ -1,25 +1,26 @@
 package com.carcalendar.dmdev.carcalendar.recycle;
 
-
-import android.content.res.Resources;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.carcalendar.dmdev.carcalendar.R;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import model.UserManager;
 import model.Vehicle.Car;
 import model.Vehicle.Vehicle;
 
-public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder>{
+public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
+
     private List<Vehicle> vehicleList;
     private boolean defocused = false;
+    private final UserManager userManager = UserManager.getInstance();
 
     public VehicleAdapter(List<Vehicle> vehicleList){
         this.vehicleList = vehicleList;
@@ -36,10 +37,50 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder>{
 
     @Override
     public void onBindViewHolder(VehicleViewHolder holder, int position) {
+        View itemView = holder.itemView;
+        final int pos = position;
+        // Opens a popup menu when an item is pressed
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                PopupMenu popup = new PopupMenu(v.getContext(),v);
+                // Handles the popup menu item's click
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.it_edit:
+                                return true;
+                            case R.id.it_diary:
+                                return true;
+                            case R.id.it_delete:
+                                // updates the user manager and the Recycler View
+                                userManager.removeVehicle(vehicleList.remove(pos));
+                                notifyDataSetChanged();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.vehicle_options_menu, popup.getMenu());
+                popup.show();
+
+                return true;
+            }
+        });
+
+        // Defocus Recycler view's items
         if (defocused){
-            holder.itemView.setBackgroundColor(0xBFFFFFFF);
+            itemView.setBackgroundColor(0xBFFFFFFF);
+            itemView.setClickable(false);
+            itemView.setLongClickable(false);
         }else{
-            holder.itemView.setBackgroundColor(0xFF424242);
+            itemView.setBackgroundColor(0xFF424242);
+            itemView.setClickable(true);
+            itemView.setLongClickable(true);
         }
 
         Vehicle vehicle = vehicleList.get(position);
@@ -65,7 +106,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder>{
     }
 
     public void updateVechicleList(Vehicle v){
-        UserManager.getInstance().addVehicle(v);
+        userManager.addVehicle(v);
         vehicleList.add(v);
         notifyDataSetChanged();
     }

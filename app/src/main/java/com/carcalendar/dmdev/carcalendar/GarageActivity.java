@@ -144,7 +144,6 @@ public class GarageActivity extends AppCompatActivity {
     private void doBackgroundDefocus(){
         garageContainer.setBackgroundColor(0xBFFFFFFF);
         vAdapter.setItemDefocus(true);
-        vehicleList.setClickable(false);
         vehicleList.setLayoutFrozen(true);
         helloLayout.setClickable(false);
     }
@@ -152,7 +151,6 @@ public class GarageActivity extends AppCompatActivity {
     private void undoBackgroundDefocus(){
         garageContainer.setBackgroundColor(0x00000000);
         vAdapter.setItemDefocus(false);
-        vehicleList.setClickable(true);
         vehicleList.setLayoutFrozen(false);
         helloLayout.setClickable(true);
     }

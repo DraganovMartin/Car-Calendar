@@ -5,10 +5,14 @@
         <item>Car</item>
         <item>Motorcycle</item>
     </string-array>
+
     <string name="registration_number">Registration number :</string>
     <string name="lplate_num_hint">XY1234ZP</string>
     <string name="vehicle_brand">Brand :</string>
     <string name="vehicle_brand_hint">Porsche</string>
     <string name="vehicle_model">Model :</string>
     <string name="vehicle_model_hint">Panamera</string>
+    <string name="it_edit">Edit</string>
+    <string name="it_diary">Diary</string>
+    <string name="it_delete">Delete</string>
 </resources>

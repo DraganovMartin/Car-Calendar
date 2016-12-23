@@ -15,7 +15,7 @@ import model.authentication.UsedUsernameException;
  */
 public class UserManager implements IUserAuthenticator,Serializable {
 
-    private static UserManager manager = new UserManager();
+    private static final UserManager manager = new UserManager();
     public static UserManager getInstance() {
         return manager;
     }
@@ -48,6 +48,10 @@ public class UserManager implements IUserAuthenticator,Serializable {
 
     public void addVehicle(Vehicle x){
         loggedUser.addVehicle(x);
+    }
+
+    public void removeVehicle(Vehicle v){
+        loggedUser.removeVehicle(v);
     }
 
     public String getLoggedUserName() {
