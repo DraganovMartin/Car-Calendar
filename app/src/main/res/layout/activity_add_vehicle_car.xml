@@ -45,6 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:maxLength="8"
             android:gravity="center"
             android:hint="@string/lplate_num_hint"/>
     </LinearLayout>
@@ -57,13 +58,15 @@
         android:paddingLeft="10dp"
         android:paddingEnd="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="40dp"
+        android:paddingTop="25dp"
+        android:paddingBottom="10dp"
         android:layout_above="@+id/buttonsLinearLayot"
         android:id="@+id/DataScrollView">
 
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:stretchColumns="*">
            <TableRow android:layout_width="0dp"
                android:paddingBottom="40dp">
@@ -80,6 +83,7 @@
                    android:layout_column="2"
                    android:layout_marginEnd="10dp"
                    android:layout_marginRight="10dp"
+                   android:maxLines="3"
                    android:ems="4"
                    android:gravity="center"
                    android:hint="@string/vehicle_brand_hint"/>
@@ -93,6 +97,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_column="4"
+                   android:maxLines="3"
                    android:ems="4"
                    android:gravity="center"
                    android:hint="@string/vehicle_model_hint"/>
@@ -147,6 +152,7 @@
                     android:layout_marginRight="10dp"
                     android:inputType="number"
                     android:ems="4"
+                    android:maxLength="4"
                     android:id="@+id/yearEText"
                     android:hint="1998" />
 
@@ -163,7 +169,7 @@
                     android:layout_column="4"
                     android:gravity="center"
                     android:inputType="number"
-                    android:ems="6"
+                    android:ems="4"
                     android:hint="122000"
                     android:id="@+id/rangeEText" />
             </TableRow>
@@ -224,15 +230,15 @@
                     android:text="Next Tax\npayment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_column="1"
+                    android:layout_column="3"
                     android:id="@+id/vehicle_next_tax_payment" />
 
                 <Button
-                    android:text="pick date\"
+                    android:text="@string/pick_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/btn_next_payment"
-                    android:layout_column="2"
+                    android:layout_column="4"
                     android:onClick="selectDate"/>
             </TableRow>
         </TableLayout>
