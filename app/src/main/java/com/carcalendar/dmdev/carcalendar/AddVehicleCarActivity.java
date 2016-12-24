@@ -37,7 +37,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private EditText rangeText;
     final Car car = new Car();
     private IVignette vignette = null;
-    private UserManager manager = UserManager.getInstance();
     private boolean datePickerActivated = false;
 
     @Override

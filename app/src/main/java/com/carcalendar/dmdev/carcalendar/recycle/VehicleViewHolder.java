@@ -1,6 +1,9 @@
 package com.carcalendar.dmdev.carcalendar.recycle;
 
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,6 +11,7 @@ import android.widget.TextView;
 import com.carcalendar.dmdev.carcalendar.R;
 
 public class VehicleViewHolder extends RecyclerView.ViewHolder {
+
     protected ImageView vehicleImage;
     protected TextView vehicleName;
     protected TextView vehicleYear;
