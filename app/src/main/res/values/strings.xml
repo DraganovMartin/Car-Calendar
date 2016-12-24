@@ -42,6 +42,11 @@
         <item>Hybrid</item>
     </string-array>
 
+    <string-array name="InsurancePeriod">
+        <item>Three \nMonths</item>
+        <item>Annual</item>
+    </string-array>
+
     <string name="loading_data">Loading data. Please wait !</string>
     <string name="image_car_TView">Choose image for your car.</string>
     <string name="type_car">Type : </string>
@@ -49,7 +54,7 @@
     <string name="year">Year :</string>
     <string name="range">Range :\n in km</string>
     <string name="vignette_type">Vignette :\n type</string>
-    <string name="vignette_start_day">Vignette : \n start day</string>
+    <string name="vignette_start_day">Vignette  \n start day</string>
     <string name="pick_date">Pick date</string>
     <string name="cancel_btn">Cancel</string>
     <string name="save_btn">Save</string>
@@ -64,6 +69,8 @@
     <string name="it_delete">Delete</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="vehicle_insurance_ammount">Vehicle insurance :\nammount</string>
+    <string name="vehicle_insurance_period">Vehicle insurance :\nperiod</string>
 
 
 </resources>

@@ -89,12 +89,22 @@ public class GarageActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i){
-                    case 0:
+                    case 0:         // CAR
                         Intent intent = new Intent(getApplicationContext(),AddVehicleCarActivity.class);
+                        intent.putExtra("Car",R.mipmap.car_add_image);
                         startActivityForResult(intent,VEHICLE_ADDED_SUCCESSFULLY);
                         hideFabMenu();
                         undoBackgroundDefocus();
                         break;
+                    case 1:         // MOTORCYCLE
+                        Intent intentMotor = new Intent(getApplicationContext(),AddVehicleCarActivity.class);
+                        intentMotor.putExtra("Motor",R.mipmap.motorcycle_black);
+                        startActivityForResult(intentMotor,VEHICLE_ADDED_SUCCESSFULLY);
+                        hideFabMenu();
+                        undoBackgroundDefocus();
+                        break;
+
+
                 }
             }
         });

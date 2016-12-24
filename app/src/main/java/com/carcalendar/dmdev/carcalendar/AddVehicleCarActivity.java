@@ -2,9 +2,7 @@ package com.carcalendar.dmdev.carcalendar;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +21,6 @@ import model.Stickers.AnnualVignette;
 import model.Stickers.IVignette;
 import model.Stickers.MonthVignette;
 import model.Stickers.WeekVignette;
-import model.UserManager;
 import model.Vehicle.Car;
 
 public class AddVehicleCarActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
@@ -35,7 +32,14 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private Spinner vignetteTypeSpinner;
     private EditText yearText;
     private EditText rangeText;
-    final Car car = new Car();
+    private EditText brand;
+    private EditText model;
+    private EditText oilET;
+    private EditText taxAmmount;
+    private EditText insuranceAmmount;
+    private Spinner insuranceTypeSpinner;
+    private Car car;
+    private String vehicleType;
     private IVignette vignette = null;
     private boolean datePickerActivated = false;
 
@@ -43,14 +47,23 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vehicle_car);
+        vehicleType = getIntent().getStringExtra("Car");
         saveBtn = (Button) findViewById(R.id.btn_car_save);
         cancelBtn = (Button) findViewById(R.id.cancel_car_btn);
         carBtn = (ImageButton) findViewById(R.id.imageButton_car_add);
-        carBtn.setImageResource(R.mipmap.car_add_image);
+        carBtn.setImageResource(getIntent().getIntExtra("Car",R.mipmap.motorcycle_black));
         carTypeSpinner = (Spinner) findViewById(R.id.spinner_type_car);
         engineTypeSpinner = (Spinner) findViewById(R.id.spinner_car_engine);
         vignetteTypeSpinner = (Spinner) findViewById(R.id.vignette_type_spinner);
-        final Car car = new Car();
+        brand = (EditText) findViewById(R.id.vehicle_brand);
+        model = (EditText) findViewById(R.id.vehicle_model);
+        oilET = (EditText) findViewById(R.id.oilEditText);
+        taxAmmount = (EditText) findViewById(R.id.tax_ammount_ET);
+        insuranceAmmount = (EditText) findViewById(R.id.insurance_ammount_ET);
+        insuranceTypeSpinner = (Spinner) findViewById(R.id.insurance_spinner);
+
+        car=new Car();
+
 
         String [] carType = getResources().getStringArray(R.array.CarTypes);
         populateSpinner(carTypeSpinner,carType);
@@ -60,6 +73,9 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
         String [] vignetteType = getResources().getStringArray(R.array.VignetteTypes);
         populateSpinner(vignetteTypeSpinner,vignetteType);
+
+        String [] insuranceType = getResources().getStringArray(R.array.InsurancePeriod);
+        populateSpinner(insuranceTypeSpinner,insuranceType);
 
         yearText = (EditText) findViewById(R.id.yearEText);
         rangeText = (EditText) findViewById(R.id.rangeEText);
@@ -133,9 +149,40 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             }
         });
 
+        insuranceTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:         // Three Month
+                        break;
+                    case 1:         // Annual
+                        break;
+
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!brand.getText().toString().isEmpty()){
+                    car.setBrand(brand.getText().toString());
+                }
+                else{
+                    brand.setError("Please input brand !!");
+                }
+                if(!model.getText().toString().isEmpty()){
+                    car.setModel(model.getText().toString());
+                }
+                else{
+                    model.setError("Please input brand !!");
+                }
                 if(vignette == null){
                     Toast.makeText(getApplicationContext(),"Please set vignette type",Toast.LENGTH_SHORT).show();
                     return;
@@ -153,7 +200,8 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 }
                 if(!yearText.getText().toString().isEmpty()) {
                     if (Integer.valueOf(yearText.getText().toString()) < 0) {
-                        Toast.makeText(getApplicationContext(), "Please set year bigger or equal to 0", Toast.LENGTH_SHORT).show();
+                        yearText.setError("Please set year bigger or equal to 0");
+                        //Toast.makeText(getApplicationContext(), "Please set year bigger or equal to 0", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
                         car.setProductionYear(Integer.valueOf(yearText.getText().toString()));
@@ -161,7 +209,8 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 }
                 if(!rangeText.getText().toString().isEmpty() ) {
                     if (Integer.valueOf(rangeText.getText().toString()) < 0) {
-                        Toast.makeText(getApplicationContext(), "Please set range bigger or equal to 0", Toast.LENGTH_SHORT).show();
+                        rangeText.setError("Please set range bigger or equal to 0");
+                        //Toast.makeText(getApplicationContext(), "Please set range bigger or equal to 0", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
                         car.setKmRange(rangeText.getText().toString());
@@ -174,7 +223,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 }
                 car.setImage(R.mipmap.car_add_image);
                 Intent data = new Intent();
-                data.putExtra("Car object",car);
+                data.putExtra("Car object", car);
                 car.setBrand("brand" + String.valueOf(car.getId()));
                 car.setModel("model" + String.valueOf(car.getId()));
 
@@ -213,9 +262,21 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     }
 
     public void selectDate(View view){
-        DatePickerFragment dialogFragment = new DatePickerFragment();
-        dialogFragment.show(getSupportFragmentManager(),"datePick");
-        datePickerActivated = true;
+        switch (view.getId()){
+            case R.id.date_btn :
+                DatePickerFragment dialogFragment = new DatePickerFragment();
+                dialogFragment.show(getSupportFragmentManager(),"datePick");
+                datePickerActivated = true;
+                return;
+            case R.id.btn_next_payment:
+                return;
+            case R.id.btn_insurance_start :
+                return;
+
+            default:
+                return;
+        }
+
     }
 
     @Override
@@ -233,3 +294,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     }
 
 }
+
+// // TODO: check if all input is handled, change item view in recycler view and then check sorting 
+// // TODO: For Dimcho : Please extract recyclerView handling inside GarageActivity, if you have time ofcourse 

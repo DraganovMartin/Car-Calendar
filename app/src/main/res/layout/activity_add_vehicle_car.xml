@@ -67,39 +67,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:stretchColumns="*">
+            android:shrinkColumns="1,3"
+            android:stretchColumns="2,4"
+
+            >
            <TableRow android:layout_width="0dp"
                android:paddingBottom="40dp">
                <TextView
-                   android:id="@+id/vehicle_brand"
+                   android:id="@+id/txt_brand"
                    android:layout_height="wrap_content"
                    android:layout_width="wrap_content"
                    android:layout_column="1"
                    android:text="@string/vehicle_brand"/>
                <EditText
-                   android:id="@+id/txt_brand"
+                   android:id="@+id/vehicle_brand"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_column="2"
                    android:layout_marginEnd="10dp"
                    android:layout_marginRight="10dp"
                    android:maxLines="3"
-                   android:ems="4"
-                   android:gravity="center"
+                   android:gravity="left"
                    android:hint="@string/vehicle_brand_hint"/>
                <TextView
-                   android:id="@+id/vehicle_model"
+                   android:id="@+id/vehicle_model_TV"
                    android:layout_height="wrap_content"
                    android:layout_width="wrap_content"
                    android:layout_column="3"
                    android:text="@string/vehicle_model"/>
                <EditText
+                   android:id="@+id/vehicle_model"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_column="4"
                    android:maxLines="3"
-                   android:ems="4"
-                   android:gravity="center"
+                   android:gravity="left"
                    android:hint="@string/vehicle_model_hint"/>
            </TableRow>
 
@@ -146,12 +148,11 @@
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_column="2"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:inputType="number"
-                    android:ems="4"
                     android:maxLength="4"
                     android:id="@+id/yearEText"
                     android:hint="1998" />
@@ -167,9 +168,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="4"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:inputType="number"
-                    android:ems="4"
                     android:hint="122000"
                     android:id="@+id/rangeEText" />
             </TableRow>
@@ -202,6 +202,8 @@
                     android:text="@string/pick_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
                     android:id="@+id/date_btn"
                     android:layout_column="4"
                     android:onClick="selectDate"/>
@@ -210,11 +212,46 @@
                 android:paddingBottom="40dp">
 
                 <TextView
-                    android:text="Next oil\nchange"
+                    android:text="Next oil :\nchange"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
-                    android:id="@+id/vehicle_next_oil_change" />
+                    android:id="@+id/vehicle_next_oil_change_TV" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="123000"
+                    android:layout_column="2"
+                    android:id="@+id/oilEditText" />
+
+                <TextView
+                    android:text="Vehicle Tax :\nammount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="3"
+                    android:id="@+id/vehicle_tax_ammount" />
+
+               <EditText
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_column="4"
+                   android:inputType="numberDecimal"
+                   android:hint="125.25"
+                   android:id="@+id/tax_ammount_ET"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:paddingBottom="40dp">
+
+                <TextView
+                    android:text="Next Tax\npayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:id="@+id/vehicle_next_tax_payment" />
 
                 <Button
                     android:text="@string/pick_date"
@@ -222,25 +259,63 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:id="@+id/btn_oil_change"
+                    android:id="@+id/btn_next_payment"
                     android:layout_column="2"
                     android:onClick="selectDate"/>
 
                 <TextView
-                    android:text="Next Tax\npayment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="3"
-                    android:id="@+id/vehicle_next_tax_payment" />
+                    android:text="@string/vehicle_insurance_ammount"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="4"
+                    android:inputType="numberDecimal"
+                    android:hint="125.25"
+                    android:id="@+id/insurance_ammount_ET"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:paddingBottom="40dp">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_column="1"
+                    android:text="@string/vehicle_insurance_period"
+                    android:id="@+id/insurance_period_TV"/>
+
+                <Spinner
+                    android:layout_column="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/insurance_spinner">
+                </Spinner>
+
+                <TextView
+                    android:layout_column="3"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Insurance start :\n day"/>
 
                 <Button
                     android:text="@string/pick_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btn_next_payment"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/btn_insurance_start"
                     android:layout_column="4"
                     android:onClick="selectDate"/>
-            </TableRow>
+
+                </TableRow>
         </TableLayout>
 
     </ScrollView>
@@ -253,20 +328,21 @@
         android:id="@+id/buttonsLinearLayot">
 
         <Button
-            android:text="@string/save_btn"
+            android:text="@string/cancel_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
-            android:id="@+id/btn_car_save" />
+            android:id="@+id/cancel_car_btn" />
+
 
         <Button
-            android:text="@string/cancel_btn"
+            android:text="@string/save_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/cancel_car_btn"
+            android:id="@+id/btn_car_save"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"/>
     </LinearLayout>
