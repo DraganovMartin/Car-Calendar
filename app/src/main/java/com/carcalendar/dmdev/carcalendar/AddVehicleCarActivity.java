@@ -39,7 +39,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private EditText insuranceAmmount;
     private Spinner insuranceTypeSpinner;
     private Car car;
-    private String vehicleType;
+    private int vehicleType;
     private IVignette vignette = null;
     private boolean datePickerActivated = false;
 
@@ -47,7 +47,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vehicle_car);
-        vehicleType = getIntent().getStringExtra("Car");
+        vehicleType = getIntent().getIntExtra("Car",0); // Extra was int instead of String and a silent exception was thrown
         saveBtn = (Button) findViewById(R.id.btn_car_save);
         cancelBtn = (Button) findViewById(R.id.cancel_car_btn);
         carBtn = (ImageButton) findViewById(R.id.imageButton_car_add);
