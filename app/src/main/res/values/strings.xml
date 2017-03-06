@@ -70,7 +70,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="vehicle_insurance_ammount">Vehicle insurance :\nammount</string>
-    <string name="vehicle_insurance_period">Vehicle insurance :\nperiod</string>
+    <string name="vehicle_insurance_period">Insurance period :</string>
 
 
 </resources>

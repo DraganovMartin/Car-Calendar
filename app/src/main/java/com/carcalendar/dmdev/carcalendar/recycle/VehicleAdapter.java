@@ -14,6 +14,7 @@ import java.util.List;
 
 import model.UserManager;
 import model.Vehicle.Car;
+import model.Vehicle.Motorcycle;
 import model.Vehicle.Vehicle;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
@@ -83,17 +84,33 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
             itemView.setLongClickable(true);
         }
 
-        Vehicle vehicle = vehicleList.get(position);
+        // set data from a vehicle object
+
         Car car = null;
+        Motorcycle motorcycle = null;
         if(vehicleList.get(position) instanceof Car){
             car =(Car) vehicleList.get(position);
+
+            holder.vehicleImage.setImageResource(car.getImage());
+            holder.vehicleBrand.setText(car.getBrand());
+            holder.vehicleModel.setText(car.getModel());
+            holder.vehicleYear.setText(String.valueOf(car.getProductionYear()));
+            holder.vehicleRange.setText(car.getKmRange());
         }
-        // TODO set data from a vehicle object
-        holder.vehicleImage.setImageResource(car.getImage());
-        holder.vehicleName.setText(car.getCarType());
-        holder.vehicleYear.setText(String.valueOf(car.getProductionYear()));
-        holder.vehicleRange.setText(car.getKmRange());
-    }
+//        else{
+//            motorcycle = (Motorcycle) vehicleList.get(position);
+//
+//            holder.vehicleImage.setImageResource(motorcycle.getImage());
+//            holder.vehicleBrand.setText(motorcycle.getCarType());
+//            holder.vehicleModel.setText(motorcycle.getModel());
+//            holder.vehicleYear.setText(motorcycle.valueOf(car.getProductionYear()));
+//            holder.vehicleRange.setText(motorcycle.getKmRange());
+//
+//        }
+        }
+        // set data from a vehicle object
+
+
 
     @Override
     public int getItemCount() {
@@ -107,7 +124,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
 
     public void updateVechicleList(Vehicle v){
         userManager.addVehicle(v);
-        vehicleList.add(v);
+        vehicleList = userManager.getRegisteredUserVehicles();      // Only this way the data will be sorted by the user TreeSet
         notifyDataSetChanged();
     }
 }

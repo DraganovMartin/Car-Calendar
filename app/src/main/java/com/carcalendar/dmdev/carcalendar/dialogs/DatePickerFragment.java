@@ -1,9 +1,11 @@
-package com.carcalendar.dmdev.carcalendar;
+package com.carcalendar.dmdev.carcalendar.dialogs;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+
+import com.carcalendar.dmdev.carcalendar.AddVehicleCarActivity;
 
 import java.util.Calendar;
 

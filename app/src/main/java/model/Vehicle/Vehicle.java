@@ -78,13 +78,15 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
 
     @Override
     public int compareTo(Vehicle vehicle) {
-        if(this.brand.compareTo(vehicle.brand) == 0){
-            if(this.model.compareTo(vehicle.model) == 0){
+        if(this.brand.compareToIgnoreCase(vehicle.brand) == 0){
+            if(this.model.compareToIgnoreCase(vehicle.model) == 0){
                 if(this.myId == vehicle.myId) return 0;
                 else return 1;
             }
+            else{
+                return  this.model.compareToIgnoreCase(vehicle.model);
+            }
         }
-        else return this.brand.compareTo(vehicle.brand);
-         return this.brand.compareTo(vehicle.brand);
+        else return this.brand.compareToIgnoreCase(vehicle.brand);
     }
 }
