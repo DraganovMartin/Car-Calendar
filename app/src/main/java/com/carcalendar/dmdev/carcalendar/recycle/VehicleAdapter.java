@@ -1,6 +1,7 @@
 package com.carcalendar.dmdev.carcalendar.recycle;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
 
     /**
      * Updates the recycler view with a new vehicle.
+     * The vehicle is added at the end of the list.
      *
      * The vehicle is also added to the current logged users's vehicle list
      *
@@ -89,7 +91,8 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
     public void updateVehicleList(Vehicle v){
         userManager.addVehicle(v);
         vehicleList.add(v);
-        notifyDataSetChanged();
+        // Only inserts the new item and does not update the whole recycler view
+        notifyItemInserted(vehicleList.size());
     }
     /**
      * Deletes an item from the recycler view fro the specified <code>pos</code>.
@@ -100,6 +103,6 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
      */
     public void deleteItemFromList(int pos){
         userManager.removeVehicle(vehicleList.remove(pos));
-        notifyDataSetChanged();
+        notifyItemRemoved(pos);
     }
 }
