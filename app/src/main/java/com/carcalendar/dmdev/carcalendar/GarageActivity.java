@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
@@ -22,13 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
-import com.carcalendar.dmdev.carcalendar.recycle.VehicleViewHolder;
 
 import model.UserManager;
 import model.Vehicle.Vehicle;
 import model.storage.StorageManager;
 
-public class GarageActivity extends AppCompatActivity implements VehicleViewHolder.OnRecyclerViewItemLongPressListener {
+public class GarageActivity extends AppCompatActivity {
 
     private UserManager manager = UserManager.getInstance();
     private RecyclerView vehicleList;
@@ -73,7 +71,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         vehicleList.setHasFixedSize(true);
         vehicleListManager = new LinearLayoutManager(this);
         vehicleList.setLayoutManager(vehicleListManager);
-        vAdapter = new VehicleAdapter(manager.getRegisteredUserVehicles(),this);
+        vAdapter = new VehicleAdapter(manager.getRegisteredUserVehicles());
         vehicleList.setAdapter(vAdapter);
 
 
@@ -127,7 +125,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
 
     }
 
-    /**
+    /*
          * Toggles the FAB menu.
          * Changes the container background and changes the clickable property
          * of its children to false
@@ -142,8 +140,8 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         }
     }
 
-    /**
-    * Removes the Fab menu when the layout outside it is pressed
+    /*
+    *Removes the Fab menu when the layout outside it is pressed
     *
     */
     public void restoreLayout(View view){
@@ -243,39 +241,10 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == VEHICLE_ADDED_SUCCESSFULLY){
             Toast.makeText(this,"Vehicle added successfully !!!",Toast.LENGTH_SHORT).show();
-            vAdapter.updateVehicleList((Vehicle) data.getSerializableExtra("Car object"));
+            vAdapter.updateVechicleList((Vehicle) data.getSerializableExtra("Car object"));
         }
         else{
             Toast.makeText(this,"Something went wrong !!!",Toast.LENGTH_SHORT).show();
         }
-    }
-
-
-
-    // Handles the event of a long press on a recycler view's item
-    @Override
-    public void onRecyclerViewItemLongPress(View v, final int pos) {
-        PopupMenu popup = new PopupMenu(v.getContext(),v);
-        // Handles the popup menu item's click
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.it_edit:
-                        return true;
-                    case R.id.it_diary:
-                        return true;
-                    case R.id.it_delete:
-                        vAdapter.deleteItemFromList(pos);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.vehicle_options_menu,popup.getMenu());
-        popup.show();
     }
 }
