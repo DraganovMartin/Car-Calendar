@@ -1,10 +1,7 @@
 package com.carcalendar.dmdev.carcalendar.recycle;
 
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,9 +19,11 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
     private List<Vehicle> vehicleList;
     private boolean defocused = false;
     private final UserManager userManager = UserManager.getInstance();
+    private VehicleViewHolder.OnRecyclerViewItemLongPressListener lPressListener;
 
-    public VehicleAdapter(List<Vehicle> vehicleList){
+    public VehicleAdapter(List<Vehicle> vehicleList, VehicleViewHolder.OnRecyclerViewItemLongPressListener lPressListener){
         this.vehicleList = vehicleList;
+        this.lPressListener = lPressListener;
     }
 
     @Override
@@ -33,45 +32,13 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
                 .from(parent.getContext())
                 .inflate(R.layout.vehicle_view,parent,false);
 
-        return new VehicleViewHolder(itemView);
+        // Pass the long click listener to the constructor
+        return new VehicleViewHolder(itemView,lPressListener);
     }
 
     @Override
     public void onBindViewHolder(VehicleViewHolder holder, int position) {
         View itemView = holder.itemView;
-        final int pos = position;
-        // Opens a popup menu when an item is pressed
-        itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                PopupMenu popup = new PopupMenu(v.getContext(),v);
-                // Handles the popup menu item's click
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.it_edit:
-                                return true;
-                            case R.id.it_diary:
-                                return true;
-                            case R.id.it_delete:
-                                // updates the user manager and the Recycler View
-                                userManager.removeVehicle(vehicleList.remove(pos));
-                                notifyDataSetChanged();
-                                return true;
-                            default:
-                                return false;
-                        }
-                    }
-                });
-
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.vehicle_options_menu, popup.getMenu());
-                popup.show();
-
-                return true;
-            }
-        });
 
         // Defocus Recycler view's items
         if (defocused){
@@ -117,14 +84,39 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
         return vehicleList.size();
     }
 
+    /**
+     * Makes the items in the recycler view defocused.
+     * When the <code>defocused</code> parameter is se to true the items of the recycler view
+     * become un-clickable.
+     *
+     * @param defocused the flag that tells if the view should be defocused
+     */
     public void setItemDefocus(boolean defocused){
         this.defocused = defocused;
         notifyDataSetChanged();
     }
 
-    public void updateVechicleList(Vehicle v){
+    /**
+     * Updates the recycler view with a new vehicle.
+     *
+     * The vehicle is also added to the current logged users's vehicle list
+     *
+     * @param v the <code>Vehicle</code> object to be put in the list
+     */
+    public void updateVehicleList(Vehicle v){
         userManager.addVehicle(v);
         vehicleList = userManager.getRegisteredUserVehicles();      // Only this way the data will be sorted by the user TreeSet
+        notifyDataSetChanged();
+    }
+    /**
+     * Deletes an item from the recycler view fro the specified <code>pos</code>.
+     *
+     * The vehicle is also delete from the current logged users's vehicle list
+     *
+     * @param pos the position of the item in the recycler view
+     */
+    public void deleteItemFromList(int pos){
+        userManager.removeVehicle(vehicleList.remove(pos));
         notifyDataSetChanged();
     }
 }
