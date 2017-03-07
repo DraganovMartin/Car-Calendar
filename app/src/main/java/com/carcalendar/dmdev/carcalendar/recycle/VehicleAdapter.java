@@ -117,6 +117,6 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
      */
     public void deleteItemFromList(int pos){
         userManager.removeVehicle(vehicleList.remove(pos));
-        notifyDataSetChanged();
+        notifyItemRemoved(pos);
     }
 }
