@@ -10,7 +10,8 @@ import com.carcalendar.dmdev.carcalendar.R;
 public class VehicleViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
     protected ImageView vehicleImage;
-    protected TextView vehicleName;
+    protected TextView vehicleBrand;
+    protected TextView vehicleModel;
     protected TextView vehicleYear;
     protected TextView vehicleRange;
     private OnRecyclerViewItemLongPressListener recyclerViewLongPressListener;
@@ -18,7 +19,8 @@ public class VehicleViewHolder extends RecyclerView.ViewHolder implements View.O
     public VehicleViewHolder(View view,OnRecyclerViewItemLongPressListener rViewLongPressListener){
         super(view);
         vehicleImage = (ImageView) view.findViewById(R.id.vehicle_image);
-        vehicleName  = (TextView) view.findViewById(R.id.vehicle_name);
+        vehicleBrand = (TextView) view.findViewById(R.id.vehicle_brand);
+        vehicleModel = (TextView) view.findViewById(R.id.vehicle_model_view_TV);
         vehicleYear = (TextView) view.findViewById(R.id.year_vehicle_view_TV);
         vehicleRange = (TextView) view.findViewById(R.id.range_vehicle_view_TV);
         view.setOnLongClickListener(this);

@@ -25,36 +25,51 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="@+id/vehicle_description"
+            android:layout_alignParentEnd="@+id/year_vehicle_view_TV"
             android:src="@mipmap/ic_keyboard_arrow_right_white_36dp"/>
 
         <TextView
-            android:id="@+id/vehicle_name"
+            android:id="@+id/vehicle_brand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Car brand "
+            style="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="Car name "
-            style="?android:attr/textAppearanceMedium"
-            android:textStyle="bold"/>
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"/>
 
         <TextView
+            android:text="Car model"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/ic_arrow"
-            android:layout_toRightOf="@+id/vehicle_image"
-            android:layout_toEndOf="@+id/vehicle_image"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:id="@+id/year_vehicle_view_TV" />
+            android:id="@+id/vehicle_model_view_TV"
+            style="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/vehicle_brand"
+            android:layout_toEndOf="@+id/vehicle_brand" />
+
+        <TextView
+            android:text="2003"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/year_vehicle_view_TV"
+            android:layout_alignBaseline="@+id/range_vehicle_view_TV"
+            android:layout_alignBottom="@+id/range_vehicle_view_TV"
+            android:layout_toLeftOf="@+id/vehicle_brand"
+            android:layout_toStartOf="@+id/vehicle_brand" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/range_vehicle_view_TV"
+            android:text="125000"
             android:layout_alignBottom="@+id/ic_arrow"
-            android:layout_toRightOf="@+id/vehicle_name"
-            android:layout_toEndOf="@+id/vehicle_name" />
+            android:layout_toLeftOf="@+id/ic_arrow"
+            android:layout_toStartOf="@+id/ic_arrow" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

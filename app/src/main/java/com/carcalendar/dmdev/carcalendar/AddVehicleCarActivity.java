@@ -15,12 +15,15 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.carcalendar.dmdev.carcalendar.dialogs.DatePickerFragment;
+
 import java.util.Calendar;
 
 import model.Stickers.AnnualVignette;
 import model.Stickers.IVignette;
 import model.Stickers.MonthVignette;
 import model.Stickers.WeekVignette;
+import model.UserManager;
 import model.Vehicle.Car;
 
 public class AddVehicleCarActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
@@ -42,6 +45,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private int vehicleType;
     private IVignette vignette = null;
     private boolean datePickerActivated = false;
+    private UserManager manager = UserManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +172,14 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             }
         });
 
+        carBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),UploadImageFromActivityDialog.class);
+                startActivity(intent);
+            }
+        });
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,7 +193,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     car.setModel(model.getText().toString());
                 }
                 else{
-                    model.setError("Please input brand !!");
+                    model.setError("Please input model !!");
                 }
                 if(vignette == null){
                     Toast.makeText(getApplicationContext(),"Please set vignette type",Toast.LENGTH_SHORT).show();
@@ -222,13 +234,8 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     return;
                 }
                 car.setImage(R.mipmap.car_add_image);
-                Intent data = new Intent();
-                data.putExtra("Car object", car);
-                car.setBrand("brand" + String.valueOf(car.getId()));
-                car.setModel("model" + String.valueOf(car.getId()));
-
-
-                setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY,data);
+                manager.addVehicle(car);
+                setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
                 Log.e("calendar",String.valueOf(((WeekVignette) vignette).getStartDateObject().get(Calendar.YEAR)) + " " + ((WeekVignette) vignette).getStartDateObject().get(Calendar.MONTH) + " " + ((WeekVignette) vignette).getStartDateObject().get(Calendar.DAY_OF_MONTH));
                 finish();
 
@@ -295,5 +302,3 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
 }
 
-// // TODO: check if all input is handled, change item view in recycler view and then check sorting 
-// // TODO: For Dimcho : Please extract recyclerView handling inside GarageActivity, if you have time ofcourse 

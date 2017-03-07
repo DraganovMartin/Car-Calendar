@@ -1,7 +1,6 @@
 package com.carcalendar.dmdev.carcalendar.recycle;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import java.util.List;
 
 import model.UserManager;
 import model.Vehicle.Car;
+import model.Vehicle.Motorcycle;
 import model.Vehicle.Vehicle;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
@@ -40,6 +40,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
     public void onBindViewHolder(VehicleViewHolder holder, int position) {
         View itemView = holder.itemView;
 
+        // TODO : We need to find a way to defocus items outside onBindViewHolder
         // Defocus Recycler view's items
         if (defocused){
             itemView.setBackgroundColor(0xBFFFFFFF);
@@ -51,17 +52,33 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
             itemView.setLongClickable(true);
         }
 
-        Vehicle vehicle = vehicleList.get(position);
+        // set data from a vehicle object
+
         Car car = null;
+        Motorcycle motorcycle = null;
         if(vehicleList.get(position) instanceof Car){
             car =(Car) vehicleList.get(position);
+
+            holder.vehicleImage.setImageResource(car.getImage());
+            holder.vehicleBrand.setText(car.getBrand());
+            holder.vehicleModel.setText(car.getModel());
+            holder.vehicleYear.setText(String.valueOf(car.getProductionYear()));
+            holder.vehicleRange.setText(car.getKmRange());
         }
-        // TODO set data from a vehicle object
-        holder.vehicleImage.setImageResource(car.getImage());
-        holder.vehicleName.setText(car.getCarType());
-        holder.vehicleYear.setText(String.valueOf(car.getProductionYear()));
-        holder.vehicleRange.setText(car.getKmRange());
-    }
+//        else{
+//            motorcycle = (Motorcycle) vehicleList.get(position);
+//
+//            holder.vehicleImage.setImageResource(motorcycle.getImage());
+//            holder.vehicleBrand.setText(motorcycle.getCarType());
+//            holder.vehicleModel.setText(motorcycle.getModel());
+//            holder.vehicleYear.setText(motorcycle.valueOf(car.getProductionYear()));
+//            holder.vehicleRange.setText(motorcycle.getKmRange());
+//
+//        }
+        }
+        // set data from a vehicle object
+
+
 
     @Override
     public int getItemCount() {
@@ -82,17 +99,15 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
 
     /**
      * Updates the recycler view with a new vehicle.
-     * The vehicle is added at the end of the list.
      *
      * The vehicle is also added to the current logged users's vehicle list
      *
-     * @param v the <code>Vehicle</code> object to be put in the list
      */
-    public void updateVehicleList(Vehicle v){
-        userManager.addVehicle(v);
-        vehicleList.add(v);
-        // Only inserts the new item and does not update the whole recycler view
-        notifyItemInserted(vehicleList.size());
+
+    // Because of alphabetical sort when adding vehicle we should rebind all items in the recyclerView
+    public void updateVehicleList(){
+        vehicleList = userManager.getRegisteredUserVehicles();      // Only this way the data will be sorted by the user TreeSet
+        notifyDataSetChanged();
     }
     /**
      * Deletes an item from the recycler view fro the specified <code>pos</code>.
