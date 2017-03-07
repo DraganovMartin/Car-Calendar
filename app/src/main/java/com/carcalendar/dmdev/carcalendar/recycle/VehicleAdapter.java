@@ -40,6 +40,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
     public void onBindViewHolder(VehicleViewHolder holder, int position) {
         View itemView = holder.itemView;
 
+        // TODO : We need to find a way to defocus items outside onBindViewHolder
         // Defocus Recycler view's items
         if (defocused){
             itemView.setBackgroundColor(0xBFFFFFFF);
