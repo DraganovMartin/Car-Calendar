@@ -101,10 +101,10 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
      *
      * The vehicle is also added to the current logged users's vehicle list
      *
-     * @param v the <code>Vehicle</code> object to be put in the list
      */
-    public void updateVehicleList(Vehicle v){
-        userManager.addVehicle(v);
+
+    // Because of alphabetical sort when adding vehicle we should rebind all items in the recyclerView
+    public void updateVehicleList(){
         vehicleList = userManager.getRegisteredUserVehicles();      // Only this way the data will be sorted by the user TreeSet
         notifyDataSetChanged();
     }

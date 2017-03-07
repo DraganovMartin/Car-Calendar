@@ -243,7 +243,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == VEHICLE_ADDED_SUCCESSFULLY){
             Toast.makeText(this,"Vehicle added successfully !!!",Toast.LENGTH_SHORT).show();
-            vAdapter.updateVehicleList((Vehicle) data.getSerializableExtra("Car object"));
+            vAdapter.updateVehicleList();
         }
         else{
             Toast.makeText(this,"Something went wrong !!!",Toast.LENGTH_SHORT).show();

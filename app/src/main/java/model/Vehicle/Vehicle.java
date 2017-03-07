@@ -18,7 +18,7 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     private int myId;
 
     public Vehicle(){
-
+        myId = ++id;
     }
 
     public Vehicle(String brand, String model,int productionYear,String registrationPlate, IVignette vignette){
