@@ -25,7 +25,6 @@ import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleViewHolder;
 
 import model.UserManager;
-import model.Vehicle.Vehicle;
 import model.storage.StorageManager;
 
 public class GarageActivity extends AppCompatActivity implements VehicleViewHolder.OnRecyclerViewItemLongPressListener {
@@ -40,6 +39,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
     private TextView noVehicles;
     private ListView fabMenu;
     private RelativeLayout garageContainer;
+    private LinearLayout fabMenuContainer;
     private LinearLayout helloLayout;
     private VehicleAdapter vAdapter;
     private boolean doubleBackToExitPressedOnce;
@@ -61,7 +61,8 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_garage);
 
-        garageContainer = (RelativeLayout) findViewById(R.id.activity_garage);
+        fabMenuContainer = (LinearLayout) findViewById(R.id.fab_menu_container);
+        garageContainer = (RelativeLayout) findViewById(R.id.garageContainer);
         helloLayout = (LinearLayout) findViewById(R.id.HelloLayout);
 
         usernameTV = (TextView) findViewById(R.id.Username);
@@ -154,17 +155,13 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
     }
 
     private void doBackgroundDefocus(){
-        garageContainer.setBackgroundColor(0xBFFFFFFF);
-        vAdapter.setItemDefocus(true);
-        vehicleList.setLayoutFrozen(true);
-        helloLayout.setClickable(false);
+        fabMenuContainer.bringToFront();
+        fabMenuContainer.setBackgroundColor(0xBFFFFFFF);
     }
 
     private void undoBackgroundDefocus(){
-        garageContainer.setBackgroundColor(0x00000000);
-        vAdapter.setItemDefocus(false);
-        vehicleList.setLayoutFrozen(false);
-        helloLayout.setClickable(true);
+        garageContainer.bringToFront();
+        fabMenuContainer.setBackgroundColor(0x00000000);
     }
 
     private void showFabMenu(){

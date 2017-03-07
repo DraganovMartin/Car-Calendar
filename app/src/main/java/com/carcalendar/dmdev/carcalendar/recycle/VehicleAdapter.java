@@ -17,7 +17,6 @@ import model.Vehicle.Vehicle;
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
 
     private List<Vehicle> vehicleList;
-    private boolean defocused = false;
     private final UserManager userManager = UserManager.getInstance();
     private VehicleViewHolder.OnRecyclerViewItemLongPressListener lPressListener;
 
@@ -38,19 +37,8 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
 
     @Override
     public void onBindViewHolder(VehicleViewHolder holder, int position) {
-        View itemView = holder.itemView;
 
-        // TODO : We need to find a way to defocus items outside onBindViewHolder
-        // Defocus Recycler view's items
-        if (defocused){
-            itemView.setBackgroundColor(0xBFFFFFFF);
-            itemView.setClickable(false);
-            itemView.setLongClickable(false);
-        }else{
-            itemView.setBackgroundColor(0xFF424242);
-            itemView.setClickable(true);
-            itemView.setLongClickable(true);
-        }
+        //TODO Resolved: We need to find a way to defocus items outside onBindViewHolder
 
         // set data from a vehicle object
 
@@ -83,18 +71,6 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
     @Override
     public int getItemCount() {
         return vehicleList.size();
-    }
-
-    /**
-     * Makes the items in the recycler view defocused.
-     * When the <code>defocused</code> parameter is se to true the items of the recycler view
-     * become un-clickable.
-     *
-     * @param defocused the flag that tells if the view should be defocused
-     */
-    public void setItemDefocus(boolean defocused){
-        this.defocused = defocused;
-        notifyDataSetChanged();
     }
 
     /**
