@@ -8,7 +8,7 @@
     <dimen name="vehicle_icon_size">75dp</dimen>
     <dimen name="greeting_text_size">20sp</dimen>
     <dimen name="fab_menu_item_width">110dp</dimen>
-    <dimen name="fab_menu_margin_bottom">10dp</dimen>
+    <dimen name="fab_menu_margin_bottom">75dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
 
 </resources>
