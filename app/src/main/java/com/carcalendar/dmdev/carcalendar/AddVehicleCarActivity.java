@@ -38,7 +38,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private EditText brand;
     private EditText model;
     private EditText oilET;
-    private EditText taxAmmount;
+    private EditText taxAmount;
     private EditText insuranceAmmount;
     private EditText registrationNumber;
     private Spinner insuranceTypeSpinner;
@@ -64,7 +64,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         model = (EditText) findViewById(R.id.vehicle_model);
         oilET = (EditText) findViewById(R.id.oilEditText);
         registrationNumber = (EditText) findViewById(R.id.txt_licence_plate);
-        taxAmmount = (EditText) findViewById(R.id.tax_ammount_ET);
+        taxAmount = (EditText) findViewById(R.id.tax_ammount_ET);
         insuranceAmmount = (EditText) findViewById(R.id.insurance_ammount_ET);
         insuranceTypeSpinner = (Spinner) findViewById(R.id.insurance_spinner);
 
@@ -143,7 +143,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             model.setText(car.getModel());
 
             // Sets the tax amount
-            taxAmmount.setText(String.valueOf(car.getVehicleTaxAmmount()));
+            taxAmount.setText(String.valueOf(car.getVehicleTaxAmount()));
 
             // Sets the production year
             yearText.setText(String.valueOf(car.getProductionYear()));
@@ -310,6 +310,13 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     } else {
                         car.setKmRange(rangeText.getText().toString());
                     }
+                }
+
+                if(!taxAmount.getText().toString().isEmpty()){
+                    car.setVehicleTaxAmount(Double.valueOf(taxAmount.getText().toString()));
+                }
+                else{
+                    taxAmount.setError("Please input tax amount");
                 }
 
                 if(!datePickerActivated){

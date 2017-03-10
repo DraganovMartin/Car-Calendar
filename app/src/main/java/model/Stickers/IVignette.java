@@ -11,4 +11,5 @@ public interface IVignette extends Serializable {
     double getPrice();
     String getStartDate();
     String getEndDate();
+    String getType();
 }

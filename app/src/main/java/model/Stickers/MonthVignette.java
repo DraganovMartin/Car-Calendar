@@ -65,4 +65,9 @@ public class MonthVignette implements IVignette {
         String date = format1.format(endDate.getTime());
         return date;
     }
+
+    @Override
+    public String getType() {
+        return "Month";
+    }
 }
