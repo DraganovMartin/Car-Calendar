@@ -316,7 +316,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 car.setImage(R.mipmap.car_add_image);
                 manager.addVehicle(car);
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
-                Log.e("calendar",String.valueOf(((WeekVignette) vignette).getStartDateObject().get(Calendar.YEAR)) + " " + ((WeekVignette) vignette).getStartDateObject().get(Calendar.MONTH) + " " + ((WeekVignette) vignette).getStartDateObject().get(Calendar.DAY_OF_MONTH));
+                Log.e("calendar",String.valueOf(((AnnualVignette) vignette).getEndDateObject().get(Calendar.YEAR)) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.MONTH) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.DAY_OF_MONTH));
                 finish();
 
             }

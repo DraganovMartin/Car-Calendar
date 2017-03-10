@@ -1,5 +1,7 @@
 package model.Stickers;
 
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,12 +17,16 @@ public class AnnualVignette implements IVignette {
 
     private static final String TYPE = "Annual";
 
-    public AnnualVignette(){}
+    public AnnualVignette(){
+        // Just for testing purposes
+        // View the result in the log with tag calendar
+        endDate.set(startDate.get(Calendar.YEAR)+1,Calendar.JANUARY,31);
+    }
 
     public AnnualVignette(int startYear, int startMonth, int startDay,double price){
         startDate.set(startYear,startMonth,startDay);
-        endDate.set(startYear,startMonth,startDay);
-        endDate.add(Calendar.YEAR,+1);
+        endDate.set(startYear+1,Calendar.JANUARY,31);
+
         this.price = price;
     }
 
