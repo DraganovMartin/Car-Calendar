@@ -67,6 +67,9 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
         return productionYear;
     }
 
+    public void setRegistrationPlate(String registrationPlate){
+        this.registrationPlate = registrationPlate;
+    }
 
     public String getRegistrationPlate() {
         return registrationPlate;
