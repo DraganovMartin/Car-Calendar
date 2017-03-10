@@ -13,6 +13,8 @@ public class WeekVignette implements IVignette {
     private Calendar today = Calendar.getInstance();
     private double price;
 
+    private static final String TYPE = "Weekly";
+
     public WeekVignette(){}
 
     public WeekVignette(int startYear, int startMonth, int startDay,double price){
@@ -52,4 +54,10 @@ public class WeekVignette implements IVignette {
     public double getPrice() {
         return price;
     }
+
+    @Override
+    public String getType() {
+        return TYPE;
+    }
+
 }

@@ -13,6 +13,8 @@ public class AnnualVignette implements IVignette {
     private Calendar today = Calendar.getInstance();
     private double price;
 
+    private static final String TYPE = "Annual";
+
     public AnnualVignette(){}
 
     public AnnualVignette(int startYear, int startMonth, int startDay,double price){
@@ -50,5 +52,10 @@ public class AnnualVignette implements IVignette {
     @Override
     public double getPrice() {
         return price;
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 }
