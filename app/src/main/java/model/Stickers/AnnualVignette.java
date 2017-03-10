@@ -20,8 +20,10 @@ public class AnnualVignette implements IVignette {
         startDate.clear();
         startDate.set(startYear,startMonth,startDay);
         endDate.clear();
-        endDate.set(startYear,startMonth,startDay);
+        endDate.set(startYear+1,Calendar.JANUARY,31);
         endDate.add(Calendar.YEAR,+1);
+
+
         this.price = price;
     }
 

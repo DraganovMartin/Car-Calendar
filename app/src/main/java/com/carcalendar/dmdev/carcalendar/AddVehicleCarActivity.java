@@ -33,7 +33,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private Spinner carTypeSpinner;
     private Spinner engineTypeSpinner;
     private Spinner vignetteTypeSpinner;
-    private EditText registration;
     private EditText yearText;
     private EditText rangeText;
     private EditText brand;
@@ -41,6 +40,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private EditText oilET;
     private EditText taxAmmount;
     private EditText insuranceAmmount;
+    private EditText registrationNumber;
     private Spinner insuranceTypeSpinner;
     private Car car;
     private int vehicleType;
@@ -60,10 +60,10 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         carTypeSpinner = (Spinner) findViewById(R.id.spinner_type_car);
         engineTypeSpinner = (Spinner) findViewById(R.id.spinner_car_engine);
         vignetteTypeSpinner = (Spinner) findViewById(R.id.vignette_type_spinner);
-        registration = (EditText) findViewById(R.id.txt_licence_plate);
         brand = (EditText) findViewById(R.id.vehicle_brand);
         model = (EditText) findViewById(R.id.vehicle_model);
         oilET = (EditText) findViewById(R.id.oilEditText);
+        registrationNumber = (EditText) findViewById(R.id.txt_licence_plate);
         taxAmmount = (EditText) findViewById(R.id.tax_ammount_ET);
         insuranceAmmount = (EditText) findViewById(R.id.insurance_ammount_ET);
         insuranceTypeSpinner = (Spinner) findViewById(R.id.insurance_spinner);
@@ -85,6 +85,82 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
         yearText = (EditText) findViewById(R.id.yearEText);
         rangeText = (EditText) findViewById(R.id.rangeEText);
+
+        // Gets the data from an already registered car
+        // Sets the the data fields using the extra Car object
+        Intent launchingIntent = getIntent();
+        if(launchingIntent.hasExtra("Car object")){
+            car = (Car) launchingIntent.getSerializableExtra("Car object");
+
+
+            // Sets the car image
+            carBtn.setImageResource(car.getImage());
+
+            // Sets the car type for ex. : Sedan, Jeep ...
+            switch (car.getCarType()){
+                case "Sedan":
+                    carTypeSpinner.setSelection(0);
+                    break;
+                case "Jeep":
+                    carTypeSpinner.setSelection(1);
+                    break;
+                case "Hatchback":
+                    carTypeSpinner.setSelection(2);
+                    break;
+                case "Coupe":
+                    carTypeSpinner.setSelection(3);
+            }
+
+            // Sets engine type
+            switch (car.getEngineType()){
+                case "Gasoline":
+                    engineTypeSpinner.setSelection(0);
+                    break;
+                case "Diesel":
+                    engineTypeSpinner.setSelection(1);
+                    break;
+                case "Hybrid":
+                    engineTypeSpinner.setSelection(2);
+            }
+
+            // Sets the vignette type
+            switch (car.getVignette().getType()){
+                case "Weekly":
+                    vignetteTypeSpinner.setSelection(0);
+                    break;
+                case "Monthly":
+                    vignetteTypeSpinner.setSelection(1);
+                    break;
+                case "Annual" :
+                    vignetteTypeSpinner.setSelection(2);
+                    break;
+            }
+
+            // Sets the vehicle brand
+            brand.setText(car.getBrand());
+
+            // Sets the car model
+            model.setText(car.getModel());
+
+            // Sets the tax amount
+            taxAmmount.setText(String.valueOf(car.getVehicleTaxAmmount()));
+
+            // Sets the production year
+            yearText.setText(String.valueOf(car.getProductionYear()));
+
+            // Sets the range
+            rangeText.setText(car.getKmRange());
+
+            // Sets the registrationPlate
+            registrationNumber.setText(car.getRegistrationPlate());
+
+            // TODO implement oilET, insuranceAmmount, insuranceTypeSpinner in model, vehicle dates
+
+        }else{
+            // Initialize an empty car object
+            car=new Car();
+        }
+
 
         carTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -185,10 +261,11 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!registration.getText().toString().isEmpty()){
-                    car.setRegistrationPlate(registration.getText().toString());
+                if(!registrationNumber.getText().toString().isEmpty()){
+                    car.setRegistrationPlate(registrationNumber.getText().toString());
+                }else{
+                    registrationNumber.setError("Please enter a registration number!");
                 }
-                else registration.setError("Please input registration");
                 if(!brand.getText().toString().isEmpty()){
                     car.setBrand(brand.getText().toString());
                 }
@@ -242,7 +319,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 car.setImage(R.mipmap.car_add_image);
                 manager.addVehicle(car);
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
-                Log.e("calendar",String.valueOf(((WeekVignette) vignette).getStartDateObject().get(Calendar.YEAR)) + " " + ((WeekVignette) vignette).getStartDateObject().get(Calendar.MONTH) + " " + ((WeekVignette) vignette).getStartDateObject().get(Calendar.DAY_OF_MONTH));
+                Log.e("calendar",String.valueOf(((AnnualVignette) vignette).getEndDateObject().get(Calendar.YEAR)) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.MONTH) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.DAY_OF_MONTH));
                 finish();
 
             }
