@@ -1,5 +1,6 @@
 package model.Stickers;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -16,7 +17,9 @@ public class AnnualVignette implements IVignette {
     public AnnualVignette(){}
 
     public AnnualVignette(int startYear, int startMonth, int startDay,double price){
+        startDate.clear();
         startDate.set(startYear,startMonth,startDay);
+        endDate.clear();
         endDate.set(startYear,startMonth,startDay);
         endDate.add(Calendar.YEAR,+1);
         this.price = price;
@@ -50,5 +53,19 @@ public class AnnualVignette implements IVignette {
     @Override
     public double getPrice() {
         return price;
+    }
+
+    @Override
+    public String getStartDate() {
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        String date = format1.format(startDate.getTime());
+        return date;
+    }
+
+    @Override
+    public String getEndDate() {
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        String date = format1.format(endDate.getTime());
+        return date;
     }
 }

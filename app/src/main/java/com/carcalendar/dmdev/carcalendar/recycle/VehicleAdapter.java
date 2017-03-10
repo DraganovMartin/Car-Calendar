@@ -19,20 +19,22 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
     private List<Vehicle> vehicleList;
     private final UserManager userManager = UserManager.getInstance();
     private VehicleViewHolder.OnRecyclerViewItemLongPressListener lPressListener;
+    private VehicleViewHolder.OnRecyclerViewItemClickListener clickListener;
 
-    public VehicleAdapter(List<Vehicle> vehicleList, VehicleViewHolder.OnRecyclerViewItemLongPressListener lPressListener){
+    public VehicleAdapter(List<Vehicle> vehicleList, VehicleViewHolder.OnRecyclerViewItemLongPressListener lPressListener, VehicleViewHolder.OnRecyclerViewItemClickListener clickListener){
         this.vehicleList = vehicleList;
         this.lPressListener = lPressListener;
+        this.clickListener = clickListener;
     }
 
     @Override
     public VehicleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.vehicle_view,parent,false);
+                .inflate(R.layout.vehicle_item_view,parent,false);
 
         // Pass the long click listener to the constructor
-        return new VehicleViewHolder(itemView,lPressListener);
+        return new VehicleViewHolder(itemView,lPressListener,clickListener);
     }
 
     @Override

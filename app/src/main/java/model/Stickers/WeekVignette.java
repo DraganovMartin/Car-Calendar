@@ -1,5 +1,6 @@
 package model.Stickers;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -16,7 +17,9 @@ public class WeekVignette implements IVignette {
     public WeekVignette(){}
 
     public WeekVignette(int startYear, int startMonth, int startDay,double price){
+        startDate.clear();
         startDate.set(startYear,startMonth,startDay);
+        endDate.clear();
         endDate.set(startYear,startMonth,startDay);
         endDate.add(Calendar.WEEK_OF_MONTH,+1);
         this.price = price;
@@ -34,10 +37,6 @@ public class WeekVignette implements IVignette {
         return endDate;
     }
 
-    public void setEndDate(Calendar endDate) {
-        this.endDate = endDate;
-    }
-
 
     @Override
     public boolean isValid() {
@@ -51,5 +50,19 @@ public class WeekVignette implements IVignette {
     @Override
     public double getPrice() {
         return price;
+    }
+
+    @Override
+    public String getStartDate() {
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        String date = format1.format(startDate.getTime());
+        return date;
+    }
+
+    @Override
+    public String getEndDate() {
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        String date = format1.format(endDate.getTime());
+        return date;
     }
 }

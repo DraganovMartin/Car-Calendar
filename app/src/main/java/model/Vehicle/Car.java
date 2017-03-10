@@ -1,9 +1,6 @@
 package model.Vehicle;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import model.Stickers.IVignette;
 
 /**
  * Created by DevM on 12/19/2016.
@@ -14,7 +11,7 @@ public class Car extends Vehicle implements Serializable {
     private String engineType;
     private String carType;
     private String kmRange;
-    private double vehicleTaxAmmount;
+    private double vehicleTaxAmount;
     private int image;
 
     public Car(){
@@ -60,13 +57,13 @@ public class Car extends Vehicle implements Serializable {
         }
     }
 
-    public double getVehicleTaxAmmount() {
-        return vehicleTaxAmmount;
+    public double getVehicleTaxAmount() {
+        return vehicleTaxAmount;
     }
 
-    public void setVehicleTaxAmmount(double vehicleTaxAmmount) {
-        if(vehicleTaxAmmount >= 0) {
-            this.vehicleTaxAmmount = vehicleTaxAmmount;
+    public void setVehicleTaxAmount(double vehicleTaxAmount) {
+        if(vehicleTaxAmount >= 0) {
+            this.vehicleTaxAmount = vehicleTaxAmount;
         }
     }
 

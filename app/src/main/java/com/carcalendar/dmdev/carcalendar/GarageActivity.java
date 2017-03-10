@@ -25,9 +25,10 @@ import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleViewHolder;
 
 import model.UserManager;
+import model.Vehicle.Vehicle;
 import model.storage.StorageManager;
 
-public class GarageActivity extends AppCompatActivity implements VehicleViewHolder.OnRecyclerViewItemLongPressListener {
+public class GarageActivity extends AppCompatActivity implements VehicleViewHolder.OnRecyclerViewItemLongPressListener,VehicleViewHolder.OnRecyclerViewItemClickListener {
 
     private UserManager manager = UserManager.getInstance();
     private RecyclerView vehicleList;
@@ -74,7 +75,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         vehicleList.setHasFixedSize(true);
         vehicleListManager = new LinearLayoutManager(this);
         vehicleList.setLayoutManager(vehicleListManager);
-        vAdapter = new VehicleAdapter(manager.getRegisteredUserVehicles(),this);
+        vAdapter = new VehicleAdapter(manager.getRegisteredUserVehicles(),this,this);
         vehicleList.setAdapter(vAdapter);
 
 
@@ -251,7 +252,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
 
     // Handles the event of a long press on a recycler view's item
     @Override
-    public void onRecyclerViewItemLongPress(View v, final int pos) {
+    public void onRecyclerViewItemLongPress(final View v, final int pos) {
         PopupMenu popup = new PopupMenu(v.getContext(),v);
         // Handles the popup menu item's click
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -274,5 +275,13 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.vehicle_options_menu,popup.getMenu());
         popup.show();
+    }
+
+    @Override
+    public void onRecyclerViewClick(View view, int pos) {
+        Vehicle vehicle = manager.getRegisteredUserVehicles().get(pos);
+        Intent toFrag = new Intent(view.getContext(),HoldViewVehicleFragmentActivity.class);
+        toFrag.putExtra("vehicle",vehicle);
+        startActivity(toFrag);
     }
 }

@@ -1,67 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/fragment_add_car">
+    android:layout_height="match_parent">
 
-    <ImageButton
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:srcCompat="@mipmap/car_add_image"
-        android:id="@+id/imageButton_car_add"
+        android:id="@+id/carImage"
+        android:layout_marginTop="23dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="@string/image_car_TView"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageButton_car_add"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:id="@+id/selectCarTV" />
+        android:id="@+id/plateLayout"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/carImage"
+        android:layout_centerHorizontal="true">
 
-    <LinearLayout
-        android:id="@+id/plate_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/selectCarTV"
-        android:paddingEnd="40dp"
-        android:paddingRight="40dp"
-        android:paddingStart="40dp"
-        android:paddingLeft="40dp">
-
-    <TextView
-        android:id="@+id/registration_number"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:text="@string/registration_number"/>
-
-        <EditText
-            android:id="@+id/txt_licence_plate"
-            android:layout_width="0dp"
+        <TextView
+            android:text="@string/registration_number"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLength="8"
-            android:gravity="center"
-            android:hint="@string/lplate_num_hint"/>
+            android:id="@+id/regNum"
+
+
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
+             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/regNumPlate"
+             />
+
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/plate_info"
         android:paddingStart="10dp"
         android:paddingLeft="10dp"
         android:paddingEnd="10dp"
         android:paddingRight="10dp"
         android:paddingTop="25dp"
         android:paddingBottom="10dp"
-        android:layout_above="@+id/buttonsLinearLayot"
-        android:id="@+id/DataScrollView">
+        android:id="@+id/DataScrollView"
+        android:layout_below="@+id/plateLayout">
 
         <TableLayout
             android:layout_width="wrap_content"
@@ -71,39 +61,37 @@
             android:stretchColumns="2,4"
 
             >
-           <TableRow android:layout_width="0dp"
-               android:paddingBottom="40dp">
-               <TextView
-                   android:id="@+id/txt_brand"
-                   android:layout_height="wrap_content"
-                   android:layout_width="wrap_content"
-                   android:layout_column="1"
-                   android:text="@string/vehicle_brand"/>
-               <EditText
-                   android:id="@+id/vehicle_brand"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_column="2"
-                   android:layout_marginEnd="10dp"
-                   android:layout_marginRight="10dp"
-                   android:maxLines="3"
-                   android:gravity="left"
-                   android:hint="@string/vehicle_brand_hint"/>
-               <TextView
-                   android:id="@+id/vehicle_model_TV"
-                   android:layout_height="wrap_content"
-                   android:layout_width="wrap_content"
-                   android:layout_column="3"
-                   android:text="@string/vehicle_model"/>
-               <EditText
-                   android:id="@+id/vehicle_model"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_column="4"
-                   android:maxLines="3"
-                   android:gravity="left"
-                   android:hint="@string/vehicle_model_hint"/>
-           </TableRow>
+            <TableRow android:layout_width="0dp"
+                android:paddingBottom="40dp">
+                <TextView
+                    android:id="@+id/txt_brand"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_column="1"
+                    android:text="@string/vehicle_brand"/>
+                <TextView
+                    android:id="@+id/vehicle_brand_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:maxLines="3"
+                    android:gravity="start" />
+                <TextView
+                    android:id="@+id/vehicle_model_TV"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_column="3"
+                    android:text="@string/vehicle_model"/>
+                <TextView
+                    android:id="@+id/vehicle_model_real"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="4"
+                    android:maxLines="3"
+                    android:gravity="start" />
+            </TableRow>
 
             <TableRow android:layout_width="0dp"
                 android:paddingBottom="40dp">
@@ -114,13 +102,13 @@
                     android:id="@+id/TypeTView"
                     android:layout_column="1"/>
 
-                <Spinner
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_column="2"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:id="@+id/spinner_type_car" />
+                    android:id="@+id/type_carTV" />
 
                 <TextView
                     android:text="@string/engine_car"
@@ -129,11 +117,11 @@
                     android:layout_column="3"
                     android:id="@+id/engine_car_TView" />
 
-                <Spinner
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_column="4"
-                    android:id="@+id/spinner_car_engine" />
+                    android:id="@+id/car_engineTV" />
             </TableRow>
 
             <TableRow android:layout_width="0dp"
@@ -145,101 +133,91 @@
                     android:layout_column="1"
                     android:id="@+id/yearTView"/>
 
-                <EditText
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:layout_column="2"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:inputType="number"
                     android:maxLength="4"
-                    android:id="@+id/yearEText"
-                    android:hint="1998" />
+                    android:id="@+id/yearTVVehicle" />
 
                 <TextView
                     android:text="@string/range"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="3"
-                    android:id="@+id/textView4" />
+                    android:id="@+id/rangeTView" />
 
-                <EditText
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="4"
-                    android:gravity="left"
-                    android:inputType="number"
-                    android:hint="122000"
-                    android:id="@+id/rangeEText" />
+                    android:gravity="start"
+                    android:id="@+id/rangeTVVehicle" />
             </TableRow>
 
             <TableRow android:layout_width="0dp"
                 android:paddingBottom="40dp">
                 <TextView
-                    android:text="@string/vignette_type"
+                    android:text="@string/vignette_start_day"
                     android:layout_width="wrap_content"
                     android:layout_column="1"
                     android:layout_height="wrap_content"
-                    android:id="@+id/vignette_type" />
+                    android:id="@+id/vignette_start" />
 
-                <Spinner
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_column="2"
-                    android:id="@+id/vignette_type_spinner"/>
+                    android:id="@+id/vignette_startTV"/>
 
                 <TextView
-                    android:text="@string/vignette_start_day"
+                    android:text="@string/vignette_end_day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="3"
-                    android:id="@+id/vignette_start_TV" />
+                    android:id="@+id/vignette_end_TV" />
 
-                <Button
-                    android:text="@string/pick_date"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:id="@+id/date_btn"
-                    android:layout_column="4"
-                    android:onClick="selectDate"/>
+                    android:id="@+id/dateTV"
+                    android:layout_column="4" />
             </TableRow>
             <TableRow android:layout_width="0dp"
                 android:paddingBottom="40dp">
 
                 <TextView
-                    android:text="Next oil :\nchange"
+                    android:text="@string/next_oil_change"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
                     android:id="@+id/vehicle_next_oil_change_TV" />
 
-                <EditText
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="123000"
                     android:layout_column="2"
-                    android:id="@+id/oilEditText" />
+                    android:id="@+id/oilChangeTV" />
 
                 <TextView
-                    android:text="Vehicle Tax :\nammount"
+                    android:text="@string/vehicle_tax_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="3"
-                    android:id="@+id/vehicle_tax_ammount" />
+                    android:id="@+id/vehicle_tax_amount" />
 
-               <EditText
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_column="4"
-                   android:inputType="numberDecimal"
-                   android:hint="125.25"
-                   android:id="@+id/tax_ammount_ET"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="4"
+                    android:id="@+id/tax_amount_TV"/>
             </TableRow>
 
             <TableRow
@@ -247,21 +225,19 @@
                 android:paddingBottom="40dp">
 
                 <TextView
-                    android:text="Next Tax\npayment"
+                    android:text="@string/next_tax_payment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
                     android:id="@+id/vehicle_next_tax_payment" />
 
-                <Button
-                    android:text="@string/pick_date"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:id="@+id/btn_next_payment"
-                    android:layout_column="2"
-                    android:onClick="selectDate"/>
+                    android:id="@+id/tax_payment_atTV"
+                    android:layout_column="2"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -269,13 +245,11 @@
                     android:layout_column="3"
                     android:text="@string/vehicle_insurance_amount"/>
 
-                <EditText
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="4"
-                    android:inputType="numberDecimal"
-                    android:hint="125.25"
-                    android:id="@+id/insurance_ammount_ET"/>
+                    android:id="@+id/insurance_amount_TV"/>
 
             </TableRow>
 
@@ -287,66 +261,34 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_column="1"
-                    android:text="@string/insurance_period_type"
-                    android:id="@+id/insurance_period_TV"/>
+                    android:text="@string/vehicle_insurance_start" />
 
-                <Spinner
+                <TextView
                     android:layout_column="2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:id="@+id/insurance_spinner">
-                </Spinner>
+                    android:id="@+id/insurance_start_TV" />
 
                 <TextView
                     android:layout_column="3"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="Insurance start :\n day"/>
+                    android:text="@string/insurance_end_day"/>
 
-                <Button
-                    android:text="@string/pick_date"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:id="@+id/btn_insurance_start"
-                    android:layout_column="4"
-                    android:onClick="selectDate"/>
+                    android:id="@+id/insurance_end_TV"
+                    android:layout_column="4" />
 
-                </TableRow>
+            </TableRow>
         </TableLayout>
 
     </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/buttonsLinearLayot">
-
-        <Button
-            android:text="@string/cancel_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
-            android:id="@+id/cancel_car_btn" />
-
-
-        <Button
-            android:text="@string/save_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btn_car_save"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"/>
-    </LinearLayout>
-
 
 
 </RelativeLayout>

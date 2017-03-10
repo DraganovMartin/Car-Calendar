@@ -21,7 +21,7 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
         myId = ++id;
     }
 
-    public Vehicle(String brand, String model,int productionYear,String registrationPlate, IVignette vignette){
+    public Vehicle(String brand, String model, int productionYear, String registrationPlate, IVignette vignette){
         this.brand = brand;
         this.model = model;
         this.productionYear = productionYear;
@@ -67,6 +67,9 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
         return productionYear;
     }
 
+    public void setRegistrationPlate(String registrationPlate) {
+        this.registrationPlate = registrationPlate;
+    }
 
     public String getRegistrationPlate() {
         return registrationPlate;

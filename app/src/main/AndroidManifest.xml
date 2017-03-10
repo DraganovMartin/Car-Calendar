@@ -43,10 +43,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddVehicleCarActivity" />
-        <activity android:name=".UploadImageFromActivityDialog"
-            android:theme="@android:style/Theme.Holo.Dialog">
-
-        </activity>
+        <activity
+            android:name=".UploadImageFromActivityDialog"
+            android:theme="@android:style/Theme.Holo.Dialog" />
+        <activity android:name=".FragmentVehicleViewActivity" />
+        <activity android:name=".HoldViewVehicleFragmentActivity"></activity>
     </application>
 
 </manifest>

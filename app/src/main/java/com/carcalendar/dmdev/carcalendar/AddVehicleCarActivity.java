@@ -33,6 +33,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private Spinner carTypeSpinner;
     private Spinner engineTypeSpinner;
     private Spinner vignetteTypeSpinner;
+    private EditText registration;
     private EditText yearText;
     private EditText rangeText;
     private EditText brand;
@@ -59,6 +60,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         carTypeSpinner = (Spinner) findViewById(R.id.spinner_type_car);
         engineTypeSpinner = (Spinner) findViewById(R.id.spinner_car_engine);
         vignetteTypeSpinner = (Spinner) findViewById(R.id.vignette_type_spinner);
+        registration = (EditText) findViewById(R.id.txt_licence_plate);
         brand = (EditText) findViewById(R.id.vehicle_brand);
         model = (EditText) findViewById(R.id.vehicle_model);
         oilET = (EditText) findViewById(R.id.oilEditText);
@@ -183,6 +185,10 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!registration.getText().toString().isEmpty()){
+                    car.setRegistrationPlate(registration.getText().toString());
+                }
+                else registration.setError("Please input registration");
                 if(!brand.getText().toString().isEmpty()){
                     car.setBrand(brand.getText().toString());
                 }

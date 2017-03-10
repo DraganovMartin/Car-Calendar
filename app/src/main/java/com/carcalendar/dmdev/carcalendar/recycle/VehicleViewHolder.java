@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.carcalendar.dmdev.carcalendar.R;
 
-public class VehicleViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+public class VehicleViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
 
     protected ImageView vehicleImage;
     protected TextView vehicleBrand;
@@ -15,8 +15,9 @@ public class VehicleViewHolder extends RecyclerView.ViewHolder implements View.O
     protected TextView vehicleYear;
     protected TextView vehicleRange;
     private OnRecyclerViewItemLongPressListener recyclerViewLongPressListener;
+    private OnRecyclerViewItemClickListener recyclerViewItemClickListener;
 
-    public VehicleViewHolder(View view,OnRecyclerViewItemLongPressListener rViewLongPressListener){
+    public VehicleViewHolder(View view,OnRecyclerViewItemLongPressListener rViewLongPressListener, OnRecyclerViewItemClickListener rViewClickListener){
         super(view);
         vehicleImage = (ImageView) view.findViewById(R.id.vehicle_image);
         vehicleBrand = (TextView) view.findViewById(R.id.vehicle_brand);
@@ -24,13 +25,20 @@ public class VehicleViewHolder extends RecyclerView.ViewHolder implements View.O
         vehicleYear = (TextView) view.findViewById(R.id.year_vehicle_view_TV);
         vehicleRange = (TextView) view.findViewById(R.id.range_vehicle_view_TV);
         view.setOnLongClickListener(this);
+        view.setOnClickListener(this);
         recyclerViewLongPressListener = rViewLongPressListener;
+        recyclerViewItemClickListener = rViewClickListener;
     }
 
     @Override
     public boolean onLongClick(View v) {
         recyclerViewLongPressListener.onRecyclerViewItemLongPress(v,getAdapterPosition());
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        recyclerViewItemClickListener.onRecyclerViewClick(view,getAdapterPosition());
     }
 
     /**
@@ -43,5 +51,9 @@ public class VehicleViewHolder extends RecyclerView.ViewHolder implements View.O
          * @param pos the position of <code>v</code> in the recycler view
          */
         void onRecyclerViewItemLongPress(View v,final int pos);
+    }
+
+    public  interface  OnRecyclerViewItemClickListener{
+        void onRecyclerViewClick(View view,final int pos);
     }
 }

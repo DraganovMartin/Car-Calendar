@@ -9,4 +9,6 @@ import java.io.Serializable;
 public interface IVignette extends Serializable {
     boolean isValid();
     double getPrice();
+    String getStartDate();
+    String getEndDate();
 }

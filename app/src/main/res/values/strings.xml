@@ -54,7 +54,7 @@
     <string name="year">Year :</string>
     <string name="range">Range :\n in km</string>
     <string name="vignette_type">Vignette :\n type</string>
-    <string name="vignette_start_day">Vignette  \n start day</string>
+    <string name="vignette_start_day">Vignette : \n start day</string>
     <string name="pick_date">Pick date</string>
     <string name="cancel_btn">Cancel</string>
     <string name="save_btn">Save</string>
@@ -69,8 +69,15 @@
     <string name="it_delete">Delete</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="vehicle_insurance_ammount">Vehicle insurance :\nammount</string>
-    <string name="vehicle_insurance_period">Insurance period :</string>
+    <string name="vehicle_insurance_amount">Vehicle insurance :\namount</string>
+    <string name="vehicle_insurance_start">Insurance start :</string>
+    <string name="year_hint">1998</string>
+    <string name="vignette_end_day">Vignette : \nend day</string>
+    <string name="insurance_end_day">Insurance : \nend day</string>
+    <string name="next_oil_change">Next oil :\n change</string>
+    <string name="vehicle_tax_amount">Vehicle Tax : \namount</string>
+    <string name="next_tax_payment">Next Tax :\n payment</string>
+    <string name="insurance_period_type">Insurance :\n  period type</string>
 
 
 </resources>
