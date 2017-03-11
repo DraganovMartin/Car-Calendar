@@ -67,8 +67,6 @@
     <string name="it_edit">Edit</string>
     <string name="it_diary">Diary</string>
     <string name="it_delete">Delete</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="vehicle_insurance_amount">Vehicle insurance :\namount</string>
     <string name="vehicle_insurance_start">Insurance start :</string>
     <string name="year_hint">1998</string>

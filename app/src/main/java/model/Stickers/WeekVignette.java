@@ -68,6 +68,6 @@ public class WeekVignette implements IVignette {
 
     @Override
     public String getType() {
-        return "Week";
+        return "Weekly";
     }
 }

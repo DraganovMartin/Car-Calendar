@@ -68,6 +68,6 @@ public class MonthVignette implements IVignette {
 
     @Override
     public String getType() {
-        return "Month";
+        return "Monthly";
     }
 }

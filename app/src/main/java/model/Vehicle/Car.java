@@ -1,6 +1,7 @@
 package model.Vehicle;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 /**
  * Created by DevM on 12/19/2016.
@@ -13,6 +14,8 @@ public class Car extends Vehicle implements Serializable {
     private String kmRange;
     private double vehicleTaxAmount;
     private int image;
+    private long oilChangeKm;
+    private Calendar nextTaxPayment = Calendar.getInstance();
 
     public Car(){
         super();

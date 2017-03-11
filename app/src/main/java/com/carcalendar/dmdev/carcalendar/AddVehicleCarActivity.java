@@ -68,9 +68,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         insuranceAmmount = (EditText) findViewById(R.id.insurance_ammount_ET);
         insuranceTypeSpinner = (Spinner) findViewById(R.id.insurance_spinner);
 
-        car=new Car();
-
-
         String [] carType = getResources().getStringArray(R.array.CarTypes);
         populateSpinner(carTypeSpinner,carType);
 
