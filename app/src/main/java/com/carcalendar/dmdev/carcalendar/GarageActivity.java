@@ -260,6 +260,10 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.it_edit:
+                        Vehicle vehicle = manager.getRegisteredUserVehicles().get(pos);
+                        Intent edit = new Intent(v.getContext(),AddVehicleCarActivity.class);
+                        edit.putExtra("Car object",vehicle);
+                        startActivity(edit);
                         return true;
                     case R.id.it_diary:
                         return true;

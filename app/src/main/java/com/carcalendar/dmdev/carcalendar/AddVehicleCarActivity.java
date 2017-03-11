@@ -1,10 +1,14 @@
 package com.carcalendar.dmdev.carcalendar;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,8 +20,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.dialogs.DatePickerFragment;
-
-import java.util.Calendar;
 
 import model.Stickers.AnnualVignette;
 import model.Stickers.IVignette;
@@ -47,6 +49,9 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private IVignette vignette = null;
     private boolean datePickerActivated = false;
     private UserManager manager = UserManager.getInstance();
+
+    private static final int REQUEST_IMAGE_CAMERA = 0;
+    private static final int REQUEST_IMAGE_GALLERY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +99,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
 
             // Sets the car image
-            carBtn.setImageResource(car.getImage());
+            carBtn.setImageBitmap(car.getImage());
 
             // Sets the car type for ex. : Sedan, Jeep ...
             switch (car.getCarType()){
@@ -250,13 +255,39 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             }
         });
 
+        // TODO : Debug why image is not displaying using URI and why is not saving using Bitmap
+        // TODO : Fix UI, test on different OS versions and screen sizes, polish most of the bugs to remain only he service next week :)
+
         carBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),UploadImageFromActivityDialog.class);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Upload image");
+                builder.setMessage("Choose image from");
+                builder.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAMERA);
+                        }
+                    }
+                });
+                builder.setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("image/*");
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
+
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -323,10 +354,10 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     Toast.makeText(getApplicationContext(),"Please choose vignette start day !!!",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                car.setImage(R.mipmap.car_add_image);
+                car.setImage(carBtn.getDrawingCache());
                 manager.addVehicle(car);
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
-                Log.e("calendar",String.valueOf(((AnnualVignette) vignette).getEndDateObject().get(Calendar.YEAR)) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.MONTH) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.DAY_OF_MONTH));
+                //Log.e("calendar",String.valueOf(((AnnualVignette) vignette).getEndDateObject().get(Calendar.YEAR)) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.MONTH) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.DAY_OF_MONTH));
                 finish();
 
             }
@@ -378,7 +409,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        //TODO date verification and add in classes
         if(vignette instanceof WeekVignette){
             ((WeekVignette) vignette).setStartDate(year,month,day);
         }
@@ -390,5 +420,23 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAMERA && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = extras.getParcelable("data");
+            Uri fullPhotoUri = data.getData();
+            carBtn.setImageURI(fullPhotoUri);
+            carBtn.refreshDrawableState();
+        }
+
+        if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap thumbnail = extras.getParcelable("data");
+            Uri fullPhotoUri = data.getData();
+            carBtn.setImageURI(fullPhotoUri);
+            carBtn.refreshDrawableState();
+        }
+    }
 }
 

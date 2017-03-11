@@ -1,5 +1,7 @@
 package model.Vehicle;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -12,7 +14,10 @@ public class Car extends Vehicle implements Serializable {
     private String carType;
     private String kmRange;
     private double vehicleTaxAmount;
-    private int image;
+    /**
+     * Android specific
+     */
+    private Bitmap image;
 
     public Car(){
         super();
@@ -67,11 +72,19 @@ public class Car extends Vehicle implements Serializable {
         }
     }
 
-    public int getImage() {
+    /**
+     * Android specific
+     * @return image - Bitmap
+     */
+    public Bitmap getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    /**
+     * Android specific
+     * @param image - Bitmap
+     */
+    public void setImage(Bitmap image) {
         this.image = image;
     }
 

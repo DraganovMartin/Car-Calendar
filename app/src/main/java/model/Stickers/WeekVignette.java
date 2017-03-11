@@ -30,7 +30,11 @@ public class WeekVignette implements IVignette {
     }
 
     public void setStartDate(int startYear, int startMonth, int startDay) {
+        startDate.clear();
         startDate.set(startYear,startMonth,startDay);
+        endDate.clear();
+        endDate.set(startYear,startMonth,startDay);
+        endDate.add(Calendar.WEEK_OF_MONTH,+1);
     }
 
     public Calendar getEndDateObject() {
@@ -68,6 +72,6 @@ public class WeekVignette implements IVignette {
 
     @Override
     public String getType() {
-        return "Week";
+        return "Weekly";
     }
 }

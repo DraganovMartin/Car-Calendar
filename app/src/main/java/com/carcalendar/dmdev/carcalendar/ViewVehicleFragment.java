@@ -60,7 +60,7 @@ public class ViewVehicleFragment extends Fragment {
         }
         else motorcycle = (Motorcycle) vehicle;
         if(car != null){
-            imageView.setImageResource(car.getImage());
+            imageView.setImageBitmap(car.getImage());
             registation.setText(car.getRegistrationPlate());
             brand.setText(car.getBrand());
             model.setText(car.getModel());

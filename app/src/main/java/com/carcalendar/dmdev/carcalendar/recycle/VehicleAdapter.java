@@ -49,7 +49,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
         if(vehicleList.get(position) instanceof Car){
             car =(Car) vehicleList.get(position);
 
-            holder.vehicleImage.setImageResource(car.getImage());
+            holder.vehicleImage.setImageBitmap(car.getImage());
             holder.vehicleBrand.setText(car.getBrand());
             holder.vehicleModel.setText(car.getModel());
             holder.vehicleYear.setText(String.valueOf(car.getProductionYear()));
