@@ -21,7 +21,6 @@ public class AnnualVignette implements IVignette {
         startDate.set(startYear,startMonth,startDay);
         endDate.clear();
         endDate.set(startYear+1,Calendar.JANUARY,31);
-        endDate.add(Calendar.YEAR,+1);
 
 
         this.price = price;
@@ -32,7 +31,10 @@ public class AnnualVignette implements IVignette {
     }
 
     public void setStartDate(int startYear, int startMonth, int startDay) {
+        startDate.clear();
         startDate.set(startYear,startMonth,startDay);
+        endDate.clear();
+        endDate.set(startYear+1,Calendar.JANUARY,31);
     }
 
     public Calendar getEndDateObject() {

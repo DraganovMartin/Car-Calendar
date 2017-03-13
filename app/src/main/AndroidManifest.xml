@@ -11,6 +11,8 @@
         <service
             android:name="model.storage.StorageManager"
             android:enabled="true" />
+        <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
 
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
@@ -43,10 +45,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddVehicleCarActivity" />
-        <activity
-            android:name=".UploadImageFromActivityDialog"
-            android:theme="@android:style/Theme.Holo.Dialog" />
-        <activity android:name=".FragmentVehicleViewActivity" />
+
         <activity android:name=".HoldViewVehicleFragmentActivity"></activity>
     </application>
 
