@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +21,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.dialogs.DatePickerFragment;
+import com.carcalendar.dmdev.carcalendar.services.ImageSaver;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import model.Stickers.AnnualVignette;
 import model.Stickers.IVignette;
@@ -72,9 +79,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         taxAmount = (EditText) findViewById(R.id.tax_ammount_ET);
         insuranceAmmount = (EditText) findViewById(R.id.insurance_ammount_ET);
         insuranceTypeSpinner = (Spinner) findViewById(R.id.insurance_spinner);
-
-        car=new Car();
-
 
         String [] carType = getResources().getStringArray(R.array.CarTypes);
         populateSpinner(carTypeSpinner,carType);
@@ -268,6 +272,12 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                        Intent imageSaver = new Intent(getApplicationContext(),ImageSaver.class);
+                        startService(imageSaver);
+
+                        // TODO Get result from Service
+                        // TODO add storage permission
                         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAMERA);
                         }
@@ -345,16 +355,17 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
                 if(!taxAmount.getText().toString().isEmpty()){
                     car.setVehicleTaxAmount(Double.valueOf(taxAmount.getText().toString()));
-                }
+                                    }
                 else{
                     taxAmount.setError("Please input tax amount");
+                    return;
                 }
 
                 if(!datePickerActivated){
                     Toast.makeText(getApplicationContext(),"Please choose vignette start day !!!",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                car.setImage(carBtn.getDrawingCache());
+
                 manager.addVehicle(car);
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
                 //Log.e("calendar",String.valueOf(((AnnualVignette) vignette).getEndDateObject().get(Calendar.YEAR)) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.MONTH) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.DAY_OF_MONTH));
@@ -422,21 +433,24 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Bitmap photo=null;
         if (requestCode == REQUEST_IMAGE_CAMERA && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = extras.getParcelable("data");
-            Uri fullPhotoUri = data.getData();
-            carBtn.setImageURI(fullPhotoUri);
-            carBtn.refreshDrawableState();
+            photo = (Bitmap) data.getExtras().get("data");
         }
 
-        if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap thumbnail = extras.getParcelable("data");
-            Uri fullPhotoUri = data.getData();
-            carBtn.setImageURI(fullPhotoUri);
-            carBtn.refreshDrawableState();
+        try{
+            if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK) {
+                Uri fullPhotoUri = data.getData();
+                photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fullPhotoUri);
+            }
+        } catch (IOException e) {
+            Log.e(AddVehicleCarActivity.class.getName(),e.getMessage());
         }
+
+        carBtn.setImageBitmap(photo);
+        car.setImage(photo);
+        carBtn.refreshDrawableState();
     }
 }
 

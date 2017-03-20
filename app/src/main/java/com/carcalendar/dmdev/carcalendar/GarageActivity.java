@@ -26,7 +26,7 @@ import com.carcalendar.dmdev.carcalendar.recycle.VehicleViewHolder;
 
 import model.UserManager;
 import model.Vehicle.Vehicle;
-import model.storage.StorageManager;
+import com.carcalendar.dmdev.carcalendar.services.StorageManager;
 
 public class GarageActivity extends AppCompatActivity implements VehicleViewHolder.OnRecyclerViewItemLongPressListener,VehicleViewHolder.OnRecyclerViewItemClickListener {
 

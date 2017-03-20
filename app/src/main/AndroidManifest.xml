@@ -9,10 +9,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name="model.storage.StorageManager"
+            android:name=".services.StorageManager"
             android:enabled="true" />
-        <uses-feature android:name="android.hardware.camera"
-        android:required="false" />
+
+        <uses-feature
+            android:name="android.hardware.camera"
+            android:required="false" />
 
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
@@ -45,8 +47,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddVehicleCarActivity" />
+        <activity android:name=".HoldViewVehicleFragmentActivity" />
 
-        <activity android:name=".HoldViewVehicleFragmentActivity"></activity>
+        <service
+            android:name=".services.ImageSaver"
+            android:exported="false"></service>
     </application>
 
 </manifest>
