@@ -21,7 +21,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.dialogs.DatePickerFragment;
+import com.carcalendar.dmdev.carcalendar.services.ImageSaver;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -269,6 +272,12 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                        Intent imageSaver = new Intent(getApplicationContext(),ImageSaver.class);
+                        startService(imageSaver);
+
+                        // TODO Get result from Service
+                        // TODO add storage permission
                         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAMERA);
                         }

@@ -1,7 +1,6 @@
 package com.carcalendar.dmdev.carcalendar;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
@@ -27,7 +26,7 @@ import com.carcalendar.dmdev.carcalendar.recycle.VehicleViewHolder;
 
 import model.UserManager;
 import model.Vehicle.Vehicle;
-import model.storage.StorageManager;
+import com.carcalendar.dmdev.carcalendar.services.StorageManager;
 
 public class GarageActivity extends AppCompatActivity implements VehicleViewHolder.OnRecyclerViewItemLongPressListener,VehicleViewHolder.OnRecyclerViewItemClickListener {
 

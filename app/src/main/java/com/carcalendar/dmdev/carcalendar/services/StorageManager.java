@@ -1,4 +1,4 @@
-package model.storage;
+package com.carcalendar.dmdev.carcalendar.services;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 
 import model.UserManager;
 import model.Vehicle.Vehicle;
+import model.storage.Storable;
 
 public class StorageManager extends IntentService implements Storable {
 
