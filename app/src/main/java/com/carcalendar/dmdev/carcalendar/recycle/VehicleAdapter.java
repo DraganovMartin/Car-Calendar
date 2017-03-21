@@ -1,5 +1,6 @@
 package com.carcalendar.dmdev.carcalendar.recycle;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,12 +8,14 @@ import android.view.ViewGroup;
 
 import com.carcalendar.dmdev.carcalendar.R;
 
+import java.io.File;
 import java.util.List;
 
 import model.UserManager;
 import model.Vehicle.Car;
 import model.Vehicle.Motorcycle;
 import model.Vehicle.Vehicle;
+import model.util.ImageUtils;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
 
@@ -49,7 +52,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
         if(vehicleList.get(position) instanceof Car){
             car =(Car) vehicleList.get(position);
 
-            holder.vehicleImage.setImageBitmap(car.getImage());
+            holder.vehicleImage.setImageBitmap(ImageUtils.getScaledBitmapFromPath(car.getPathToImage(),holder.vehicleImage.getWidth(),holder.vehicleImage.getHeight()));
             holder.vehicleBrand.setText(car.getBrand());
             holder.vehicleModel.setText(car.getModel());
             holder.vehicleYear.setText(String.valueOf(car.getProductionYear()));
@@ -58,7 +61,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
 //        else{
 //            motorcycle = (Motorcycle) vehicleList.get(position);
 //
-//            holder.vehicleImage.setImageResource(motorcycle.getImage());
+//            holder.vehicleImage.setImageResource(motorcycle.getPathToImage());
 //            holder.vehicleBrand.setText(motorcycle.getCarType());
 //            holder.vehicleModel.setText(motorcycle.getModel());
 //            holder.vehicleYear.setText(motorcycle.valueOf(car.getProductionYear()));

@@ -1,6 +1,7 @@
 package com.carcalendar.dmdev.carcalendar;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,9 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+
 import model.Vehicle.Car;
 import model.Vehicle.Motorcycle;
 import model.Vehicle.Vehicle;
+import model.util.ImageUtils;
 
 
 /**
@@ -60,7 +64,7 @@ public class ViewVehicleFragment extends Fragment {
         }
         else motorcycle = (Motorcycle) vehicle;
         if(car != null){
-            imageView.setImageBitmap(car.getImage());
+            imageView.setImageBitmap(ImageUtils.getScaledBitmapFromPath(car.getPathToImage(),imageView.getWidth(),imageView.getHeight()));
             registation.setText(car.getRegistrationPlate());
             brand.setText(car.getBrand());
             model.setText(car.getModel());

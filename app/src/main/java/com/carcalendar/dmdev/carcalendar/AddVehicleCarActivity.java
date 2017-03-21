@@ -4,10 +4,14 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -21,11 +25,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.dialogs.DatePickerFragment;
-import com.carcalendar.dmdev.carcalendar.services.ImageSaver;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import model.Stickers.AnnualVignette;
@@ -34,11 +35,13 @@ import model.Stickers.MonthVignette;
 import model.Stickers.WeekVignette;
 import model.UserManager;
 import model.Vehicle.Car;
+import model.util.ImageUtils;
 
 public class AddVehicleCarActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
     private Button saveBtn;
     private Button cancelBtn;
     private ImageButton carBtn;
+    private String pathToImage;
     private Spinner carTypeSpinner;
     private Spinner engineTypeSpinner;
     private Spinner vignetteTypeSpinner;
@@ -102,8 +105,8 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             car = (Car) launchingIntent.getSerializableExtra("Car object");
 
 
-            // Sets the car image
-            carBtn.setImageBitmap(car.getImage());
+
+            carBtn.setImageBitmap(ImageUtils.getScaledBitmapFromPath(car.getPathToImage(),carBtn.getWidth(),carBtn.getHeight()));
 
             // Sets the car type for ex. : Sedan, Jeep ...
             switch (car.getCarType()){
@@ -168,6 +171,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         }else{
             // Initialize an empty car object
             car=new Car();
+            pathToImage = null;
         }
 
 
@@ -259,9 +263,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             }
         });
 
-        // TODO : Debug why image is not displaying using URI and why is not saving using Bitmap
-        // TODO : Fix UI, test on different OS versions and screen sizes, polish most of the bugs to remain only he service next week :)
-
         carBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -273,13 +274,26 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                        Intent imageSaver = new Intent(getApplicationContext(),ImageSaver.class);
-                        startService(imageSaver);
+//                        Intent imageSaver = new Intent(getApplicationContext(),ImageSaver.class);
+//                        startService(imageSaver);
 
                         // TODO Get result from Service
                         // TODO add storage permission
                         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAMERA);
+                            File photoFile = null;
+                            try {
+                                File directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                                photoFile = ImageUtils.createImageFile(directory.toString());
+                            } catch (Exception ex) {
+                                System.err.println("Something went wrong with creating file for image");
+                                ex.printStackTrace();
+                            }
+                            if (photoFile != null) {
+                                pathToImage = photoFile.getAbsolutePath();
+                                Uri photoURI = Uri.fromFile(photoFile);
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAMERA);
+                            }
                         }
                     }
                 });
@@ -365,6 +379,9 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     Toast.makeText(getApplicationContext(),"Please choose vignette start day !!!",Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(pathToImage != null && !pathToImage.isEmpty()){
+                    car.setPathToImage(pathToImage);
+                }
 
                 manager.addVehicle(car);
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
@@ -433,23 +450,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        Bitmap photo=null;
-        if (requestCode == REQUEST_IMAGE_CAMERA && resultCode == RESULT_OK) {
-            photo = (Bitmap) data.getExtras().get("data");
-        }
-
-        try{
-            if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK) {
-                Uri fullPhotoUri = data.getData();
-                photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fullPhotoUri);
-            }
-        } catch (IOException e) {
-            Log.e(AddVehicleCarActivity.class.getName(),e.getMessage());
-        }
-
-        carBtn.setImageBitmap(photo);
-        car.setImage(photo);
+        carBtn.setImageBitmap(ImageUtils.getScaledBitmapFromPath(pathToImage,carBtn.getWidth(),carBtn.getHeight()));
         carBtn.refreshDrawableState();
     }
 }

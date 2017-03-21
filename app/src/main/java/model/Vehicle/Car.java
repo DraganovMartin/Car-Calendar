@@ -14,10 +14,7 @@ public class Car extends Vehicle implements Serializable {
     private String carType;
     private String kmRange;
     private double vehicleTaxAmount;
-    /**
-     * Android specific
-     */
-    private Bitmap image;
+    private String pathToImage;
 
     public Car(){
         super();
@@ -72,20 +69,12 @@ public class Car extends Vehicle implements Serializable {
         }
     }
 
-    /**
-     * Android specific
-     * @return image - Bitmap
-     */
-    public Bitmap getImage() {
-        return image;
+    public String getPathToImage() {
+        return pathToImage;
     }
 
-    /**
-     * Android specific
-     * @param image - Bitmap
-     */
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setPathToImage(String pathToImage) {
+        this.pathToImage = pathToImage;
     }
 
 }
