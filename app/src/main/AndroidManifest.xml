@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.carcalendar.dmdev.carcalendar">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/car_calendar_icon"
@@ -15,6 +17,16 @@
         <uses-feature
             android:name="android.hardware.camera"
             android:required="false" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.carcalendar.dmdev.carcalendar.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
 
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
@@ -49,9 +61,6 @@
         <activity android:name=".AddVehicleCarActivity" />
         <activity android:name=".HoldViewVehicleFragmentActivity" />
 
-        <service
-            android:name=".services.ImageSaver"
-            android:exported="false"></service>
     </application>
 
 </manifest>
