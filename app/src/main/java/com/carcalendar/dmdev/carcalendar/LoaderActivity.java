@@ -15,8 +15,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.UserManager;
+import model.Vehicle.Vehicle;
+import model.util.ImageUtils;
 
 public class LoaderActivity extends AppCompatActivity {
 
@@ -73,6 +77,10 @@ public class LoaderActivity extends AppCompatActivity {
                         File file = new File(path);
                         ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
                         manager.updateFromFile((UserManager) in.readObject());
+                        ArrayList<Vehicle> list = (ArrayList<Vehicle>) manager.getRegisteredUserVehicles();
+                        for (Vehicle x: list) {
+                            ImageUtils.mapImageToCar(x,ImageUtils.getBitmapFromPath(x.getPathToImage()));
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (ClassNotFoundException e) {

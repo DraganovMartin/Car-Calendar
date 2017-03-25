@@ -37,7 +37,6 @@ public class RegisterHelp extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO activity started from different task
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button (API < 15)
             case android.R.id.home:

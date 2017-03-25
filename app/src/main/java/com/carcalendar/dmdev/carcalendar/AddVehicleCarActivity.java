@@ -1,7 +1,9 @@
 package com.carcalendar.dmdev.carcalendar;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -32,6 +35,7 @@ import com.carcalendar.dmdev.carcalendar.dialogs.DatePickerFragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import model.Stickers.AnnualVignette;
 import model.Stickers.IVignette;
@@ -63,6 +67,9 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private IVignette vignette = null;
     private boolean datePickerActivated = false;
     private UserManager manager = UserManager.getInstance();
+
+    private Uri photoURIFromCamera;
+    private Bitmap imageContainer;
 
     private static final int REQUEST_IMAGE_CAMERA = 0;
     private static final int REQUEST_IMAGE_GALLERY = 1;
@@ -175,6 +182,9 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             // Initialize an empty car object
             car = new Car();
             pathToImage = null;
+            photoURIFromCamera = null;
+            imageContainer = null;
+            saveBtn.setClickable(false);
         }
 
 
@@ -288,23 +298,27 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                             }
                             if (photoFile != null) {
                                 pathToImage = photoFile.getAbsolutePath();
-                                Uri photoURI = FileProvider.getUriForFile(getApplicationContext(),
+                                photoURIFromCamera = FileProvider.getUriForFile(getApplicationContext(),
                                         "com.carcalendar.dmdev.carcalendar.fileprovider",photoFile);
-                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURIFromCamera);
                                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAMERA);
                             }
                         }
                     }
                 });
+                /**
+                 * This way is better because we enforce only images to be chosen, also there is no need to provide permission
+                 * @see <a href="http://codetheory.in/android-pick-select-image-from-gallery-with-intents/">Gallery intent options</a>
+                 */
                 builder.setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(Intent.ACTION_PICK,
-                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                        if (intent.resolveActivity(getPackageManager()) != null) {
-                            startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
-                        }
+                        Intent intent = new Intent();
+                        // Show only images, no videos or anything else
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        // Always show the chooser (if there are multiple options available)
+                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_IMAGE_GALLERY);
                     }
                 });
                 AlertDialog dialog = builder.create();
@@ -379,6 +393,14 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     car.setPathToImage(pathToImage);
                 }
 
+                if (imageContainer != null){
+                    ImageUtils.mapImageToCar(car,imageContainer);
+                }
+                else {
+                    Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.car_add_image);
+                    ImageUtils.mapImageToCar(car,bm);
+                }
+
                 manager.addVehicle(car);
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
                 //Log.e("calendar",String.valueOf(((AnnualVignette) vignette).getEndDateObject().get(Calendar.YEAR)) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.MONTH) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.DAY_OF_MONTH));
@@ -446,66 +468,59 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK) {
-            Uri selectedImageUri = data.getData();
-            requestExternalStoragePermission();
-            pathToImage = getPathFromURI(selectedImageUri);
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null,null);
+                new SaveAndLoadImage().execute(bitmap);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }else {
-            carBtn.setImageBitmap(ImageUtils.getScaledBitmapFromPath(pathToImage, carBtn.getWidth(), carBtn.getHeight()));
+            Bitmap cameraBitmap = ImageUtils.getScaledBitmapFromPath(pathToImage, carBtn.getWidth(), carBtn.getHeight());
+            String realPath=null;
+            try {
+                realPath = ImageUtils.saveBitmapImage(pathToImage,cameraBitmap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            imageContainer = cameraBitmap;
+            carBtn.setImageBitmap(imageContainer);
             carBtn.refreshDrawableState();
+            car.setPathToImage(realPath);
         }
     }
 
-    private String getPathFromURI(Uri uri){
-        String filepath = null;
-        String[] filePathColumn = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(uri,filePathColumn, null, null, null);
-        cursor.moveToFirst();
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        filepath = cursor.getString(columnIndex);
-        cursor.close();
+    private class SaveAndLoadImage extends AsyncTask<Bitmap,Void,Bitmap> {
 
-        return filepath;
-    }
+        @Override
+        protected Bitmap doInBackground(Bitmap... voids) {
+            File directoryPath = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            String pathToBitmap = null;
+            Bitmap bm = null;
+            try {
+                pathToBitmap = ImageUtils.saveBitmapImage(directoryPath.getAbsolutePath(),voids[0]);
+                car.setPathToImage(pathToBitmap);
+                bm = BitmapFactory.decodeFile(pathToBitmap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return bm;
+        }
 
-    private void requestExternalStoragePermission(){
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                // TODO
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            if(bitmap != null){
+                carBtn.setImageBitmap(bitmap);
+                imageContainer = bitmap;
+                saveBtn.setClickable(true);
             }
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    carBtn.setImageBitmap(ImageUtils.getScaledBitmapFromPath(pathToImage, carBtn.getWidth(), carBtn.getHeight()));
-                    carBtn.refreshDrawableState();
-                } else {
-                    // TODO Denied
-                }
-                return;
-            }
-        }
-    }
 }
 

@@ -32,11 +32,9 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
 
     private UserManager manager = UserManager.getInstance();
     private RecyclerView vehicleList;
-    private VehicleAdapter adapter;
     private RecyclerView.LayoutManager vehicleListManager;
     private TextView usernameTV;
     private FloatingActionButton btnAddVechicle;
-    private Menu menu = null;
     private TextView noVehicles;
     private ListView fabMenu;
     private RelativeLayout garageContainer;

@@ -1,6 +1,7 @@
 package model.Vehicle;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import java.io.Serializable;
 
@@ -14,7 +15,7 @@ public class Car extends Vehicle implements Serializable {
     private String carType;
     private String kmRange;
     private double vehicleTaxAmount;
-    private String pathToImage;
+
 
     public Car(){
         super();
@@ -67,14 +68,6 @@ public class Car extends Vehicle implements Serializable {
         if(vehicleTaxAmount >= 0) {
             this.vehicleTaxAmount = vehicleTaxAmount;
         }
-    }
-
-    public String getPathToImage() {
-        return pathToImage;
-    }
-
-    public void setPathToImage(String pathToImage) {
-        this.pathToImage = pathToImage;
     }
 
 }

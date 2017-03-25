@@ -43,16 +43,12 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
     @Override
     public void onBindViewHolder(VehicleViewHolder holder, int position) {
 
-        //TODO Resolved: We need to find a way to defocus items outside onBindViewHolder
-
-        // set data from a vehicle object
-
         Car car = null;
         Motorcycle motorcycle = null;
         if(vehicleList.get(position) instanceof Car){
             car =(Car) vehicleList.get(position);
 
-            holder.vehicleImage.setImageBitmap(ImageUtils.getScaledBitmapFromPath(car.getPathToImage(),holder.vehicleImage.getWidth(),holder.vehicleImage.getHeight()));
+            holder.vehicleImage.setImageBitmap(ImageUtils.getImageForCar(car));
             holder.vehicleBrand.setText(car.getBrand());
             holder.vehicleModel.setText(car.getModel());
             holder.vehicleYear.setText(String.valueOf(car.getProductionYear()));

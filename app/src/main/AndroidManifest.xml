@@ -3,6 +3,9 @@
     package="com.carcalendar.dmdev.carcalendar">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -14,10 +17,6 @@
             android:name=".services.StorageManager"
             android:enabled="true" />
 
-        <uses-feature
-            android:name="android.hardware.camera"
-            android:required="false" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.carcalendar.dmdev.carcalendar.fileprovider"
@@ -25,7 +24,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths"/>
         </provider>
 
         <activity android:name=".LoginActivity" />
