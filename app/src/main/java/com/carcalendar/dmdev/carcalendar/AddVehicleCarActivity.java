@@ -291,7 +291,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                             File photoFile = null;
                             try {
                                 File directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                                photoFile = ImageUtils.createImageFile(directory.toString());
+                                photoFile = ImageUtils.createImageFile(directory.toString(),car.getPathToImage());
                             } catch (Exception ex) {
                                 System.err.println("Something went wrong with creating file for image");
                                 ex.printStackTrace();
@@ -483,13 +483,12 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             Bitmap cameraBitmap = ImageUtils.getScaledBitmapFromPath(pathToImage, carBtn.getWidth(), carBtn.getHeight());
             String realPath=null;
             try {
-                realPath = ImageUtils.saveBitmapImage(pathToImage,cameraBitmap);
+                realPath = ImageUtils.saveBitmapImage(pathToImage,cameraBitmap,car.getPathToImage());
             } catch (Exception e) {
                 e.printStackTrace();
             }
             imageContainer = cameraBitmap;
             carBtn.setImageBitmap(imageContainer);
-            carBtn.refreshDrawableState();
             car.setPathToImage(realPath);
         }
     }
@@ -502,8 +501,9 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             String pathToBitmap = null;
             Bitmap bm = null;
             try {
-                pathToBitmap = ImageUtils.saveBitmapImage(directoryPath.getAbsolutePath(),voids[0]);
+                pathToBitmap = ImageUtils.saveBitmapImage(directoryPath.getAbsolutePath(),voids[0],car.getPathToImage());
                 car.setPathToImage(pathToBitmap);
+                pathToImage = pathToBitmap;
                 bm = BitmapFactory.decodeFile(pathToBitmap);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -516,6 +516,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             super.onPostExecute(bitmap);
             if(bitmap != null){
                 carBtn.setImageBitmap(bitmap);
+                carBtn.refreshDrawableState();
                 imageContainer = bitmap;
                 saveBtn.setClickable(true);
             }

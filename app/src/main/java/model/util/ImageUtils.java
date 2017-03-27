@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import model.UserManager;
 import model.Vehicle.Car;
 import model.Vehicle.Vehicle;
 
@@ -28,21 +29,27 @@ import model.Vehicle.Vehicle;
 public class ImageUtils {
 
     private static final HashMap<Vehicle,Bitmap> imageHolder = new HashMap<>(10);
-    public static File createImageFile(String externalPicturesDir) throws Exception {
-        if(externalPicturesDir == null){
-            throw new Exception("External directory unavailable");
-        }
+    public static File createImageFile(String externalPicturesDir,String oldImagePath) throws Exception {
+       if(oldImagePath != null){
+           File oldImageFile = new File(oldImagePath);
+           if(oldImageFile.exists()) {
+               return oldImageFile;
+           }
+       }
+
+       if(externalPicturesDir == null){
+           throw new Exception("External directory unavailable");
+       }
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String fileName = "VEHICLE_" + timeStamp;
         File storageDir= new File(externalPicturesDir);
-        File imageFile = new File(storageDir+"/"+fileName+".jpg");
-        if(imageFile.exists()) {
-            return imageFile;
+        File imageFile = new File(storageDir,fileName+".jpg");
+
+        if(!imageFile.createNewFile()){
+            throw new Exception("Error: file " + storageDir+"/"+fileName + " already exists!");
         }
-        else {
-            imageFile.createNewFile();
-        }
+
         return imageFile;
     }
 
@@ -110,37 +117,40 @@ public class ImageUtils {
 
     /**
      * Android specific - saves scaled memory efficient bitmap image
-     * @param path-String
+     * @param picsDirPath-String
      * @param bitmap - bitmap image
      * @return Path to bitmap scaled to 120x120
      */
-    public static String saveBitmapImage(String path,Bitmap bitmap) throws Exception{
-        File file = new File(path);
-        if (file.exists() && file.length() >0){
-            file.delete();
-            File imageFile = new File(path);
-            Bitmap scaled = Bitmap.createScaledBitmap(bitmap,120,120,false);
-            OutputStream outStream = new FileOutputStream(imageFile);
-            scaled.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-            outStream.flush();
-            outStream.close();
-            return imageFile.getAbsolutePath();
-        }
-        if(path == null){
+    public static String saveBitmapImage(String picsDirPath,Bitmap bitmap,String oldBitmapPath) throws Exception{
+        if(picsDirPath == null){
             throw new Exception("External directory unavailable");
         }
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String fileName = "VEHICLE_" + timeStamp;
-        File storageDir= new File(path);
-        File imageFile = new File(storageDir+"/"+fileName+".jpg");
+
+        File imageFileToSave;
+        if(oldBitmapPath != null && !oldBitmapPath.equals("")) {
+            File oldImageFile = new File(oldBitmapPath);
+            if (oldImageFile.exists() && oldImageFile.length() > 0) {
+                if (!oldImageFile.delete()) {
+                    throw new Exception("Error when deleting image file!");
+                }
+                imageFileToSave = new File(oldBitmapPath);
+            }else{
+                throw new Exception("Error: old image file exists but is empty!");
+            }
+        }else {
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+            String fileName = "VEHICLE_" + timeStamp;
+            File storageDir = new File(picsDirPath);
+            imageFileToSave = new File(storageDir, fileName + ".jpg");
+        }
 
         Bitmap scaled = Bitmap.createScaledBitmap(bitmap,120,120,false);
-        OutputStream outStream = new FileOutputStream(imageFile);
+        OutputStream outStream = new FileOutputStream(imageFileToSave);
         scaled.compress(Bitmap.CompressFormat.PNG, 100, outStream);
         outStream.flush();
         outStream.close();
 
-        return imageFile.getAbsolutePath();
+        return imageFileToSave.getAbsolutePath();
     }
 
     /**
