@@ -115,8 +115,11 @@ public class ImageUtils {
      * @return Path to bitmap scaled to 120x120
      */
     public static String saveBitmapImage(String path,Bitmap bitmap) throws Exception{
+        if(path == null){
+            throw new Exception("External directory unavailable");
+        }
         File file = new File(path);
-        if (file.exists() && file.length() >0){
+        if (!file.isDirectory() && file.length() >0){
             file.delete();
             File imageFile = new File(path);
             Bitmap scaled = Bitmap.createScaledBitmap(bitmap,120,120,false);
@@ -125,9 +128,6 @@ public class ImageUtils {
             outStream.flush();
             outStream.close();
             return imageFile.getAbsolutePath();
-        }
-        if(path == null){
-            throw new Exception("External directory unavailable");
         }
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String fileName = "VEHICLE_" + timeStamp;

@@ -77,9 +77,11 @@ public class LoaderActivity extends AppCompatActivity {
                         File file = new File(path);
                         ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
                         manager.updateFromFile((UserManager) in.readObject());
-                        ArrayList<Vehicle> list = (ArrayList<Vehicle>) manager.getRegisteredUserVehicles();
-                        for (Vehicle x: list) {
-                            ImageUtils.mapImageToCar(x,ImageUtils.getBitmapFromPath(x.getPathToImage()));
+                        if (manager.getLoggedUser() != null) {
+                            ArrayList<Vehicle> list = (ArrayList<Vehicle>) manager.getRegisteredUserVehicles();
+                            for (Vehicle x : list) {
+                                ImageUtils.mapImageToCar(x, ImageUtils.getBitmapFromPath(x.getPathToImage()));
+                            }
                         }
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -1,5 +1,11 @@
 package model;
 
+import android.content.Context;
+import android.content.Intent;
+
+import com.carcalendar.dmdev.carcalendar.services.StorageManager;
+
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +22,10 @@ import model.authentication.UsedUsernameException;
 public class UserManager implements IUserAuthenticator,Serializable {
 
     private static final UserManager manager = new UserManager();
+    public static final String SAVE_USER_MANAGER = "USER_MANAGER_SAVE";
     public static UserManager getInstance() {
         return manager;
-    }
+    };
     private TreeSet<User> registeredUsers;
     private static int userId =0;
     private User loggedUser;
@@ -26,6 +33,7 @@ public class UserManager implements IUserAuthenticator,Serializable {
     private UserManager() {
 
         registeredUsers = new TreeSet<User>();
+        loggedUser = null;
     }
 
     /**
@@ -82,6 +90,17 @@ public class UserManager implements IUserAuthenticator,Serializable {
         this.loggedUser = x.loggedUser;
         this.registeredUsers = x.registeredUsers;
         userId = x.registeredUsers.last().getId();
+    }
+
+    /**
+     *  ANDROID SPECIFIC !!!
+     *  Serializing the UserManager object to internal storage  with openFileOutput()
+     * @param x - UserManager
+     */
+    public static void saveDataUserManager(Context context, final UserManager x){
+        Intent intent = new Intent(context,StorageManager.class);
+        intent.putExtra(SAVE_USER_MANAGER,x);
+        context.startService(intent);
     }
 
     /**
@@ -165,6 +184,11 @@ public class UserManager implements IUserAuthenticator,Serializable {
         public void removeVehicle(Vehicle x) {
             if (ownedVehicles.contains(x)) {
                 ownedVehicles.remove(x);
+                String pathToImage = x.getPathToImage();
+                if (pathToImage != null) {
+                    File imageofCar = new File(x.getPathToImage());
+                    if (!imageofCar.isDirectory() && imageofCar.length()>0) imageofCar.delete();
+                }
             }
         }
 

@@ -75,7 +75,7 @@ public class ViewVehicleFragment extends Fragment {
             vignetteStartDate.setText(car.getVignette().getStartDate());
             vignetteEndDate.setText(car.getVignette().getEndDate());
             // TODO : in Car class add two fields one representing when to change in km's(122000 - 138000) which is current edit text and statically add Calendar field with +1 year of when the object is created see Vignette class
-            vehicleTax.setText(String.valueOf(car.getVehicleTaxAmount()));
+            vehicleTax.setText(String.valueOf(car.getTax().getAmount()));
             // TODO : in Car class add Calendar object representing next tax payment
             // TODO : in Stickers create another class named Insurance with name and price and start and end Calendar objects and add object in Car
 

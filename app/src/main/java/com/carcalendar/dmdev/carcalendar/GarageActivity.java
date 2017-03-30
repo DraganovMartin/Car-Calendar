@@ -34,17 +34,14 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
     private RecyclerView vehicleList;
     private RecyclerView.LayoutManager vehicleListManager;
     private TextView usernameTV;
-    private FloatingActionButton btnAddVechicle;
     private TextView noVehicles;
     private ListView fabMenu;
     private RelativeLayout garageContainer;
     private LinearLayout fabMenuContainer;
-    private LinearLayout helloLayout;
     private VehicleAdapter vAdapter;
     private boolean doubleBackToExitPressedOnce;
     private boolean fabMenuShown = false;
-    private Handler mHandler = new Handler();
-    public static final String SAVE_USER_MANAGER = "USER_MANAGER_SAVE";
+    private Handler mHandler = null;
     public static final int VEHICLE_ADDED_SUCCESSFULLY = 0;
     public static final int VEHICLE_ADDED_UNSUCCESSFULLY = 1;
 
@@ -62,12 +59,10 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
 
         fabMenuContainer = (LinearLayout) findViewById(R.id.fab_menu_container);
         garageContainer = (RelativeLayout) findViewById(R.id.garageContainer);
-        helloLayout = (LinearLayout) findViewById(R.id.HelloLayout);
 
         usernameTV = (TextView) findViewById(R.id.Username);
         usernameTV.setText(manager.getLoggedUserName());
         noVehicles = (TextView) findViewById(R.id.NoVehicles);
-        btnAddVechicle = (FloatingActionButton) findViewById(R.id.btn_add_vehicle);
 
         vehicleList = (RecyclerView) findViewById(R.id.view_vehicle_list);
         vehicleList.setHasFixedSize(true);
@@ -76,6 +71,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         vAdapter = new VehicleAdapter(manager.getRegisteredUserVehicles(),this,this);
         vehicleList.setAdapter(vAdapter);
 
+        mHandler = new Handler();
 
         // Insert the static items in FAB's list
         String[] vehicleTypes = getResources().getStringArray(R.array.VehicleTypes);
@@ -174,10 +170,22 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        mHandler = new Handler();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mHandler.removeCallbacks(mRunnable);
+        mHandler = null;
+    }
+
+    @Override
     protected void onDestroy()
     {
         super.onDestroy();
-        saveDataUserManager(manager);
 
         if (mHandler != null) { mHandler.removeCallbacks(mRunnable); }
     }
@@ -191,6 +199,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         }
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
+            UserManager.saveDataUserManager(this,manager);
             return;
         }
 
@@ -199,16 +208,6 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
 
         mHandler.postDelayed(mRunnable, 2000);
 
-    }
-
-    /**
-     *  Serializing the UserManager object to internal storage  with openFileOutput()
-     * @param x - UserManager
-     */
-    private void saveDataUserManager(final UserManager x){
-        Intent intent = new Intent(this,StorageManager.class);
-        intent.putExtra(SAVE_USER_MANAGER,x);
-        startService(intent);
     }
 
     @Override
@@ -223,7 +222,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         switch (item.getItemId()){
             case R.id.Logout:
                     manager.userLogout();
-                    saveDataUserManager(manager);
+                UserManager.saveDataUserManager(this,manager);
                     Intent intent = new Intent(this.getApplicationContext(),LoginActivity.class);
                     finish();
                     startActivity(intent);

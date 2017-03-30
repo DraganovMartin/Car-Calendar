@@ -73,12 +73,16 @@
             >
            <TableRow android:layout_width="0dp"
                android:paddingBottom="40dp">
+
                <TextView
                    android:id="@+id/txt_brand"
-                   android:layout_height="wrap_content"
                    android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
                    android:layout_column="1"
-                   android:text="@string/vehicle_brand"/>
+                   android:text="@string/vehicle_brand"
+                   android:textAlignment="center"
+                   android:textStyle="bold|italic" />
+
                <EditText
                    android:id="@+id/vehicle_brand"
                    android:layout_width="wrap_content"
@@ -86,83 +90,104 @@
                    android:layout_column="2"
                    android:layout_marginEnd="10dp"
                    android:layout_marginRight="10dp"
-                   android:maxLines="3"
                    android:gravity="left"
-                   android:hint="@string/vehicle_brand_hint"/>
+                   android:hint="@string/vehicle_brand_hint"
+                   android:maxLines="3"
+                   android:textStyle="bold|italic" />
+
                <TextView
                    android:id="@+id/vehicle_model_TV"
-                   android:layout_height="wrap_content"
                    android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
                    android:layout_column="3"
-                   android:text="@string/vehicle_model"/>
+                   android:text="@string/vehicle_model"
+                   android:textAlignment="center"
+                   android:textStyle="bold|italic" />
+
                <EditText
                    android:id="@+id/vehicle_model"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_column="4"
-                   android:maxLines="3"
                    android:gravity="left"
-                   android:hint="@string/vehicle_model_hint"/>
+                   android:hint="@string/vehicle_model_hint"
+                   android:maxLines="3"
+                   android:textStyle="bold|italic" />
            </TableRow>
 
             <TableRow android:layout_width="0dp"
                 android:paddingBottom="40dp">
+
                 <TextView
-                    android:text="@string/type_car"
+                    android:id="@+id/TypeTView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/TypeTView"
-                    android:layout_column="1"/>
+                    android:layout_column="1"
+                    android:text="@string/type_car"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <Spinner
+                    android:id="@+id/spinner_type_car"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_column="2"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:id="@+id/spinner_type_car" />
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textAlignment="center"
+                    tools:layout_marginEnd="5dp" />
 
                 <TextView
-                    android:text="@string/engine_car"
+                    android:id="@+id/engine_car_TView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="3"
-                    android:id="@+id/engine_car_TView" />
+                    android:text="@string/engine_car"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <Spinner
+                    android:id="@+id/spinner_car_engine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_column="4"
-                    android:id="@+id/spinner_car_engine" />
+                    android:textAlignment="center" />
             </TableRow>
 
             <TableRow android:layout_width="0dp"
                 android:paddingBottom="40dp">
+
                 <TextView
-                    android:text="@string/year"
+                    android:id="@+id/yearTView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
-                    android:id="@+id/yearTView"/>
+                    android:text="@string/year"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <EditText
+                    android:id="@+id/yearEText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
                     android:layout_column="2"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
+                    android:gravity="left"
+                    android:hint="1998"
                     android:inputType="number"
                     android:maxLength="4"
-                    android:id="@+id/yearEText"
-                    android:hint="1998" />
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <TextView
-                    android:text="@string/range"
+                    android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="3"
-                    android:id="@+id/textView4" />
+                    android:text="@string/range"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -176,34 +201,39 @@
 
             <TableRow android:layout_width="0dp"
                 android:paddingBottom="40dp">
+
                 <TextView
-                    android:text="@string/vignette_type"
+                    android:id="@+id/vignette_type"
                     android:layout_width="wrap_content"
-                    android:layout_column="1"
                     android:layout_height="wrap_content"
-                    android:id="@+id/vignette_type" />
+                    android:layout_column="1"
+                    android:text="@string/vignette_type"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <Spinner
+                    android:id="@+id/vignette_type_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_column="2"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_column="2"
-                    android:id="@+id/vignette_type_spinner"/>
+                    android:layout_marginTop="15dp"
+                    android:textAlignment="center" />
 
                 <TextView
-                    android:text="@string/vignette_start_day"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/vignette_start_TV"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:layout_column="3"
-                    android:id="@+id/vignette_start_TV" />
+                    android:text="@string/vignette_start_day"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <Button
                     android:text="@string/pick_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
                     android:id="@+id/date_btn"
                     android:layout_column="4"
                     android:onClick="selectDate"/>
@@ -212,34 +242,42 @@
                 android:paddingBottom="40dp">
 
                 <TextView
-                    android:text="Next oil :\nchange"
+                    android:id="@+id/vehicle_next_oil_change_TV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
-                    android:id="@+id/vehicle_next_oil_change_TV" />
+                    android:text="Next oil :\nchange"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <EditText
+                    android:id="@+id/oilEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="123000"
                     android:layout_column="2"
-                    android:id="@+id/oilEditText" />
+                    android:hint="123000"
+                    android:inputType="number"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <TextView
-                    android:text="Vehicle Tax :\nammount"
+                    android:id="@+id/vehicle_tax_ammount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="3"
-                    android:id="@+id/vehicle_tax_ammount" />
+                    android:text="Vehicle Tax :\nammount"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
-               <EditText
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_column="4"
-                   android:inputType="numberDecimal"
-                   android:hint="125.25"
-                   android:id="@+id/tax_ammount_ET"/>
+                <EditText
+                    android:id="@+id/tax_ammount_ET"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="4"
+                    android:hint="125.25"
+                    android:inputType="numberDecimal"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
             </TableRow>
 
             <TableRow
@@ -247,11 +285,13 @@
                 android:paddingBottom="40dp">
 
                 <TextView
-                    android:text="Next Tax\npayment"
+                    android:id="@+id/vehicle_next_tax_payment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
-                    android:id="@+id/vehicle_next_tax_payment" />
+                    android:text="Next Tax\npayment"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <Button
                     android:text="@string/pick_date"
@@ -267,15 +307,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="3"
-                    android:text="@string/vehicle_insurance_amount"/>
+                    android:text="@string/vehicle_insurance_amount"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <EditText
+                    android:id="@+id/insurance_ammount_ET"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="4"
-                    android:inputType="numberDecimal"
                     android:hint="125.25"
-                    android:id="@+id/insurance_ammount_ET"/>
+                    android:inputType="numberDecimal"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
             </TableRow>
 
@@ -284,26 +328,31 @@
                 android:paddingBottom="40dp">
 
                 <TextView
-                    android:layout_height="wrap_content"
+                    android:id="@+id/insurance_period_TV"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_column="1"
                     android:text="@string/insurance_period_type"
-                    android:id="@+id/insurance_period_TV"/>
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <Spinner
-                    android:layout_column="2"
+                    android:id="@+id/insurance_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="2"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:id="@+id/insurance_spinner">
-                </Spinner>
+                    android:layout_marginTop="15dp"
+                    android:textAlignment="center"></Spinner>
 
                 <TextView
-                    android:layout_column="3"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="Insurance start :\n day"/>
+                    android:layout_height="wrap_content"
+                    android:layout_column="3"
+                    android:text="Insurance start :\n day"
+                    android:textAlignment="center"
+                    android:textStyle="bold|italic" />
 
                 <Button
                     android:text="@string/pick_date"
