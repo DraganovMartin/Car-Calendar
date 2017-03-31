@@ -14,7 +14,6 @@ public class Car extends Vehicle implements Serializable {
     private String engineType;
     private String carType;
     private String kmRange;
-    private double vehicleTaxAmount;
 
 
     public Car(){
@@ -57,16 +56,6 @@ public class Car extends Vehicle implements Serializable {
     public void setKmRange(String kmRange) {
         if(kmRange != null && !kmRange.isEmpty()) {
             this.kmRange = kmRange;
-        }
-    }
-
-    public double getVehicleTaxAmount() {
-        return vehicleTaxAmount;
-    }
-
-    public void setVehicleTaxAmount(double vehicleTaxAmount) {
-        if(vehicleTaxAmount >= 0) {
-            this.vehicleTaxAmount = vehicleTaxAmount;
         }
     }
 

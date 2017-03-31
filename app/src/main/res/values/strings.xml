@@ -54,7 +54,7 @@
     <string name="year">Year :</string>
     <string name="range">Range :\n in km</string>
     <string name="vignette_type">Vignette :\n type</string>
-    <string name="vignette_start_day">Vignette : \n start day</string>
+    <string name="vignette_start_day">Vignette :\nstart day</string>
     <string name="pick_date">Pick date</string>
     <string name="cancel_btn">Cancel</string>
     <string name="save_btn">Save</string>

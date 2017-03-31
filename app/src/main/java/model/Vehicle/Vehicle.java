@@ -3,6 +3,9 @@ package model.Vehicle;
 import java.io.Serializable;
 
 import model.Stickers.IVignette;
+import model.Stickers.Insurance;
+import model.taxes.Tax;
+import model.taxes.VehicleTax;
 
 /**
  *  Abstract Vehicle class
@@ -15,11 +18,15 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     private String registrationPlate;
     private IVignette vignette;
     private String pathToImage;
+    private Insurance insurance;
+    private VehicleTax tax;
     private static int id=0;
     private int myId;
 
     public Vehicle(){
         myId = ++id;
+        insurance = new Insurance();
+        tax = new VehicleTax();
     }
 
     public Vehicle(String brand, String model,int productionYear,String registrationPlate, IVignette vignette){
@@ -100,6 +107,22 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
 
     public void setPathToImage(String pathToImage) {
         this.pathToImage = pathToImage;
+    }
+
+    public Insurance getInsurance() {
+        return insurance;
+    }
+
+    /**
+     *
+     * @return Tax object
+     */
+    public Tax getTax() {
+        return tax;
+    }
+
+    public void setTax(double tax) {
+        this.tax.setAmount(tax);
     }
 
 

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="it_help_txt">Help</string>
-    <string-array name="VehicleTypes">
+    <string type="it_help_txt">Help</string>
+    <string-array type="VehicleTypes">
         <item>Car</item>
         <item>Motorcycle</item>
     </string-array>
 
-    <string name="registration_number">Registration number :</string>
-    <string name="lplate_num_hint">XY1234ZP</string>
-    <string name="vehicle_brand">Brand :</string>
-    <string name="vehicle_brand_hint">Porsche</string>
-    <string name="vehicle_model">Model :</string>
-    <string name="vehicle_model_hint">Panamera</string>
-    <string name="it_edit">Edit</string>
-    <string name="it_diary">Diary</string>
-    <string name="it_delete">Delete</string>
+    <string type="registration_number">Registration number :</string>
+    <string type="lplate_num_hint">XY1234ZP</string>
+    <string type="vehicle_brand">Brand :</string>
+    <string type="vehicle_brand_hint">Porsche</string>
+    <string type="vehicle_model">Model :</string>
+    <string type="vehicle_model_hint">Panamera</string>
+    <string type="it_edit">Edit</string>
+    <string type="it_diary">Diary</string>
+    <string type="it_delete">Delete</string>
 </resources>
