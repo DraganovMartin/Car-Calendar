@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.carcalendar.dmdev.carcalendar">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -24,7 +25,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
 
         <activity android:name=".LoginActivity" />
@@ -59,7 +60,7 @@
         </activity>
         <activity android:name=".AddVehicleCarActivity" />
         <activity android:name=".HoldViewVehicleFragmentActivity" />
-
+        <activity android:name=".AddVehicleMotorcycleActivity"></activity>
     </application>
 
 </manifest>

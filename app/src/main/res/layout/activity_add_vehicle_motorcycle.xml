@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context="com.carcalendar.dmdev.carcalendar.AddVehicleMotorcycleActivity">
+
+    <ImageButton
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:srcCompat="@mipmap/motorcycle_black"
+        android:id="@+id/imageButton_car_add"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/selectCarTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageButton_car_add"
+        android:layout_centerHorizontal="true"
+        android:text="@string/image_car_TView"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton_car_add"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/registration_number"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="@string/registration_number"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_licence_plate"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="@+id/txt_licence_plate"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp" />
+
+    <EditText
+        android:id="@+id/txt_licence_plate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLength="8"
+        android:gravity="center"
+        android:hint="@string/lplate_num_hint"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/registration_number"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/selectCarTV"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="8dp" />
+
+    <LinearLayout android:id="@+id/button_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <Button
+            android:text="@string/cancel_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:id="@+id/cancel_car_btn" />
+
+
+        <Button
+            android:text="@string/save_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/btn_car_save"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/DataScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/plate_info"
+        android:layout_marginBottom="8dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="25dp"
+        app:layout_constraintBottom_toTopOf="@id/button_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_licence_plate"
+        app:layout_constraintVertical_bias="0.111"
+        app:layout_constraintHorizontal_bias="1.0">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context="com.carcalendar.dmdev.carcalendar.AddVehicleMotorcycleActivity">
+
+            <TextView
+                android:id="@+id/txt_brand"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/vehicle_brand"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/vehicle_brand"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/vehicle_brand" />
+
+            <EditText
+                android:id="@+id/vehicle_brand"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:gravity="start"
+                android:hint="@string/vehicle_brand_hint"
+                android:maxLines="3"
+                android:textStyle="bold|italic"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toRightOf="@+id/txt_brand"
+                app:layout_constraintRight_toLeftOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/vehicle_model_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/vehicle_model"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/vehicle_model"
+                app:layout_constraintLeft_toRightOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/vehicle_model" />
+
+            <EditText
+                android:id="@+id/vehicle_model"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:gravity="start"
+                android:hint="@string/vehicle_model_hint"
+                android:maxLines="3"
+                android:textStyle="bold|italic"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toRightOf="@+id/vehicle_model_TV"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/TypeTView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/type_car"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/spinner_type_car"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/spinner_type_car"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Spinner
+                android:id="@+id/spinner_type_car"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:entries="@array/motorcycle_types"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toRightOf="@+id/TypeTView"
+                app:layout_constraintRight_toLeftOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/vehicle_brand" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="1dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:id="@+id/engine_car_TView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/engine_car"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/spinner_car_engine"
+                app:layout_constraintLeft_toRightOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/spinner_car_engine"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Spinner
+                android:id="@+id/spinner_car_engine"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:entries="@array/EngineTypes"
+                android:textAlignment="center"
+                app:layout_constraintLeft_toRightOf="@+id/engine_car_TView"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vehicle_model"
+                app:layout_constraintHorizontal_bias="0.0" />
+
+            <TextView
+                android:id="@+id/yearTView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/year"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/yearEText"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/yearEText" />
+
+            <EditText
+                android:id="@+id/yearEText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:gravity="start"
+                android:hint="1998"
+                android:inputType="number"
+                android:maxLength="4"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toRightOf="@+id/yearTView"
+                app:layout_constraintRight_toLeftOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_type_car"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/range"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/rangeEText"
+                app:layout_constraintLeft_toRightOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/rangeEText" />
+
+            <EditText
+                android:id="@+id/rangeEText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="32dp"
+                android:gravity="start"
+                android:hint="122000"
+                android:inputType="number"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toRightOf="@+id/textView4"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_car_engine" />
+
+            <TextView
+                android:id="@+id/vehicle_next_oil_change_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Next oil :\nchange"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/oilEditText"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/oilEditText" />
+
+            <EditText
+                android:id="@+id/oilEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:hint="123000"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toRightOf="@+id/vehicle_next_oil_change_TV"
+                app:layout_constraintRight_toLeftOf="@+id/vehicle_model_TV"
+                app:layout_constraintTop_toBottomOf="@+id/yearEText" />
+
+            <TextView
+                android:id="@+id/vehicle_tax_ammount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Vehicle Tax :\nammount"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/tax_ammount_ET"
+                app:layout_constraintLeft_toRightOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/tax_ammount_ET" />
+
+            <EditText
+                android:id="@+id/tax_ammount_ET"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:hint="125.25"
+                android:inputType="numberDecimal"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toRightOf="@+id/vehicle_tax_ammount"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rangeEText" />
+
+            <TextView
+                android:id="@+id/vehicle_next_tax_payment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Next Tax\npayment"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btn_next_payment"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_next_payment"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btn_next_payment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:onClick="selectDate"
+                android:text="@string/pick_date"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@+id/oilEditText"
+                app:layout_constraintLeft_toRightOf="@+id/vehicle_next_tax_payment"
+                app:layout_constraintRight_toLeftOf="@+id/textView2"
+                app:layout_constraintHorizontal_bias="0.0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/vehicle_insurance_amount"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintLeft_toRightOf="@+id/textView2"
+                android:id="@+id/textView3"
+                app:layout_constraintTop_toTopOf="@+id/insurance_ammount_ET"
+                app:layout_constraintBottom_toBottomOf="@+id/insurance_ammount_ET"
+                android:layout_marginTop="8dp" />
+
+            <EditText
+                android:id="@+id/insurance_ammount_ET"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="125.25"
+                android:inputType="numberDecimal"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@+id/tax_ammount_ET"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textView3"
+                app:layout_constraintHorizontal_bias="0.0" />
+
+            <TextView
+                android:id="@+id/insurance_period_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/insurance_period_type"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/insurance_spinner"
+                app:layout_constraintBottom_toBottomOf="@+id/insurance_spinner"/>
+
+            <Spinner
+                android:id="@+id/insurance_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:textAlignment="center"
+                android:entries="@array/InsurancePeriod"
+                app:layout_constraintTop_toBottomOf="@+id/btn_next_payment"
+                app:layout_constraintLeft_toRightOf="@+id/insurance_period_TV"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Insurance start day :"
+                android:textAlignment="center"
+                android:textStyle="bold|italic"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:id="@+id/textView5"
+                app:layout_constraintTop_toTopOf="@+id/btn_insurance_start"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_insurance_start"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btn_insurance_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:onClick="selectDate"
+                android:text="@string/pick_date"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/insurance_spinner"
+                app:layout_constraintLeft_toRightOf="@+id/textView5"
+                app:layout_constraintHorizontal_bias="0.0" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
