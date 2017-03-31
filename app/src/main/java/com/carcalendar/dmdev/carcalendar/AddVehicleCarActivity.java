@@ -289,7 +289,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                             File photoFile = null;
                             try {
                                 File directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                                photoFile = ImageUtils.createImageFile(directory.toString(),car.getPathToImage());
+                                photoFile = ImageUtils.createImageFile(directory.toString());
                             } catch (Exception ex) {
                                 System.err.println("Something went wrong with creating file for image");
                                 ex.printStackTrace();
@@ -555,7 +555,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             Bitmap cameraBitmap = ImageUtils.getScaledBitmapFromPath(pathToImage, carBtn.getWidth(), carBtn.getHeight());
             String realPath=null;
             try {
-                realPath = ImageUtils.saveBitmapImage(pathToImage,cameraBitmap,car.getPathToImage());
+                realPath = ImageUtils.saveBitmapImage(pathToImage,cameraBitmap);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -574,7 +574,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             String pathToBitmap = null;
             Bitmap bm = null;
             try {
-                pathToBitmap = ImageUtils.saveBitmapImage(directoryPath.getAbsolutePath(),voids[0],car.getPathToImage());
+                pathToBitmap = ImageUtils.saveBitmapImage(directoryPath.getAbsolutePath(),voids[0]);
                 car.setPathToImage(pathToBitmap);
                 pathToImage = pathToBitmap;
                 bm = BitmapFactory.decodeFile(pathToBitmap);

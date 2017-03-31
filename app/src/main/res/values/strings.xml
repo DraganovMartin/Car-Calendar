@@ -47,6 +47,13 @@
         <item>Annual</item>
     </string-array>
 
+    <string-array name="motorcycle_types">
+        <item>Cruiser</item>
+        <item>Standard</item>
+        <item>Sportsbike</item>
+        <item>Touring</item>
+    </string-array>
+
     <string name="loading_data">Loading data. Please wait !</string>
     <string name="image_car_TView">Choose image for your car.</string>
     <string name="type_car">Type : </string>
@@ -67,7 +74,7 @@
     <string name="it_edit">Edit</string>
     <string name="it_diary">Diary</string>
     <string name="it_delete">Delete</string>
-    <string name="vehicle_insurance_amount">Vehicle insurance :\namount</string>
+    <string name="vehicle_insurance_amount">Vehicle \ninsurance :\namount</string>
     <string name="vehicle_insurance_start">Insurance start :</string>
     <string name="year_hint">1998</string>
     <string name="vignette_end_day">Vignette : \nend day</string>
@@ -75,7 +82,7 @@
     <string name="next_oil_change">Next oil :\n change</string>
     <string name="vehicle_tax_amount">Vehicle Tax : \namount</string>
     <string name="next_tax_payment">Next Tax :\n payment</string>
-    <string name="insurance_period_type">Insurance :\n  period type</string>
+    <string name="insurance_period_type">Insurance period type :</string>
 
 
 </resources>

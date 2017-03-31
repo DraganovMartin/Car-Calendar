@@ -16,7 +16,6 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     private String model;
     private int productionYear;
     private String registrationPlate;
-    private IVignette vignette;
     private String pathToImage;
     private Insurance insurance;
     private VehicleTax tax;
@@ -29,12 +28,11 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
         tax = new VehicleTax();
     }
 
-    public Vehicle(String brand, String model,int productionYear,String registrationPlate, IVignette vignette){
+    public Vehicle(String brand, String model,int productionYear,String registrationPlate){
         this.brand = brand;
         this.model = model;
         this.productionYear = productionYear;
         this.registrationPlate = registrationPlate;
-        this.vignette = vignette;
         this.myId = ++id;
     }
 
@@ -63,10 +61,6 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
         this.productionYear = productionYear;
     }
 
-    public void setVignette(IVignette vignette) {
-        this.vignette = vignette;
-    }
-
     public int getId(){
         return myId;
     }
@@ -81,10 +75,6 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
 
     public String getRegistrationPlate() {
         return registrationPlate;
-    }
-
-    public IVignette getVignette(){
-        return vignette;
     }
 
     @Override

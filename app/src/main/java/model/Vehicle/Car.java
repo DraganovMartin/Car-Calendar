@@ -5,6 +5,8 @@ import android.net.Uri;
 
 import java.io.Serializable;
 
+import model.Stickers.IVignette;
+
 /**
  * Created by DevM on 12/19/2016.
  */
@@ -14,6 +16,7 @@ public class Car extends Vehicle implements Serializable {
     private String engineType;
     private String carType;
     private String kmRange;
+    private IVignette vignette;
 
 
     public Car(){
@@ -59,4 +62,10 @@ public class Car extends Vehicle implements Serializable {
         }
     }
 
+    public void setVignette(IVignette vignette) {
+        this.vignette = vignette;
+    }
+    public IVignette getVignette(){
+        return vignette;
+    }
 }

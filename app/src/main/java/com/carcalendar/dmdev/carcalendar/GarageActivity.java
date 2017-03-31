@@ -95,7 +95,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
                         undoBackgroundDefocus();
                         break;
                     case 1:         // MOTORCYCLE
-                        Intent intentMotor = new Intent(getApplicationContext(),AddVehicleCarActivity.class);
+                        Intent intentMotor = new Intent(getApplicationContext(),AddVehicleMotorcycleActivity.class);
                         intentMotor.putExtra("Motor",R.mipmap.motorcycle_black);
                         startActivityForResult(intentMotor,VEHICLE_ADDED_SUCCESSFULLY);
                         hideFabMenu();
