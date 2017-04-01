@@ -12,8 +12,6 @@
         android:layout_height="120dp"
         app:srcCompat="@mipmap/motorcycle_black"
         android:id="@+id/imageButton_car_add"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="8dp"
         android:layout_marginEnd="8dp"
@@ -27,7 +25,6 @@
         android:id="@+id/selectCarTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageButton_car_add"
         android:layout_centerHorizontal="true"
         android:text="@string/image_car_TView"
         android:layout_marginTop="8dp"
@@ -120,14 +117,11 @@
                 android:id="@+id/txt_brand"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
                 android:text="@string/vehicle_brand"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/vehicle_brand"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/vehicle_brand" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/vehicle_brand" />
 
             <EditText
                 android:id="@+id/vehicle_brand"
@@ -135,7 +129,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:gravity="start"
                 android:hint="@string/vehicle_brand_hint"
                 android:maxLines="3"
@@ -149,14 +142,11 @@
                 android:id="@+id/vehicle_model_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
                 android:text="@string/vehicle_model"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/vehicle_model"
                 app:layout_constraintLeft_toRightOf="@+id/textView2"
-                app:layout_constraintTop_toTopOf="@+id/vehicle_model" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/vehicle_model" />
 
             <EditText
                 android:id="@+id/vehicle_model"
@@ -164,7 +154,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:gravity="start"
                 android:hint="@string/vehicle_model_hint"
                 android:maxLines="3"
@@ -178,20 +167,17 @@
                 android:id="@+id/TypeTView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:text="@string/type_car"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/spinner_type_car"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/spinner_type_car"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/spinner_type_car" />
 
             <Spinner
                 android:id="@+id/spinner_type_car"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:entries="@array/motorcycle_types"
                 android:textAlignment="center"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -213,20 +199,17 @@
                 android:id="@+id/engine_car_TView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:text="@string/engine_car"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/spinner_car_engine"
                 app:layout_constraintLeft_toRightOf="@+id/textView2"
-                app:layout_constraintTop_toTopOf="@+id/spinner_car_engine"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/spinner_car_engine" />
 
             <Spinner
                 android:id="@+id/spinner_car_engine"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:entries="@array/EngineTypes"
                 android:textAlignment="center"
                 app:layout_constraintLeft_toRightOf="@+id/engine_car_TView"
@@ -238,23 +221,19 @@
                 android:id="@+id/yearTView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
                 android:text="@string/year"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/yearEText"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/yearEText" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/yearEText" />
 
             <EditText
                 android:id="@+id/yearEText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:gravity="start"
                 android:hint="1998"
                 android:inputType="number"
@@ -264,21 +243,17 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toRightOf="@+id/yearTView"
                 app:layout_constraintRight_toLeftOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_type_car"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintTop_toBottomOf="@+id/spinner_type_car" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
                 android:text="@string/range"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/rangeEText"
                 app:layout_constraintLeft_toRightOf="@+id/textView2"
-                app:layout_constraintTop_toTopOf="@+id/rangeEText" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/rangeEText" />
 
             <EditText
                 android:id="@+id/rangeEText"
@@ -286,7 +261,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:gravity="start"
                 android:hint="122000"
                 android:inputType="number"
@@ -299,14 +274,11 @@
                 android:id="@+id/vehicle_next_oil_change_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
                 android:text="Next oil :\nchange"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/oilEditText"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/oilEditText" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/oilEditText" />
 
             <EditText
                 android:id="@+id/oilEditText"
@@ -314,7 +286,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:hint="123000"
                 android:inputType="number"
                 android:textAlignment="center"
@@ -328,20 +300,17 @@
                 android:id="@+id/vehicle_tax_ammount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
                 android:text="Vehicle Tax :\nammount"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/tax_ammount_ET"
                 app:layout_constraintLeft_toRightOf="@+id/textView2"
-                app:layout_constraintTop_toTopOf="@+id/tax_ammount_ET" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/tax_ammount_ET" />
 
             <EditText
                 android:id="@+id/tax_ammount_ET"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:hint="125.25"
                 android:inputType="numberDecimal"
                 android:textAlignment="center"
@@ -369,7 +338,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="selectDate"
                 android:text="@string/pick_date"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 app:layout_constraintTop_toBottomOf="@+id/oilEditText"
                 app:layout_constraintLeft_toRightOf="@+id/vehicle_next_tax_payment"
                 app:layout_constraintRight_toLeftOf="@+id/textView2"
@@ -395,7 +364,7 @@
                 android:inputType="numberDecimal"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 app:layout_constraintTop_toBottomOf="@+id/tax_ammount_ET"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/textView3"
@@ -416,7 +385,7 @@
                 android:id="@+id/insurance_spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:textAlignment="center"
                 android:entries="@array/InsurancePeriod"
                 app:layout_constraintTop_toBottomOf="@+id/btn_next_payment"
@@ -440,7 +409,7 @@
                 android:id="@+id/btn_insurance_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:onClick="selectDate"
                 android:text="@string/pick_date"
                 app:layout_constraintRight_toRightOf="parent"
