@@ -79,6 +79,19 @@ public class ViewVehicleFragment extends Fragment {
             // TODO : in Car class add Calendar object representing next tax payment
             // TODO : in Stickers create another class named Insurance with name and price and start and end Calendar objects and add object in Car
 
+        }else if(motorcycle!=null){
+            imageView.setImageBitmap(ImageUtils.getScaledBitmapFromPath(motorcycle.getPathToImage(),imageView.getWidth(),imageView.getHeight()));
+            registation.setText(motorcycle.getRegistrationPlate());
+            brand.setText(motorcycle.getBrand());
+            model.setText(motorcycle.getModel());
+            type.setText(motorcycle.getMotorcycleType());
+            engine.setText(motorcycle.getEngineType());
+            year.setText(String.valueOf(motorcycle.getProductionYear()));
+            rangeKM.setText(motorcycle.getKmRange());
+            // TODO : in Car class add two fields one representing when to change in km's(122000 - 138000) which is current edit text and statically add Calendar field with +1 year of when the object is created see Vignette class
+            vehicleTax.setText(String.valueOf(motorcycle.getTax().getAmount()));
+            // TODO : in Car class add Calendar object representing next tax payment
+            // TODO : in Stickers create another class named Insurance with name and price and start and end Calendar objects and add object in Car
         }
     }
 

@@ -148,7 +148,7 @@ public class ImageUtils {
      * @param x - Vehicle object
      * @param bitmap - image for vehicle
      */
-    public static void mapImageToCar(Vehicle x,Bitmap bitmap){
+    public static void mapImageToVehicle(Vehicle x, Bitmap bitmap){
         imageHolder.put(x,bitmap);
     }
 
@@ -157,7 +157,7 @@ public class ImageUtils {
      * @param x - Vehicle object
      * @return Bitmap image for vehicle from HashMap
      */
-    public static Bitmap getImageForCar(Vehicle x) {
+    public static Bitmap getImageForVehicle(Vehicle x) {
         return imageHolder.get(x);
     }
 

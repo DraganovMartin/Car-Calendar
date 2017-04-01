@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
@@ -110,7 +109,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             car = (Car) launchingIntent.getSerializableExtra("Car object");
 
 
-            carBtn.setImageBitmap(ImageUtils.getImageForCar(car));
+            carBtn.setImageBitmap(ImageUtils.getImageForVehicle(car));
 
             // Sets the car type for ex. : Sedan, Jeep ...
             switch (car.getCarType()) {
@@ -173,6 +172,8 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
            if (car.getTax().getEndDate().get(Calendar.YEAR) > 0){
                taxDatePickerActivated = true;
            }
+           pathToImage = car.getPathToImage();
+           imageContainer = carBtn.getDrawingCache();
 
         } else {
             // Initialize an empty car object
@@ -401,7 +402,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 }
 
                 if (imageContainer != null){
-                    ImageUtils.mapImageToCar(car,imageContainer);
+                    ImageUtils.mapImageToVehicle(car,imageContainer);
                 }
                 else {
                     Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.car_add_image);
@@ -413,7 +414,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                         System.err.println("Problem in saving resource bitmap");
                         e.printStackTrace();
                     }
-                    ImageUtils.mapImageToCar(car,bm);
+                    ImageUtils.mapImageToVehicle(car,bm);
                 }
 
                 manager.addVehicle(car);
