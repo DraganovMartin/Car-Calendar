@@ -25,6 +25,7 @@ import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleViewHolder;
 
 import model.UserManager;
+import model.Vehicle.Car;
 import model.Vehicle.Vehicle;
 import com.carcalendar.dmdev.carcalendar.services.StorageManager;
 
@@ -95,7 +96,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
                         undoBackgroundDefocus();
                         break;
                     case 1:         // MOTORCYCLE
-                        Intent intentMotor = new Intent(getApplicationContext(),AddVehicleCarActivity.class);
+                        Intent intentMotor = new Intent(getApplicationContext(),AddVehicleMotorcycleActivity.class);
                         intentMotor.putExtra("Motor",R.mipmap.motorcycle_black);
                         startActivityForResult(intentMotor,VEHICLE_ADDED_SUCCESSFULLY);
                         hideFabMenu();
@@ -258,7 +259,12 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
                 switch (item.getItemId()) {
                     case R.id.it_edit:
                         Vehicle vehicle = manager.getRegisteredUserVehicles().get(pos);
-                        Intent edit = new Intent(v.getContext(),AddVehicleCarActivity.class);
+                        Intent edit;
+                        if(vehicle instanceof Car){
+                           edit = new Intent(v.getContext(),AddVehicleCarActivity.class);
+                        }else{
+                            edit = new Intent(v.getContext(),AddVehicleMotorcycleActivity.class);
+                        }
                         edit.putExtra("Car object",vehicle);
                         startActivity(edit);
                         return true;

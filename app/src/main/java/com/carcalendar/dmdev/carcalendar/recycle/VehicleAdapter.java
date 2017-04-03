@@ -1,6 +1,5 @@
 package com.carcalendar.dmdev.carcalendar.recycle;
 
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.carcalendar.dmdev.carcalendar.R;
 
-import java.io.File;
 import java.util.List;
 
 import model.UserManager;
@@ -45,28 +43,25 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
 
         Car car = null;
         Motorcycle motorcycle = null;
-        if(vehicleList.get(position) instanceof Car){
-            car =(Car) vehicleList.get(position);
+        if (vehicleList.get(position) instanceof Car) {
+            car = (Car) vehicleList.get(position);
 
-            holder.vehicleImage.setImageBitmap(ImageUtils.getImageForCar(car));
+            holder.vehicleImage.setImageBitmap(ImageUtils.getImageForVehicle(car));
             holder.vehicleBrand.setText(car.getBrand());
             holder.vehicleModel.setText(car.getModel());
             holder.vehicleYear.setText(String.valueOf(car.getProductionYear()));
             holder.vehicleRange.setText(car.getKmRange());
-        }
-//        else{
-//            motorcycle = (Motorcycle) vehicleList.get(position);
-//
-//            holder.vehicleImage.setImageResource(motorcycle.getPathToImage());
-//            holder.vehicleBrand.setText(motorcycle.getCarType());
-//            holder.vehicleModel.setText(motorcycle.getModel());
-//            holder.vehicleYear.setText(motorcycle.valueOf(car.getProductionYear()));
-//            holder.vehicleRange.setText(motorcycle.getKmRange());
-//
-//        }
+        } else {
+            motorcycle = (Motorcycle) vehicleList.get(position);
+
+            holder.vehicleImage.setImageBitmap(ImageUtils.getImageForVehicle(motorcycle));
+            holder.vehicleBrand.setText(motorcycle.getMotorcycleType());
+            holder.vehicleModel.setText(motorcycle.getModel());
+            holder.vehicleYear.setText(String.valueOf(motorcycle.getProductionYear()));
+            holder.vehicleRange.setText(motorcycle.getKmRange());
         }
         // set data from a vehicle object
-
+    }
 
 
     @Override

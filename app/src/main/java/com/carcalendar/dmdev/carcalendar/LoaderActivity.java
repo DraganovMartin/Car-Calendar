@@ -16,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import model.UserManager;
 import model.Vehicle.Vehicle;
@@ -80,7 +79,7 @@ public class LoaderActivity extends AppCompatActivity {
                         if (manager.getLoggedUser() != null) {
                             ArrayList<Vehicle> list = (ArrayList<Vehicle>) manager.getRegisteredUserVehicles();
                             for (Vehicle x : list) {
-                                ImageUtils.mapImageToCar(x, ImageUtils.getBitmapFromPath(x.getPathToImage()));
+                                ImageUtils.mapImageToVehicle(x, ImageUtils.getBitmapFromPath(x.getPathToImage()));
                             }
                         }
                     } catch (IOException e) {
