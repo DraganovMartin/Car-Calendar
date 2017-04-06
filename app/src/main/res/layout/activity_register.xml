@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_register"
     android:layout_width="match_parent"
@@ -10,56 +11,91 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.carcalendar.dmdev.carcalendar.RegisterActivity">
 
-    <Button
-        android:text="@string/save_data_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/saveBtn"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="46dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="@string/enter_username"
-        android:ems="10"
-        android:id="@+id/regUserTextET"
-        android:layout_above="@+id/regAgeET"
-        android:layout_marginBottom="30dp"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="@string/enter_age"
-        android:ems="10"
-        android:id="@+id/regAgeET"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/regUserTextET"
-        android:layout_alignStart="@+id/regUserTextET" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="@string/enter_password"
-        android:ems="10"
-        android:id="@+id/regPassET"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/regAgeET"
-        android:layout_alignLeft="@+id/regAgeET"
-        android:layout_alignStart="@+id/regAgeET" />
-
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:visibility="visible"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/saveBtn"
-        android:layout_alignStart="@+id/saveBtn" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-</RelativeLayout>
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline4"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25"
+        tools:layout_editor_absoluteY="105dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/regPassET"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/enter_password"
+        android:inputType="textPassword"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp" />
+
+    <EditText
+        android:id="@+id/regAgeET"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/enter_age"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/regUserTextET"
+        app:layout_constraintTop_toBottomOf="@+id/regPassET"
+        app:layout_constraintLeft_toLeftOf="@+id/regPassET"
+        app:layout_constraintVertical_bias="0.5"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="@+id/regPassET"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <EditText
+        android:id="@+id/regUserTextET"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/regAgeET"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="@string/enter_username"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintLeft_toLeftOf="@+id/regAgeET"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="@+id/regAgeET"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <Button
+        android:text="@string/save_data_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/saveBtn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        app:layout_constraintVertical_bias="0.62" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline5"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.71"
+        tools:layout_editor_absoluteY="298dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+</android.support.constraint.ConstraintLayout>
