@@ -59,6 +59,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private int vehicleType;
     private IVignette vignette = null;
     private boolean taxDatePickerActivated = false;
+    private boolean inEditMode = false;
     private UserManager manager = UserManager.getInstance();
 
     private Uri photoURIFromCamera;
@@ -106,6 +107,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         // Sets the the data fields using the extra Car object
         Intent launchingIntent = getIntent();
         if (launchingIntent.hasExtra("Car object")) {
+            inEditMode = true;
             car = (Car) launchingIntent.getSerializableExtra("Car object");
 
 
@@ -430,18 +432,21 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             @Override
             public void onClick(View view) {
                 String path = car.getPathToImage();
-                if (path != null && !path.isEmpty()) {
+                if (!inEditMode && path != null && !path.isEmpty()) {
                     new File(car.getPathToImage()).delete();
+
+                    car.setEngineType(null);
+                    car.setCarType(null);
+                    car.setKmRange(null);
+                    car.setProductionYear(0);
+                    car.setVignette(null);
+                    car.setPathToImage(null);
+                    car.setVignette(null);
                 }
-                car.setEngineType(null);
-                car.setCarType(null);
-                car.setKmRange(null);
-                car.setProductionYear(0);
-                car.setVignette(null);
-                car.setPathToImage(null);
-                car.setVignette(null);
-                setResult(GarageActivity.VEHICLE_ADDED_UNSUCCESSFULLY);
+
+                setResult(GarageActivity.VEHICLE_ADD_CANCELED);
                 finish();
+
             }
         });
 

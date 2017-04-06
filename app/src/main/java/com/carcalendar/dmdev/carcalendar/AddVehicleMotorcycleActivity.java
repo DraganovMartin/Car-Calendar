@@ -53,6 +53,7 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
     private Spinner insuranceTypeSpinner;
     private Motorcycle motorcycle;
     private boolean taxDatePickerActivated = false;
+    private boolean inEditMode = false;
     private UserManager manager = UserManager.getInstance();
 
     private Uri photoURIFromCamera;
@@ -87,6 +88,7 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
         // Sets the the data fields using the extra Car object
         Intent launchingIntent = getIntent();
         if (launchingIntent.hasExtra("Car object")) {
+            inEditMode = true;
             motorcycle = (Motorcycle) launchingIntent.getSerializableExtra("Car object");
 
             motBtn.setImageBitmap(ImageUtils.getImageForVehicle(motorcycle));
@@ -368,15 +370,17 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
             @Override
             public void onClick(View view) {
                 String path = motorcycle.getPathToImage();
-                if (path != null && !path.isEmpty()) {
+                if (!inEditMode && path != null && !path.isEmpty()) {
                     new File(motorcycle.getPathToImage()).delete();
+
+                    motorcycle.setEngineType(null);
+                    motorcycle.setMotorcycleType(null);
+                    motorcycle.setKmRange(null);
+                    motorcycle.setProductionYear(0);
+                    motorcycle.setPathToImage(null);
                 }
-                motorcycle.setEngineType(null);
-                motorcycle.setMotorcycleType(null);
-                motorcycle.setKmRange(null);
-                motorcycle.setProductionYear(0);
-                motorcycle.setPathToImage(null);
-                setResult(GarageActivity.VEHICLE_ADDED_UNSUCCESSFULLY);
+
+                setResult(GarageActivity.VEHICLE_ADD_CANCELED);
                 finish();
             }
         });
