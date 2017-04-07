@@ -32,6 +32,7 @@ import java.util.Calendar;
 import model.Stickers.Insurance;
 import model.UserManager;
 import model.Vehicle.Motorcycle;
+import model.Vehicle.Vehicle;
 import model.util.ImageUtils;
 
 public class AddVehicleMotorcycleActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener,DatePickerFragment.cancelDate {
@@ -86,12 +87,14 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
 
         // Gets the data from an already registered motorcycle
         // Sets the the data fields using the extra Car object
-        Intent launchingIntent = getIntent();
+        final Intent launchingIntent = getIntent();
         if (launchingIntent.hasExtra("Car object")) {
             inEditMode = true;
             motorcycle = (Motorcycle) launchingIntent.getSerializableExtra("Car object");
 
-            motBtn.setImageBitmap(ImageUtils.getImageForVehicle(motorcycle));
+            Bitmap motImage = ImageUtils.getImageForVehicle(motorcycle);
+            motBtn.setImageBitmap(motImage);
+            imageContainer = motImage;
 
             // Sets the motorcycle type for ex. : Cruiser, Standard ...
             switch (motorcycle.getMotorcycleType()) {
@@ -143,7 +146,6 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
             }
 
             pathToImage = motorcycle.getPathToImage();
-            imageContainer =  ((BitmapDrawable) motBtn.getDrawable()).getBitmap();
 
         } else {
             // Initialize an empty motorcycle object
@@ -276,6 +278,10 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(inEditMode){
+                    manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"),false);
+                }
+
                 if (!registrationNumber.getText().toString().isEmpty()) {
                     motorcycle.setRegistrationPlate(registrationNumber.getText().toString());
                 } else {

@@ -89,7 +89,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
      * @param pos the position of the item in the recycler view
      */
     public void deleteItemFromList(int pos){
-        userManager.removeVehicle(vehicleList.remove(pos));
+        userManager.removeVehicle(vehicleList.remove(pos),true);
         notifyItemRemoved(pos);
     }
 }

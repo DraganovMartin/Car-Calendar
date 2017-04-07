@@ -58,8 +58,8 @@ public class UserManager implements IUserAuthenticator,Serializable {
         loggedUser.addVehicle(x);
     }
 
-    public void removeVehicle(Vehicle v){
-        loggedUser.removeVehicle(v);
+    public void removeVehicle(Vehicle v,boolean removeImageAlso){
+        loggedUser.removeVehicle(v,removeImageAlso);
     }
 
     public String getLoggedUserName() {
@@ -181,14 +181,19 @@ public class UserManager implements IUserAuthenticator,Serializable {
             }
         }
 
-        public void removeVehicle(Vehicle x) {
+        public void removeVehicle(Vehicle x,boolean removeImageAlso) {
             if (ownedVehicles.contains(x)) {
                 ownedVehicles.remove(x);
-                String pathToImage = x.getPathToImage();
-                if (pathToImage != null) {
-                    File imageofCar = new File(x.getPathToImage());
-                    if (!imageofCar.isDirectory() && imageofCar.length()>0) imageofCar.delete();
+                if (removeImageAlso) {
+                    removeVehicleImage(x.getPathToImage());
                 }
+            }
+        }
+
+        public void removeVehicleImage(String pathToImage){
+            if(pathToImage != null) {
+                File imageofCar = new File(pathToImage);
+                if (!imageofCar.isDirectory() && imageofCar.length() > 0) imageofCar.delete();
             }
         }
 
