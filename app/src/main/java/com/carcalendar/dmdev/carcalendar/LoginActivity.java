@@ -79,10 +79,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Checks if UsermanagerDATA file is available
-     * @return true or false
-     */
 
 
     @Override

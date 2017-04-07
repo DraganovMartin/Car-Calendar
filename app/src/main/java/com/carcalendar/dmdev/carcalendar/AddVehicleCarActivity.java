@@ -75,7 +75,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         saveBtn = (Button) findViewById(R.id.btn_car_save);
         cancelBtn = (Button) findViewById(R.id.cancel_car_btn);
         carBtn = (ImageButton) findViewById(R.id.imageButton_car_add);
-        carBtn.setImageResource(getIntent().getIntExtra("Car", R.mipmap.motorcycle_black));
+        carBtn.setImageResource(getIntent().getIntExtra("Car", R.mipmap.car_add_image));
         carTypeSpinner = (Spinner) findViewById(R.id.spinner_type_car);
         engineTypeSpinner = (Spinner) findViewById(R.id.spinner_car_engine);
         vignetteTypeSpinner = (Spinner) findViewById(R.id.vignette_type_spinner);

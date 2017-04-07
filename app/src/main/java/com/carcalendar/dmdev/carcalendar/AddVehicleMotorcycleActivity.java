@@ -66,12 +66,12 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vehicle_motorcycle);
 
-        saveBtn = (Button) findViewById(R.id.btn_car_save);
-        cancelBtn = (Button) findViewById(R.id.cancel_car_btn);
-        motBtn = (ImageButton) findViewById(R.id.imageButton_car_add);
+        saveBtn = (Button) findViewById(R.id.btn_motor_save);
+        cancelBtn = (Button) findViewById(R.id.cancel_motor_btn);
+        motBtn = (ImageButton) findViewById(R.id.imageButton_motor_add);
         motBtn.setImageResource(getIntent().getIntExtra("Motor", R.mipmap.motorcycle_black));
-        motorcycleTypeSpinner = (Spinner) findViewById(R.id.spinner_type_car);
-        engineTypeSpinner = (Spinner) findViewById(R.id.spinner_car_engine);
+        motorcycleTypeSpinner = (Spinner) findViewById(R.id.spinner_type_motor);
+        engineTypeSpinner = (Spinner) findViewById(R.id.spinner_motor_engine);
         brand = (EditText) findViewById(R.id.vehicle_brand);
         model = (EditText) findViewById(R.id.vehicle_model);
         oilET = (EditText) findViewById(R.id.oilEditText);

@@ -42,6 +42,10 @@
         <item>Hybrid</item>
     </string-array>
 
+    <string-array name="MotorEngines">
+        <item>Gasoline</item>
+    </string-array>
+
     <string-array name="InsurancePeriod">
         <item>Three \nMonths</item>
         <item>Annual</item>
@@ -56,33 +60,37 @@
 
     <string name="loading_data">Loading data. Please wait !</string>
     <string name="image_car_TView">Choose image for your car.</string>
-    <string name="type_car">Type : </string>
-    <string name="engine_car">Engine :</string>
-    <string name="year">Year :</string>
-    <string name="range">Range :\n in km</string>
-    <string name="vignette_type">Vignette :\n type</string>
-    <string name="vignette_start_day">Vignette :\nstart day</string>
-    <string name="pick_date">Pick date</string>
+    <string name="image_motor_TView">Choose image for your motor.</string>
+
+    <string name="type_car">Type</string>
+    <string name="engine_car">Engine</string>
+    <string name="year">Year</string>
+    <string name="range">Range </string>
+    <string name="vignette_type">Vignette type</string>
+    <string name="vignette_start_day">Vignette start date</string>
+    <string name="pick_date">Pick Date</string>
     <string name="cancel_btn">Cancel</string>
     <string name="save_btn">Save</string>
     <string name="registration_number">Registration number :</string>
     <string name="lplate_num_hint">XY1234ZP</string>
-    <string name="vehicle_brand">Brand :</string>
+    <string name="vehicle_brand">Brand</string>
     <string name="vehicle_brand_hint">Porsche</string>
-    <string name="vehicle_model">Model :</string>
+    <string name="motor_brand_hint">Suzuki</string>
+    <string name="vehicle_model">Model</string>
     <string name="vehicle_model_hint">Panamera</string>
+    <string name="motor_model_hint">Hayabusa</string>
     <string name="it_edit">Edit</string>
     <string name="it_diary">Diary</string>
     <string name="it_delete">Delete</string>
-    <string name="vehicle_insurance_amount">Vehicle \ninsurance :\namount</string>
-    <string name="vehicle_insurance_start">Insurance start :</string>
+    <string name="vehicle_insurance_amount">Insurance amount</string>
+    <string name="vehicle_insurance_start">Insurance start</string>
     <string name="year_hint">1998</string>
-    <string name="vignette_end_day">Vignette : \nend day</string>
-    <string name="insurance_end_day">Insurance : \nend day</string>
-    <string name="next_oil_change">Next oil :\n change</string>
-    <string name="vehicle_tax_amount">Vehicle Tax : \namount</string>
-    <string name="next_tax_payment">Next Tax :\n payment</string>
-    <string name="insurance_period_type">Insurance period type :</string>
+    <string name="vignette_end_day">Vignette end date</string>
+    <string name="insurance_end_day">Insurance end date</string>
+    <string name="next_oil_change">Next oil change</string>
+    <string name="vehicle_tax_amount">Tax amount</string>
+    <string name="next_tax_payment">Next Tax payment</string>
+    <string name="insurance_period_type">Insurance period</string>
 
 
 </resources>
