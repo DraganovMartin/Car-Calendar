@@ -86,19 +86,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         taxAmount = (EditText) findViewById(R.id.tax_ammount_ET);
         insuranceAmmount = (EditText) findViewById(R.id.insurance_ammount_ET);
         insuranceTypeSpinner = (Spinner) findViewById(R.id.insurance_spinner);
-
-        String[] carType = getResources().getStringArray(R.array.CarTypes);
-        populateSpinner(carTypeSpinner, carType);
-
-        String[] engineType = getResources().getStringArray(R.array.EngineTypes);
-        populateSpinner(engineTypeSpinner, engineType);
-
-        String[] vignetteType = getResources().getStringArray(R.array.VignetteTypes);
-        populateSpinner(vignetteTypeSpinner, vignetteType);
-
-        final String[] insuranceType = getResources().getStringArray(R.array.InsurancePeriod);
-        populateSpinner(insuranceTypeSpinner, insuranceType);
-
         yearText = (EditText) findViewById(R.id.yearEText);
         rangeText = (EditText) findViewById(R.id.rangeEText);
 
@@ -450,11 +437,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     @Override
     public void onBackPressed() {
         cancelBtn.callOnClick();
-    }
-
-    private void populateSpinner(Spinner spinner, String[] arr) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, arr);
-        spinner.setAdapter(adapter);
     }
 
     public void selectDate(View view) {

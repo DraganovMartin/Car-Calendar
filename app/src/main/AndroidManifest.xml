@@ -58,9 +58,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddVehicleCarActivity" />
+        <activity android:name=".AddVehicleCarActivity"
+            android:windowSoftInputMode="stateHidden|adjustNothing"
+            />
         <activity android:name=".HoldViewVehicleFragmentActivity" />
-        <activity android:name=".AddVehicleMotorcycleActivity"></activity>
+        <activity android:name=".AddVehicleMotorcycleActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            />
     </application>
 
 </manifest>

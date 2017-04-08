@@ -74,19 +74,20 @@
         android:layout_marginBottom="32dp" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:id="@+id/scrollView2"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/txt_licence_plate"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/guideline12"
         app:layout_constraintRight_toLeftOf="@+id/cancel_car_btn"
-        android:layout_marginRight="8dp">
+        app:layout_constraintTop_toBottomOf="@+id/txt_licence_plate">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -94,36 +95,39 @@
 
             <TextView
                 android:id="@+id/engine_car_TView"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:text="@string/engine_car"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBaseline_toBaselineOf="@+id/TypeTView"
-                app:layout_constraintBottom_toBottomOf="@+id/spinner_car_engine"
-                app:layout_constraintLeft_toLeftOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="@+id/spinner_car_engine"
-                app:layout_constraintVertical_bias="0.571" />
+                app:layout_constraintTop_toTopOf="@+id/guideline4"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline5"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline3" />
 
             <Spinner
                 android:id="@+id/spinner_car_engine"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="19dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:background="@android:color/transparent"
                 android:entries="@array/EngineTypes"
-                app:layout_constraintBaseline_toBaselineOf="@+id/engine_car_TView"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toRightOf="@+id/engine_car_TView"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline4"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline5" />
 
             <Spinner
                 android:id="@+id/spinner_type_car"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="19dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
@@ -141,30 +145,39 @@
             <TextView
                 android:id="@+id/TypeTView"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="@string/type_car"
                 android:textStyle="bold|italic"
-                app:layout_constraintBaseline_toBaselineOf="@+id/spinner_type_car"
-                app:layout_constraintLeft_toLeftOf="@+id/txt_brand"
-                app:layout_constraintRight_toRightOf="@+id/txt_brand" />
+                app:layout_constraintTop_toTopOf="@+id/spinner_type_car"
+                android:layout_marginTop="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/spinner_type_car"
+                android:layout_marginBottom="0dp"
+                app:layout_constraintVertical_bias="0.0"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/spinner_type_car"
+                android:layout_marginRight="8dp"
+                app:layout_constraintHorizontal_bias="0.0" />
 
             <EditText
                 android:id="@+id/vehicle_model"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="43dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:ems="10"
                 android:hint="@string/vehicle_model_hint"
                 android:inputType="textPersonName"
+                android:maxLines="1"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline4"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toRightOf="@+id/vehicle_model_TV"
-                android:layout_marginLeft="8dp"
-                app:layout_constraintHorizontal_bias="0.0" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/vehicle_model_TV"
@@ -174,44 +187,54 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/vehicle_model"
                 android:textStyle="bold|italic"
-                app:layout_constraintBaseline_toBaselineOf="@+id/vehicle_model"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline3"
-                app:layout_constraintRight_toRightOf="@+id/engine_car_TView" />
+                app:layout_constraintRight_toRightOf="@+id/engine_car_TView"
+                app:layout_constraintTop_toTopOf="@+id/vehicle_model"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/vehicle_model"
+                android:layout_marginBottom="8dp" />
 
             <EditText
                 android:id="@+id/vehicle_brand"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="43dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:ems="10"
                 android:hint="@string/vehicle_brand_hint"
                 android:inputType="textPersonName"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintRight_toLeftOf="@+id/guideline3"
-                android:layout_marginRight="8dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/txt_brand"
-                android:layout_marginLeft="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline4"
                 app:layout_constraintHorizontal_bias="0.0"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/guideline4" />
+                app:layout_constraintLeft_toRightOf="@+id/txt_brand"
+                app:layout_constraintRight_toLeftOf="@+id/guideline3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/yearTView"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/year"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBaseline_toBaselineOf="@+id/yearEText"
-                app:layout_constraintLeft_toLeftOf="@+id/TypeTView" />
+                app:layout_constraintRight_toLeftOf="@+id/yearEText"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline5"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline6" />
 
             <EditText
                 android:id="@+id/yearEText"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="43dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
@@ -225,24 +248,28 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/spinner_type_car"
                 app:layout_constraintRight_toLeftOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="@+id/guideline5" />
+                app:layout_constraintTop_toTopOf="@+id/guideline5"
+                app:layout_constraintVertical_bias="0.375" />
 
             <TextView
                 android:id="@+id/rangeTV"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:text="@string/range"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBaseline_toBaselineOf="@+id/rangeEText"
-                app:layout_constraintLeft_toLeftOf="@+id/guideline3" />
+                app:layout_constraintLeft_toLeftOf="@+id/guideline3"
+                app:layout_constraintTop_toTopOf="@+id/guideline5"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline6" />
 
             <EditText
                 android:id="@+id/rangeEText"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="43dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
@@ -266,68 +293,70 @@
                 android:layout_marginStart="16dp"
                 android:text="@string/vehicle_brand"
                 android:textStyle="bold|italic"
-                app:layout_constraintBaseline_toBaselineOf="@+id/vehicle_brand"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/vehicle_brand"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/vehicle_brand"
+                android:layout_marginBottom="8dp" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/guideline4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.11"
-                tools:layout_editor_absoluteY="56dp"
-                tools:layout_editor_absoluteX="0dp" />
+                app:layout_constraintGuide_begin="56dp" />
 
             <android.support.constraint.Guideline
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/guideline3"
-                app:layout_constraintGuide_percent="0.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                tools:layout_editor_absoluteY="0dp"
-                tools:layout_editor_absoluteX="180dp" />
+                app:layout_constraintGuide_percent="0.5"
+                tools:layout_editor_absoluteX="180dp"
+                tools:layout_editor_absoluteY="0dp" />
 
             <android.support.constraint.Guideline
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/guideline5"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.22"
-                tools:layout_editor_absoluteY="113dp"
-                tools:layout_editor_absoluteX="0dp" />
-
-            <android.support.constraint.Guideline
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/guideline6"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.33072406"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="113dp"
+                app:layout_constraintGuide_begin="113dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="169dp"
-                tools:layout_editor_absoluteX="0dp" />
+                app:layout_constraintGuide_begin="169dp" />
 
             <TextView
                 android:id="@+id/vignette_type"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/vignette_type"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                android:layout_marginLeft="8dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline6"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline7"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/vignette_type_spinner"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintTop_toTopOf="@+id/guideline6"
+                app:layout_constraintHorizontal_bias="0.0" />
 
             <Spinner
                 android:id="@+id/vignette_type_spinner"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="19dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
@@ -342,21 +371,23 @@
                 app:layout_constraintVertical_bias="0.26" />
 
             <android.support.constraint.Guideline
+                android:id="@+id/guideline7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/guideline7"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.48"
+                tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="246dp"
-                tools:layout_editor_absoluteX="0dp" />
+                app:layout_constraintGuide_begin="246dp" />
 
             <TextView
                 android:id="@+id/vignette_start_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/vignette_start_day"
                 android:textAlignment="center"
@@ -365,9 +396,7 @@
                 app:layout_constraintHorizontal_bias="0.533"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline3"
                 app:layout_constraintRight_toLeftOf="@+id/date_btn"
-                app:layout_constraintTop_toTopOf="@+id/guideline6"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
             <Button
                 android:id="@+id/date_btn"
@@ -375,44 +404,46 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:onClick="selectDate"
                 android:text="@string/pick_date"
                 app:layout_constraintBottom_toTopOf="@+id/guideline7"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline6"
-                android:onClick="selectDate"/>
+                app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/guideline8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.63"
+                tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="322dp"
-                tools:layout_editor_absoluteX="0dp" />
+                app:layout_constraintGuide_begin="322dp" />
 
             <TextView
                 android:id="@+id/vehicle_next_oil_change_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/next_oil_change"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                android:layout_marginLeft="8dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline7"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline8"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="@+id/vignette_type"
-                android:layout_marginStart="8dp" />
+                app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
             <EditText
                 android:id="@+id/oilEditText"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="43dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:ems="10"
                 android:hint="228000"
@@ -423,9 +454,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toRightOf="@+id/vehicle_next_oil_change_TV"
                 app:layout_constraintRight_toLeftOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="@+id/guideline7"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
             <TextView
                 android:id="@+id/vehicle_tax_ammount"
@@ -436,18 +465,23 @@
                 android:text="@string/vehicle_tax_amount"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBaseline_toBaselineOf="@+id/vehicle_next_oil_change_TV"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline3"
-                app:layout_constraintRight_toRightOf="@+id/vignette_start_TV" />
+                app:layout_constraintRight_toRightOf="@+id/vignette_start_TV"
+                app:layout_constraintTop_toTopOf="@+id/guideline7"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline8" />
 
             <EditText
                 android:id="@+id/tax_ammount_ET"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:ems="10"
                 android:hint="235.35"
@@ -458,17 +492,17 @@
                 app:layout_constraintLeft_toRightOf="@+id/vehicle_tax_ammount"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline7"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintVertical_bias="0.529" />
 
             <android.support.constraint.Guideline
+                android:id="@+id/guideline9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/guideline9"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.76"
+                tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="389dp"
-                tools:layout_editor_absoluteX="0dp" />
+                app:layout_constraintGuide_begin="389dp" />
 
             <TextView
                 android:id="@+id/vehicle_next_tax_payment"
@@ -490,19 +524,19 @@
             <Button
                 android:id="@+id/btn_next_payment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:onClick="selectDate"
                 android:text="@string/pick_date"
                 app:layout_constraintBottom_toTopOf="@+id/guideline9"
                 app:layout_constraintLeft_toRightOf="@+id/vehicle_next_tax_payment"
                 app:layout_constraintRight_toLeftOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="@+id/guideline8"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:onClick="selectDate"/>
+                app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
             <TextView
                 android:id="@+id/textView10"
@@ -522,7 +556,7 @@
             <EditText
                 android:id="@+id/insurance_ammount_ET"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="43dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
@@ -544,74 +578,68 @@
                 android:id="@+id/insurance_period_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/insurance_period_type"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toTopOf="@+id/guideline11"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="@+id/vehicle_next_tax_payment"
-                app:layout_constraintTop_toTopOf="@+id/guideline9" />
-
-            <android.support.constraint.Guideline
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/guideline11"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.88"
-                tools:layout_editor_absoluteY="450dp"
-                tools:layout_editor_absoluteX="0dp" />
+                app:layout_constraintTop_toTopOf="@+id/guideline9"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp" />
 
             <Spinner
                 android:id="@+id/insurance_spinner"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_height="19dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/transparent"
                 android:entries="@array/InsurancePeriod"
-                app:layout_constraintBottom_toTopOf="@+id/guideline11"
                 app:layout_constraintLeft_toRightOf="@+id/insurance_period_TV"
                 app:layout_constraintRight_toLeftOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="@+id/guideline9" />
+                app:layout_constraintTop_toTopOf="@+id/guideline9"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp" />
 
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/vehicle_insurance_start"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toTopOf="@+id/guideline11"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline3"
                 app:layout_constraintRight_toRightOf="@+id/textView10"
-                app:layout_constraintTop_toTopOf="@+id/guideline9" />
+                app:layout_constraintTop_toTopOf="@+id/guideline9"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp" />
 
             <Button
                 android:id="@+id/btn_insurance_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
+                android:onClick="selectDate"
                 android:text="@string/pick_date"
-                app:layout_constraintBottom_toTopOf="@+id/guideline11"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toRightOf="@+id/textView12"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline9"
-                app:layout_constraintVertical_bias="1.0"
-                android:onClick="selectDate"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp" />
+
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
