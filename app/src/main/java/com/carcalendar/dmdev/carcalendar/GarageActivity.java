@@ -2,7 +2,6 @@ package com.carcalendar.dmdev.carcalendar;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,7 +26,6 @@ import com.carcalendar.dmdev.carcalendar.recycle.VehicleViewHolder;
 import model.UserManager;
 import model.Vehicle.Car;
 import model.Vehicle.Vehicle;
-import com.carcalendar.dmdev.carcalendar.services.StorageManager;
 
 public class GarageActivity extends AppCompatActivity implements VehicleViewHolder.OnRecyclerViewItemLongPressListener,VehicleViewHolder.OnRecyclerViewItemClickListener {
 
@@ -44,7 +42,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
     private boolean fabMenuShown = false;
     private Handler mHandler = null;
     public static final int VEHICLE_ADDED_SUCCESSFULLY = 0;
-    public static final int VEHICLE_ADDED_UNSUCCESSFULLY = 1;
+    public static final int VEHICLE_ADD_CANCELED = 1;
 
     private final Runnable mRunnable = new Runnable() {
         @Override
@@ -237,12 +235,16 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == VEHICLE_ADDED_SUCCESSFULLY){
-            Toast.makeText(this,"Vehicle added successfully !!!",Toast.LENGTH_SHORT).show();
-            vAdapter.updateVehicleList();
-        }
-        else{
-            Toast.makeText(this,"Something went wrong !!!",Toast.LENGTH_SHORT).show();
+        switch(resultCode){
+            case VEHICLE_ADDED_SUCCESSFULLY:
+                Toast.makeText(this,"Vehicle added successfully !!!",Toast.LENGTH_SHORT).show();
+                vAdapter.updateVehicleList();
+                break;
+            case VEHICLE_ADD_CANCELED:
+                Toast.makeText(this,"Operation canceled!",Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(this,"Something went wrong !!!",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -266,7 +268,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
                             edit = new Intent(v.getContext(),AddVehicleMotorcycleActivity.class);
                         }
                         edit.putExtra("Car object",vehicle);
-                        startActivity(edit);
+                        startActivityForResult(edit,VEHICLE_ADDED_SUCCESSFULLY);
                         return true;
                     case R.id.it_diary:
                         return true;

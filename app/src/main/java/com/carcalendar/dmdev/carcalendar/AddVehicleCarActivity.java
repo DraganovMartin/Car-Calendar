@@ -36,6 +36,7 @@ import model.Stickers.MonthVignette;
 import model.Stickers.WeekVignette;
 import model.UserManager;
 import model.Vehicle.Car;
+import model.Vehicle.Vehicle;
 import model.util.ImageUtils;
 
 public class AddVehicleCarActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener,DatePickerFragment.cancelDate{
@@ -59,6 +60,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private int vehicleType;
     private IVignette vignette = null;
     private boolean taxDatePickerActivated = false;
+    private boolean inEditMode = false;
     private UserManager manager = UserManager.getInstance();
 
     private Uri photoURIFromCamera;
@@ -91,12 +93,14 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
         // Gets the data from an already registered car
         // Sets the the data fields using the extra Car object
-        Intent launchingIntent = getIntent();
+        final Intent launchingIntent = getIntent();
         if (launchingIntent.hasExtra("Car object")) {
+            inEditMode = true;
             car = (Car) launchingIntent.getSerializableExtra("Car object");
 
-
-            carBtn.setImageBitmap(ImageUtils.getImageForVehicle(car));
+            Bitmap carImage = ImageUtils.getImageForVehicle(car);
+            carBtn.setImageBitmap(carImage);
+            imageContainer = carImage;
 
             // Sets the car type for ex. : Sedan, Jeep ...
             switch (car.getCarType()) {
@@ -160,7 +164,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                taxDatePickerActivated = true;
            }
            pathToImage = car.getPathToImage();
-           imageContainer = carBtn.getDrawingCache();
 
         } else {
             // Initialize an empty car object
@@ -316,6 +319,9 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(inEditMode){
+                    manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"),false);
+                }
                 if (!registrationNumber.getText().toString().isEmpty()) {
                     car.setRegistrationPlate(registrationNumber.getText().toString());
                 } else {
@@ -417,18 +423,21 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             @Override
             public void onClick(View view) {
                 String path = car.getPathToImage();
-                if (path != null && !path.isEmpty()) {
+                if (!inEditMode && path != null && !path.isEmpty()) {
                     new File(car.getPathToImage()).delete();
+
+                    car.setEngineType(null);
+                    car.setCarType(null);
+                    car.setKmRange(null);
+                    car.setProductionYear(0);
+                    car.setVignette(null);
+                    car.setPathToImage(null);
+                    car.setVignette(null);
                 }
-                car.setEngineType(null);
-                car.setCarType(null);
-                car.setKmRange(null);
-                car.setProductionYear(0);
-                car.setVignette(null);
-                car.setPathToImage(null);
-                car.setVignette(null);
-                setResult(GarageActivity.VEHICLE_ADDED_UNSUCCESSFULLY);
+
+                setResult(GarageActivity.VEHICLE_ADD_CANCELED);
                 finish();
+
             }
         });
 
@@ -536,9 +545,9 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             }
         }else {
             Bitmap cameraBitmap = ImageUtils.getScaledBitmapFromPath(pathToImage, carBtn.getWidth(), carBtn.getHeight());
-            String realPath=null;
+            String realPath = null;
             try {
-                realPath = ImageUtils.saveBitmapImage(pathToImage,cameraBitmap);
+                realPath = ImageUtils.saveBitmapImage(pathToImage, cameraBitmap);
             } catch (Exception e) {
                 e.printStackTrace();
             }
