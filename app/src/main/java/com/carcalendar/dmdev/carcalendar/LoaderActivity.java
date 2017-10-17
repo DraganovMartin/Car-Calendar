@@ -25,7 +25,7 @@ public class LoaderActivity extends AppCompatActivity {
 
     private ProgressBar bar;
     private TextView loadingTV;
-    private UserManager manager = UserManager.getInstance();
+    private final UserManager manager = UserManager.getInstance();
     public static final String USERMANAGER_FILE_STORAGE = "UsermanagerDATA.txt";
     private boolean user_manager_saved_successfully = false;
 
@@ -55,7 +55,7 @@ public class LoaderActivity extends AppCompatActivity {
             }
     }
 
-    private class ManagerLoader extends AsyncTask<Void,Void,Void>
+    private class ManagerLoader extends AsyncTask<Void,Void,Boolean>
     {
 
         ManagerLoader() {}
@@ -67,7 +67,7 @@ public class LoaderActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Boolean doInBackground(Void... voids) {
             synchronized (manager) {
 
                 if (userManagerFileAvailable(getApplicationContext())) {
@@ -81,7 +81,9 @@ public class LoaderActivity extends AppCompatActivity {
                             for (Vehicle x : list) {
                                 ImageUtils.mapImageToVehicle(x, ImageUtils.getBitmapFromPath(x.getPathToImage()));
                             }
+                            return true;
                         }
+                        return false;
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (ClassNotFoundException e) {
@@ -89,12 +91,18 @@ public class LoaderActivity extends AppCompatActivity {
                     }
                 }
             }
-            return null;
+            return false;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            Intent intent = new Intent(LoaderActivity.this,LoginActivity.class);
+        protected void onPostExecute(Boolean flag) {
+
+            Intent intent = null;
+            if (flag){
+                intent = new Intent(LoaderActivity.this,GarageActivity.class);
+            }else {
+                intent= new Intent(LoaderActivity.this,LoginActivity.class);
+            }
             startActivity(intent);
             finish();
         }

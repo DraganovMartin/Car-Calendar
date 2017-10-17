@@ -1,5 +1,7 @@
 package com.carcalendar.dmdev.carcalendar;
 
+import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +11,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import model.UserManager;
+import model.Vehicle.Vehicle;
+import model.util.ImageUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -53,6 +59,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                if(manager.authenticateLogin(usernameET.getText().toString(),passET.getText().toString())){
+                   // TODO : start AsyncTaskLoader to map images in login
+                  // LoginMappe
+                   UserManager.saveDataUserManager(view.getContext(),manager);
                    Intent toMain = new Intent(view.getContext(),GarageActivity.class);
                    startActivity(toMain);
                    finish();
@@ -86,4 +95,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    private class LoginMapper extends AsyncTaskLoader {
+        public LoginMapper(Context context) {
+            super(context);
+        }
+
+        @Override
+        public Object loadInBackground() {
+            ArrayList<Vehicle> list = (ArrayList<Vehicle>) manager.getRegisteredUserVehicles();
+            for (Vehicle x : list) {
+                ImageUtils.mapImageToVehicle(x, ImageUtils.getBitmapFromPath(x.getPathToImage()));
+            }
+            return null;
+        }
+    }
+
 }
+

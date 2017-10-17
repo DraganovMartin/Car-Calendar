@@ -59,7 +59,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddVehicleCarActivity"
-            android:windowSoftInputMode="stateHidden|adjustNothing"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             />
         <activity android:name=".HoldViewVehicleFragmentActivity" />
         <activity android:name=".AddVehicleMotorcycleActivity"

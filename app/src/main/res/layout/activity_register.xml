@@ -16,9 +16,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/guideline4"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25"
-        tools:layout_editor_absoluteY="105dp"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintGuide_percent="0.16" />
 
     <EditText
         android:id="@+id/regUserTextET"

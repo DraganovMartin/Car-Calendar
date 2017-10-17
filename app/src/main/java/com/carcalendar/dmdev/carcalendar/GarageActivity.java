@@ -177,6 +177,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
     @Override
     protected void onStop() {
         super.onStop();
+        Log.e("destroy","Called stop !!!");
         mHandler.removeCallbacks(mRunnable);
         mHandler = null;
     }
@@ -185,7 +186,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
     protected void onDestroy()
     {
         super.onDestroy();
-
+        Log.e("destroy","Called destroy !!!");
         if (mHandler != null) { mHandler.removeCallbacks(mRunnable); }
     }
 
