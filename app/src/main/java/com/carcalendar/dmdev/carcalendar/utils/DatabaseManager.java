@@ -48,18 +48,54 @@ public class DatabaseManager {
      * @param table - Database table to update
      * @param columns - String array of columns to update
      * @param values - String array of values corresponding by index to columns to update
-     * @return rows affected
+     * @return rows affected or -1 if method not executed
      */
     public int update(String whereClause,String table, String []columns, String [] values) {
         ContentValues contentValues = new ContentValues();
-        if (columns.length == values.length){
-            for (int i = 0; i <columns.length ; i++) {
-                contentValues.put(columns[i],values[i]);
+        if (columns.length == values.length) {
+            switch (table) {
+                case "vehicles":
+                    for (int i = 0; i < columns.length; i++) {
+                        if (i == 9 || i == 10) {
+                            int tempVal = Integer.parseInt(values[i]);
+                            contentValues.put(columns[i], tempVal);
+                        } else contentValues.put(columns[i], values[i]);
+                    }
+                    break;
+                case "users":
+                    for (int i = 0; i < columns.length; i++) {
+                        if (i == 2 || i == 3) {
+                            int tempVal = Integer.parseInt(values[i]);
+                            contentValues.put(columns[i], tempVal);
+                        } else contentValues.put(columns[i], values[i]);
+                    }
+                    break;
+                case "taxes":
+                    for (int i = 0; i < columns.length; i++) {
+                        if (i == columns.length-1) {
+                            double tempVal = Double.parseDouble(values[i]);
+                            contentValues.put(columns[i], tempVal);
+                        } else contentValues.put(columns[i], values[i]);
+                    }
+                    break;
+                case "maintenance" :
+                    for (int i = 0; i < columns.length; i++) {
+                        if (i == columns.length-1) {
+                            double tempVal = Double.parseDouble(values[i]);
+                            contentValues.put(columns[i], tempVal);
+                        } else contentValues.put(columns[i], values[i]);
+                    }
+                    break;
+                default :
+                    for (int i = 0; i <columns.length ; i++) {
+                        contentValues.put(columns[i],values[i]);
+                    }
             }
+            int i = database.update(table, contentValues,
+                    whereClause, null);
+            return i;
         }
-        int i = database.update(table, contentValues,
-                whereClause, null);
-        return i;
+        return -1;
     }
 
     public void delete(String table,String whereClause) {
