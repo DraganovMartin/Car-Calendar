@@ -4,12 +4,14 @@ package com.carcalendar.dmdev.carcalendar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -68,6 +70,13 @@ public class LoaderActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
+            // TODO db lines are for testing only
+            // Creating the db here for now
+            DatabaseManager dbManager = new DatabaseManager(getApplicationContext());
+            Log.d("DB", "DB created!");
+
+
+
             synchronized (manager) {
 
                 if (userManagerFileAvailable(getApplicationContext())) {

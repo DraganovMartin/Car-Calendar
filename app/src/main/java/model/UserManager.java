@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.carcalendar.dmdev.carcalendar.services.StorageManager;
+import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 
 import java.io.File;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import model.Vehicle.Vehicle;
 import model.authentication.IUserAuthenticator;
 import model.authentication.UsedUsernameException;
@@ -29,6 +31,7 @@ public class UserManager implements IUserAuthenticator,Serializable {
     private TreeSet<User> registeredUsers;
     private static int userId =0;
     private User loggedUser;
+    private static DatabaseManager dbManager = null;
 
     private UserManager() {
 
