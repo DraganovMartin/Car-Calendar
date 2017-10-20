@@ -1,8 +1,8 @@
 package com.carcalendar.dmdev.carcalendar;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleViewHolder;
+import com.carcalendar.dmdev.carcalendar.utils.DatabaseHelper;
 
 import model.UserManager;
 import model.Vehicle.Car;
@@ -199,6 +200,8 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         }
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
+            // TODO db lines are for testing only
+            new DatabaseHelper(getApplicationContext()).close();
             UserManager.saveDataUserManager(this,manager);
             return;
         }
