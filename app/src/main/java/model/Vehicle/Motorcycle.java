@@ -14,9 +14,9 @@ public class Motorcycle extends Vehicle {
     }
 
     public Motorcycle(String registrationPlate, String brand, String model, String motorcycleTypeType, String engineType,
-                      String range, String pathToImage, int productionYear,int nextOilChange) {
+                      String range, String pathToImage, int productionYear,String nextOilChange) {
 
-        super(registrationPlate, brand, model, pathToImage, productionYear,nextOilChange);
+        super(brand, model, productionYear, registrationPlate, nextOilChange, pathToImage);
 
         this.motorcycleType = motorcycleTypeType;
         this.engineType = engineType;
