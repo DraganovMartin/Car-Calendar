@@ -24,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.dialogs.DatePickerFragment;
+import com.carcalendar.dmdev.carcalendar.utils.DatabaseHelper;
+import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 
 import java.io.File;
 import java.io.InputStream;
@@ -68,6 +70,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
     private static final int REQUEST_IMAGE_CAMERA = 0;
     private static final int REQUEST_IMAGE_GALLERY = 1;
+    public static final String GET_VEHICLE_TYPE = "Car";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +163,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             // Sets the registrationPlate
             registrationNumber.setText(car.getRegistrationPlate());
 
-           if (car.getTax().getEndDate().get(Calendar.YEAR) > 0){
+           if (car.getTax().getEndDateAsCalendarObject().get(Calendar.YEAR) > 1900){
                taxDatePickerActivated = true;
            }
            pathToImage = car.getPathToImage();
@@ -244,26 +247,26 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             }
         });
 
-        insuranceTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i) {
-                    case 0:         // Three Month
-                        car.getInsurance().setType(Insurance.THREE_MONTH);
-                        break;
-                    case 1:         // Annual
-                        car.getInsurance().setType(Insurance.ANNUAL);
-                        break;
-
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                car.getInsurance().setType(null);
-            }
-        });
+//        insuranceTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                switch (i) {
+//                    case 0:         // Three Month
+//                        car.getInsurance().setType(Insurance.THREE_MONTH);
+//                        break;
+//                    case 1:         // Annual
+//                        car.getInsurance().setType(Insurance.ANNUAL);
+//                        break;
+//
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//                car.getInsurance().setType(null);
+//            }
+//        });
 
         carBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -389,10 +392,11 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     return;
                 }
 
-                if (car.getInsurance().getType() == null){
-                    Toast.makeText(view.getContext(),"Please choose insurance period !",Toast.LENGTH_SHORT).show();
-                    insuranceTypeSpinner.requestFocus();
-                }
+                // TODO : fix this , easy as fuck but sleepy
+//                if (car.getInsurance().getType() == null){
+//                    Toast.makeText(view.getContext(),"Please choose insurance period !",Toast.LENGTH_SHORT).show();
+//                    insuranceTypeSpinner.requestFocus();
+//                }
 
                 if (imageContainer != null){
                     ImageUtils.mapImageToVehicle(car,imageContainer);
@@ -410,8 +414,17 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     ImageUtils.mapImageToVehicle(car,bm);
                 }
 
+                if (oilET.getText().toString().isEmpty()){
+                    oilET.setError("Please enter next oil change");
+                    oilET.requestFocus();
+                }
+                else {
+                    car.setNextOilChange(oilET.getText().toString());
+                }
+
                 manager.addVehicle(car);
-                UserManager.saveDataUserManager(view.getContext(),manager);
+                //UserManager.saveDataUserManager(view.getContext(),manager);
+                DatabaseManager databaseManager = new DatabaseManager(getApplicationContext());
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
                 //Log.e("calendar",String.valueOf(((AnnualVignette) vignette).getEndDateObject().get(Calendar.YEAR)) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.MONTH) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.DAY_OF_MONTH));
                 finish();

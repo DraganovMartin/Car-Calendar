@@ -21,6 +21,7 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     private VehicleTax tax;
     private static int id=0;
     private int myId;
+    private String nextOilChange;
 
     public Vehicle(){
         myId = ++id;
@@ -115,6 +116,14 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
         this.tax.setAmount(tax);
     }
 
+    public String getNextOilChange() {
+        return nextOilChange;
+    }
+
+    public void setNextOilChange(String nextOilChange) {
+        this.nextOilChange = nextOilChange;
+    }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -132,4 +141,5 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     public int hashCode() {
         return this.brand.hashCode()*this.model.hashCode()*this.myId;
     }
+
 }

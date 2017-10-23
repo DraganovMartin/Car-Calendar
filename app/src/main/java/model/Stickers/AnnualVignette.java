@@ -14,13 +14,14 @@ public class AnnualVignette implements IVignette {
     private Calendar today = Calendar.getInstance();
     private double price;
 
-    public AnnualVignette(){}
+    public AnnualVignette() {
+    }
 
-    public AnnualVignette(int startYear, int startMonth, int startDay,double price){
+    public AnnualVignette(int startYear, int startMonth, int startDay, double price) {
         startDate.clear();
-        startDate.set(startYear,startMonth,startDay);
+        startDate.set(startYear, startMonth, startDay);
         endDate.clear();
-        endDate.set(startYear+1,Calendar.JANUARY,31);
+        endDate.set(startYear + 1, Calendar.JANUARY, 31);
 
 
         this.price = price;
@@ -32,9 +33,9 @@ public class AnnualVignette implements IVignette {
 
     public void setStartDate(int startYear, int startMonth, int startDay) {
         startDate.clear();
-        startDate.set(startYear,startMonth,startDay);
+        startDate.set(startYear, startMonth, startDay);
         endDate.clear();
-        endDate.set(startYear+1,Calendar.JANUARY,31);
+        endDate.set(startYear + 1, Calendar.JANUARY, 31);
     }
 
     public Calendar getEndDateObject() {
@@ -48,10 +49,9 @@ public class AnnualVignette implements IVignette {
     @Override
     public boolean isValid() {
         today.setTime(new Date());
-        if(today.before(endDate)){
+        if (today.before(endDate) || today.compareTo(endDate) == 0) {
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     @Override
@@ -71,6 +71,11 @@ public class AnnualVignette implements IVignette {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         String date = format1.format(endDate.getTime());
         return date;
+    }
+
+    @Override
+    public Calendar getEndDateAsCalender() {
+        return endDate;
     }
 
     @Override
