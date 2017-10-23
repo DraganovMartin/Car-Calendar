@@ -48,7 +48,7 @@ public class AnnualVignette implements IVignette {
     @Override
     public boolean isValid() {
         today.setTime(new Date());
-        if(today.before(endDate)){
+        if(today.before(endDate) || today.compareTo(endDate) == 0){
             return true;
         }
         else return false;
@@ -71,6 +71,11 @@ public class AnnualVignette implements IVignette {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         String date = format1.format(endDate.getTime());
         return date;
+    }
+
+    @Override
+    public Calendar getEndDateAsCalender(){
+        return endDate;
     }
 
     @Override

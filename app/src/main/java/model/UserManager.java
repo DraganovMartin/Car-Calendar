@@ -96,6 +96,13 @@ public class UserManager implements IUserAuthenticator,Serializable {
     }
 
     /**
+     * Update UserManager and Model from the db
+     */
+    public void updateFromDB() {
+        // Call getLoggedUser() method from db manager
+    }
+
+    /**
      *  ANDROID SPECIFIC !!!
      *  Serializing the UserManager object to internal storage  with openFileOutput()
      * @param x - UserManager

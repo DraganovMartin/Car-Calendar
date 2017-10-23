@@ -19,6 +19,7 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     private String pathToImage;
     private Insurance insurance;
     private VehicleTax tax;
+    private int nextOilChange;
     private static int id=0;
     private int myId;
 
@@ -28,12 +29,14 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
         tax = new VehicleTax();
     }
 
-    public Vehicle(String brand, String model,int productionYear,String registrationPlate){
+    public Vehicle(String registrationPlate, String brand, String model,String pathToImage,int productionYear,int nextOilChange){
+        this.registrationPlate = registrationPlate;
         this.brand = brand;
         this.model = model;
+        this.pathToImage = pathToImage;
         this.productionYear = productionYear;
-        this.registrationPlate = registrationPlate;
         this.myId = ++id;
+        this.nextOilChange = nextOilChange;
     }
 
     public String getBrand() {
@@ -103,6 +106,10 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
         return insurance;
     }
 
+    public void setInsurance(Insurance insurance) {
+        this.insurance = insurance;
+    }
+
     /**
      *
      * @return Tax object
@@ -111,17 +118,29 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
         return tax;
     }
 
-    public void setTax(double tax) {
+    public void setTaxAmount(double tax) {
         this.tax.setAmount(tax);
     }
 
+    public void setTax(VehicleTax tax){
+        this.tax = tax;
+    }
 
+    public int getNextOilChange() {
+        return nextOilChange;
+    }
+
+    public void setNextOilChange(int nextOilChange) {
+        this.nextOilChange = nextOilChange;
+    }
     @Override
     public boolean equals(Object obj) {
-        Vehicle toCompare = (Vehicle) obj;
-        if(this.brand.equals(toCompare.brand)){
-            if (this.model.equals(toCompare.model)){
-                if (this.myId == toCompare.myId) return true;
+        if(obj != null) {
+            Vehicle toCompare = (Vehicle) obj;
+            if (this.brand.equals(toCompare.brand)) {
+                if (this.model.equals(toCompare.model)) {
+                    if (this.myId == toCompare.myId) return true;
+                }
             }
         }
 
@@ -132,4 +151,6 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     public int hashCode() {
         return this.brand.hashCode()*this.model.hashCode()*this.myId;
     }
+
+
 }
