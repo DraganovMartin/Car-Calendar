@@ -48,4 +48,3 @@ public abstract class Tax implements Serializable {
 
     public String getType() {return "tax";}
 }
-

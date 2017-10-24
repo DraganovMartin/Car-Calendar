@@ -141,7 +141,7 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
             // Sets the registrationPlate
             registrationNumber.setText(motorcycle.getRegistrationPlate());
 
-            if (motorcycle.getTax().getEndDate().get(Calendar.YEAR) > 0){
+            if (motorcycle.getTax().getEndDateAsCalendarObject().get(Calendar.YEAR) > 0){
                 taxDatePickerActivated = true;
             }
 
@@ -203,26 +203,26 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
             }
         });
 
-        insuranceTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i) {
-                    case 0:         // Three Month
-                        motorcycle.getInsurance().setType(Insurance.THREE_MONTH);
-                        break;
-                    case 1:         // Annual
-                        motorcycle.getInsurance().setType(Insurance.ANNUAL);
-                        break;
-
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                motorcycle.getInsurance().setType(null);
-            }
-        });
+//        insuranceTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                switch (i) {
+//                    case 0:         // Three Month
+//                        motorcycle.getInsurance().setType(Insurance.THREE_MONTH);
+//                        break;
+//                    case 1:         // Annual
+//                        motorcycle.getInsurance().setType(Insurance.ANNUAL);
+//                        break;
+//
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//                motorcycle.getInsurance().setType(null);
+//            }
+//        });
 
         motBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,7 +342,7 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
                     return;
                 }
 
-                if (motorcycle.getInsurance().getType() == null){
+                if (motorcycle.getInsurance().getTypeCount() == null){
                     Toast.makeText(view.getContext(),"Please choose insurance period !",Toast.LENGTH_SHORT).show();
                     insuranceTypeSpinner.requestFocus();
                 }

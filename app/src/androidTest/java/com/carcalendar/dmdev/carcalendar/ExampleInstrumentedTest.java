@@ -38,7 +38,7 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void shouldGetUserDimchoFromDB() {
-        Cursor cur = dbManager.fetch(DatabaseHelper.USERS_TABLE, DatabaseHelper.USER_TABLE_COLUMNS);
+        Cursor cur = dbManager.fetch(DatabaseHelper.USERS_TABLE, DatabaseHelper.USER_TABLE_COLUMNS, null, null, null);
         assertEquals(1, cur.getCount());
         assertEquals("dimcho", cur.getString(0));
         assertEquals("haha", cur.getString(1));
@@ -47,25 +47,25 @@ public class ExampleInstrumentedTest {
     }
 
     public void shouldQueryVehiclesTable() throws Exception {
-        Cursor cur = dbManager.fetch(DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS);
+        Cursor cur = dbManager.fetch(DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS, null, null, null);
         assertEquals(1, cur.getCount());
     }
 
     @Test
     public void shouldQueryUsersTable() throws Exception {
-        Cursor cur2 = dbManager.fetch("users", DatabaseHelper.USER_TABLE_COLUMNS);
+        Cursor cur2 = dbManager.fetch("users", DatabaseHelper.USER_TABLE_COLUMNS, null, null, null);
         assertEquals(1, cur2.getCount());
     }
 
     @Test
     public void shouldQueryTaxesTable() throws Exception {
-        Cursor cur2 = dbManager.fetch("taxes", DatabaseHelper.TAX_TABLE_COLUMNS);
+        Cursor cur2 = dbManager.fetch("taxes", DatabaseHelper.TAX_TABLE_COLUMNS, null, null, null);
         assertEquals(0, cur2.getCount());
     }
 
     @Test
     public void shouldQueryMaintenanceTable() throws Exception {
-        Cursor cur2 = dbManager.fetch("maintenance", DatabaseHelper.MAINTENANCE_TABLE_COLUMNS);
+        Cursor cur2 = dbManager.fetch("maintenance", DatabaseHelper.MAINTENANCE_TABLE_COLUMNS, null, null, null);
         assertEquals(0, cur2.getCount());
     }
 
@@ -73,7 +73,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void shouldInsertInToTableVehicles() throws Exception {
         // Fetch inserted data
-        Cursor cur = dbManager.fetch(DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS);
+        Cursor cur = dbManager.fetch(DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS, null, null, null);
         assertEquals(1, cur.getCount());
         assertEquals(DATA[0], cur.getString(0));
         assertEquals("dimcho", cur.getString(1));
@@ -93,7 +93,7 @@ public class ExampleInstrumentedTest {
         dbManager.update(null,DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS, UPDATED_DATA);
 
         // Fetch inserted data
-        Cursor cur = dbManager.fetch(DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS);
+        Cursor cur = dbManager.fetch(DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS, null, null, null);
         assertEquals(1, cur.getCount());
         assertEquals(UPDATED_DATA[0], cur.getString(0));
         assertEquals(UPDATED_DATA[1], cur.getString(1));
