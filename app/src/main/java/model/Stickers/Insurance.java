@@ -178,7 +178,7 @@ public class Insurance implements Serializable{
             case 2: return "2-insurance";
             case 3: return "3-insurance";
             case 4: return "4-insurance";
+            default: return null;
         }
-        return null;
     }
 }

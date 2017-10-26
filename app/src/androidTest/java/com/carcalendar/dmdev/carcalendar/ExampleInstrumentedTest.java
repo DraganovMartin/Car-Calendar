@@ -32,8 +32,8 @@ public class ExampleInstrumentedTest {
     public void setUp() throws Exception {
         Context appContext = InstrumentationRegistry.getTargetContext();
         dbManager = new DatabaseManager(appContext);
-        dbManager.insert(DatabaseHelper.USERS_TABLE, DatabaseHelper.USER_TABLE_COLUMNS, USER_DATA);
-        dbManager.insert(DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS, DATA);
+//        dbManager.insert(DatabaseHelper.USERS_TABLE, DatabaseHelper.USER_TABLE_COLUMNS, USER_DATA);
+//        dbManager.insert(DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS, DATA);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void shouldUpdateUsersTable() {
-        dbManager.update(null,DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS, UPDATED_DATA);
+//        dbManager.update(null,DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS, UPDATED_DATA);
 
         // Fetch inserted data
         Cursor cur = dbManager.fetch(DatabaseHelper.VEHICLES_TABLE, DatabaseHelper.VEHICLES_TABLE_COLUMNS, null, null, null);

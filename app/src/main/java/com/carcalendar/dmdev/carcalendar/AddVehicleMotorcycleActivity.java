@@ -342,7 +342,7 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
                     return;
                 }
 
-                if (motorcycle.getInsurance().getTypeCount() == null){
+                if (motorcycle.getInsurance().getTypeForDB() == null){
                     Toast.makeText(view.getContext(),"Please choose insurance period !",Toast.LENGTH_SHORT).show();
                     insuranceTypeSpinner.requestFocus();
                 }

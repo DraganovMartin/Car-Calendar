@@ -322,9 +322,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(inEditMode){
-                    manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"),false);
-                }
                 if (!registrationNumber.getText().toString().isEmpty()) {
                     car.setRegistrationPlate(registrationNumber.getText().toString());
                 } else {
@@ -392,11 +389,11 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     return;
                 }
 
-                // TODO : fix this , easy as fuck but sleepy
-//                if (car.getInsurance().getType() == null){
-//                    Toast.makeText(view.getContext(),"Please choose insurance period !",Toast.LENGTH_SHORT).show();
-//                    insuranceTypeSpinner.requestFocus();
-//                }
+
+                if (car.getInsurance().getTypeForDB() == null){
+                    Toast.makeText(view.getContext(),"Please choose insurance period !",Toast.LENGTH_SHORT).show();
+                    insuranceTypeSpinner.requestFocus();
+                }
 
                 if (imageContainer != null){
                     ImageUtils.mapImageToVehicle(car,imageContainer);
@@ -422,11 +419,20 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     car.setNextOilChange(oilET.getText().toString());
                 }
 
+                DatabaseManager databaseManager = new DatabaseManager(getApplicationContext());
+                if(inEditMode){
+                    manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"),false);
+                    if(databaseManager.update(car) != -1) Toast.makeText(saveBtn.getContext(),"Vehicle not updated !",Toast.LENGTH_SHORT).show();
+                }
+
                 manager.addVehicle(car);
                 //UserManager.saveDataUserManager(view.getContext(),manager);
-                DatabaseManager databaseManager = new DatabaseManager(getApplicationContext());
+                try {
+                    databaseManager.insert(car);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
-                //Log.e("calendar",String.valueOf(((AnnualVignette) vignette).getEndDateObject().get(Calendar.YEAR)) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.MONTH) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.DAY_OF_MONTH));
                 finish();
 
             }
