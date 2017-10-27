@@ -13,9 +13,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import model.UserManager;
 import model.Vehicle.Car;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -28,11 +30,13 @@ public class InsertDBTest {
     private static final Car car = new Car("FU2334CK", "Hello", "Oiii",
             "Pff", "gasoline", "1000",
             null, 2003, "12000");
+    private UserManager manager;
 
     @Before
     public void setUp() throws Exception {
         Context appContext = InstrumentationRegistry.getTargetContext();
         dbManager = new DatabaseManager(appContext);
+        manager = mock(UserManager.getInstance().getClass());
     }
 
     @Test
@@ -44,8 +48,9 @@ public class InsertDBTest {
         assertEquals("No users to delete", 1, passed);
     }
 
-    @Test
+//    @Test
     public void shouldInsertInToVehicles() throws Exception {
+        when(manager.getLoggedUserName()).thenReturn("dimcho");
         //TODO implement
     }
 
