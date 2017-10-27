@@ -7,15 +7,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,7 +23,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.dialogs.DatePickerFragment;
-import com.carcalendar.dmdev.carcalendar.utils.DatabaseHelper;
 import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 
 import java.io.File;
@@ -33,7 +31,6 @@ import java.util.Calendar;
 
 import model.Stickers.AnnualVignette;
 import model.Stickers.IVignette;
-import model.Stickers.Insurance;
 import model.Stickers.MonthVignette;
 import model.Stickers.WeekVignette;
 import model.UserManager;
@@ -422,13 +419,17 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 DatabaseManager databaseManager = new DatabaseManager(getApplicationContext());
                 if(inEditMode){
                     manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"),false);
-                    if(databaseManager.update(car) != -1) Toast.makeText(saveBtn.getContext(),"Vehicle not updated !",Toast.LENGTH_SHORT).show();
+                    try {
+                        if(databaseManager.insert(car, true) != -1) Toast.makeText(saveBtn.getContext(),"Vehicle not updated !",Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 manager.addVehicle(car);
                 //UserManager.saveDataUserManager(view.getContext(),manager);
                 try {
-                    databaseManager.insert(car);
+                    databaseManager.insert(car, true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

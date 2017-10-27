@@ -96,6 +96,14 @@ public class UserManager implements IUserAuthenticator,Serializable {
     }
 
     /**
+     * For testing purposes
+     * @param username
+     */
+    public void setLoggedUserUsername(String username) {
+        loggedUser = new User(username, "ddd", 22, 1);
+    }
+
+    /**
      * Update UserManager and Model from the db
      */
     public void updateFromDB() {
