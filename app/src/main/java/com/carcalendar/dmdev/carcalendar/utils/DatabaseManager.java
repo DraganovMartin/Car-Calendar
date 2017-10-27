@@ -45,7 +45,7 @@ public class DatabaseManager {
     /**
      * @param modelObj - Object of the model to be inserted : vehicle and vehicle subclasses, the data embedded
      */
-    public long insert(Object modelObj) throws Exception {
+    public void insert(Object modelObj) throws Exception {
         ContentValues contentValues = new ContentValues();
         Car tempCar = null;
         Motorcycle tempCycle = null;
@@ -53,7 +53,7 @@ public class DatabaseManager {
             Vehicle tempVehicle = (Vehicle)modelObj;
             // Vehicle data
             contentValues.put(DatabaseHelper.VEHICLES_REGISTRATION, tempVehicle.getRegistrationPlate());
-            contentValues.put(DatabaseHelper.VEHICLES_OWNERID, "dimcho");//UserManager.getInstance().getLoggedUserName());
+            contentValues.put(DatabaseHelper.VEHICLES_OWNERID, UserManager.getInstance().getLoggedUserName());
             contentValues.put(DatabaseHelper.VEHICLES_BRAND,tempVehicle.getBrand());
             contentValues.put(DatabaseHelper.VEHICLES_MODEL,tempVehicle.getModel());
             contentValues.put(DatabaseHelper.VEHICLES_PROD_YEAR,tempVehicle.getProductionYear());
@@ -99,7 +99,7 @@ public class DatabaseManager {
             contentValues.put(DatabaseHelper.TAXES_DATE_FROM, tempCar.getVignette().getStartDate());
             contentValues.put(DatabaseHelper.TAXES_DATE_TO, tempCar.getVignette().getEndDate());
             contentValues.put(DatabaseHelper.TAXES_PRICE, tempCar.getVignette().getPrice());
-            return database.insert(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
+            database.insert(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
 
         }
         else if (modelObj instanceof  Motorcycle){
@@ -108,19 +108,19 @@ public class DatabaseManager {
             contentValues.put(DatabaseHelper.VEHICLES_ENGINE_TYPE,tempCycle.getEngineType());
             contentValues.put(DatabaseHelper.VEHICLES_BODY_TYPE,tempCycle.getMotorcycleType());
             contentValues.put(DatabaseHelper.VEHICLES_RANGE,tempCycle.getKmRange());
-            return database.insert(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
+            database.insert(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
         }
-        return -3;
+
     }
 
 
-    public long insertUser(String username, String pass, int age){
+    public void insertUser(String username, String pass, int age){
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.USERS_USERNAME,username);
         contentValues.put(DatabaseHelper.USERS_PASSWORD,pass);
         contentValues.put(DatabaseHelper.USERS_AGE,age);
         contentValues.put(DatabaseHelper.USERS_ISLOGGED,false);
-        return database.insert(DatabaseHelper.USERS_TABLE,null,contentValues);
+        database.insert(DatabaseHelper.USERS_TABLE,null,contentValues);
     }
 
 
@@ -215,8 +215,8 @@ public class DatabaseManager {
         return false;
     }
 
-    public int delete(String table,String whereClause) {
-        return database.delete(table, whereClause, null);
+    public void delete(String table,String whereClause) {
+        database.delete(table, whereClause, null);
     }
 
     /**
