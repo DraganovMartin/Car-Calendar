@@ -59,7 +59,7 @@ public class DatabaseManager {
             Vehicle tempVehicle = (Vehicle)modelObj;
             // Vehicle data
             contentValues.put(DatabaseHelper.VEHICLES_REGISTRATION, tempVehicle.getRegistrationPlate());
-            contentValues.put(DatabaseHelper.VEHICLES_OWNERID,UserManager.getInstance().getLoggedUserName());
+            contentValues.put(DatabaseHelper.VEHICLES_OWNERID, UserManager.getInstance().getLoggedUserName());
             contentValues.put(DatabaseHelper.VEHICLES_BRAND,tempVehicle.getBrand());
             contentValues.put(DatabaseHelper.VEHICLES_MODEL,tempVehicle.getModel());
             contentValues.put(DatabaseHelper.VEHICLES_PROD_YEAR,tempVehicle.getProductionYear());
@@ -78,9 +78,7 @@ public class DatabaseManager {
                     }
                 }
                 else {
-                    if (database.insert(DatabaseHelper.TAXES_TABLE, null, insuranceContent) == -1) {
-                        throw new Exception("Problem inserting insurance data");
-                    }
+                    database.insertOrThrow(DatabaseHelper.TAXES_TABLE, null, insuranceContent);
                 }
             }
             // Taxes data
@@ -96,9 +94,7 @@ public class DatabaseManager {
                     }
                 }
                 else {
-                    if (database.insert(DatabaseHelper.TAXES_TABLE, null, taxContent) == -1) {
-                        throw new Exception("Problem inserting tax data");
-                    }
+                    database.insertOrThrow(DatabaseHelper.TAXES_TABLE, null, taxContent);
                 }
             }
 
@@ -114,13 +110,13 @@ public class DatabaseManager {
                 vignetteContent.put(DatabaseHelper.TAXES_VEHICLE_REGISTRATION, tempCar.getRegistrationPlate());
                 switch (tempCar.getVignette().getType()) {
                     case "Annual":
-                        contentValues.put(DatabaseHelper.TAXES_TYPE, "annual-vignette");
+                        vignetteContent.put(DatabaseHelper.TAXES_TYPE, "annual-vignette");
                         break;
                     case "Month":
-                        contentValues.put(DatabaseHelper.TAXES_TYPE, "month-vignette");
+                        vignetteContent.put(DatabaseHelper.TAXES_TYPE, "month-vignette");
                         break;
                     case "Week":
-                        contentValues.put(DatabaseHelper.TAXES_TYPE, "week-vignette");
+                        vignetteContent.put(DatabaseHelper.TAXES_TYPE, "week-vignette");
                         break;
                 }
                 vignetteContent.put(DatabaseHelper.TAXES_DATE_FROM, tempCar.getVignette().getStartDate());
@@ -132,9 +128,7 @@ public class DatabaseManager {
                     }
                 }
                 else {
-                    if (database.insert(DatabaseHelper.TAXES_TABLE, null, vignetteContent) == -1) {
-                        throw new Exception("Problem inserting vignette data");
-                    }
+                    database.insertOrThrow(DatabaseHelper.TAXES_TABLE, null, vignetteContent);
                 }
             }
             if (shouldUpdate){
@@ -142,7 +136,7 @@ public class DatabaseManager {
                     throw new Exception("Updating vehicle data fucked up !!");
                 }
             }
-            else return database.insert(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
+            else return database.insertOrThrow(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
 
         }
         else if (modelObj instanceof  Motorcycle){
@@ -157,7 +151,7 @@ public class DatabaseManager {
                     throw new Exception("Updating vehicle data fucked up !!");
                 }
             }
-            else return database.insert(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
+            else return database.insertOrThrow(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
         }
         return -3;
     }

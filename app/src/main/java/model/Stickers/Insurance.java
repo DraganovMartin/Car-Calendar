@@ -36,11 +36,11 @@ public class Insurance implements Serializable{
         endDates = new Calendar[]{null, Calendar.getInstance(),Calendar.getInstance(),Calendar.getInstance()};
         startDate =  (Calendar) endDate.clone();
     }
-    public Insurance(Payments count,double price,Calendar startDate,Calendar endDate){
+    public Insurance(Payments count,double price,Calendar startDate){
+        this();
         this.type = count.levelCode;
         this.price = price;
-        this.startDate = startDate;
-        this.endDate=endDate;
+        setStartDate(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DAY_OF_MONTH));
     }
 
     /**
