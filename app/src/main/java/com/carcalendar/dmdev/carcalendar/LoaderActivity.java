@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.carcalendar.dmdev.carcalendar.utils.DatabaseHelper;
 import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 
 import java.io.File;
@@ -31,36 +32,35 @@ public class LoaderActivity extends AppCompatActivity {
     public static final String USERMANAGER_FILE_STORAGE = "UsermanagerDATA.txt";
     private boolean user_manager_saved_successfully = false;
 
-    public static boolean userManagerFileAvailable(Context context){
-        String path= context.getFilesDir().getAbsolutePath()+"/"+USERMANAGER_FILE_STORAGE;
-        File file = new File(path);
+    public static boolean DatabaseAvailable(Context context) {
+        File file = context.getDatabasePath(DatabaseHelper.DATABASE_NAME);
         if (file.exists()) {
-           return true;
-        }
-        else return false;
+            return true;
+        } else return false;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loader);
-        String path= this.getFilesDir().getAbsolutePath()+"/"+USERMANAGER_FILE_STORAGE;
+        String path = this.getFilesDir().getAbsolutePath() + "/" + USERMANAGER_FILE_STORAGE;
         bar = (ProgressBar) findViewById(R.id.progressBar);
         loadingTV = (TextView) findViewById(R.id.loadingTV);
-            if (userManagerFileAvailable(this)) {
-                ManagerLoader loader = new ManagerLoader();
-                loader.execute();
-            } else {
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        manager.setDbContext(getApplicationContext());
+        if (DatabaseAvailable(this)) {
+            ManagerLoader loader = new ManagerLoader();
+            loader.execute();
+        } else {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
-    private class ManagerLoader extends AsyncTask<Void,Void,Boolean>
-    {
+    private class ManagerLoader extends AsyncTask<Void, Void, Boolean> {
 
-        ManagerLoader() {}
+        ManagerLoader() {
+        }
 
         @Override
         protected void onPreExecute() {
@@ -70,52 +70,35 @@ public class LoaderActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            // TODO db lines are for testing only
-            // Creating the db here for now
-            DatabaseManager dbManager = new DatabaseManager(getApplicationContext());
-            Log.d("DB", "DB created!");
+            if (DatabaseAvailable(getApplicationContext())) {
 
-
-
-            synchronized (manager) {
-
-                if (userManagerFileAvailable(getApplicationContext())) {
-                    try {
-                        String path = getApplicationContext().getFilesDir().getAbsolutePath() + "/" + USERMANAGER_FILE_STORAGE;
-                        File file = new File(path);
-                        ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-                        manager.updateFromFile((UserManager) in.readObject());
-                        if (manager.getLoggedUser() != null) {
-                            ArrayList<Vehicle> list = (ArrayList<Vehicle>) manager.getRegisteredUserVehicles();
-                            for (Vehicle x : list) {
-                                ImageUtils.mapImageToVehicle(x, ImageUtils.getBitmapFromPath(x.getPathToImage()));
-                            }
-                            return true;
-                        }
-                        return false;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                if (manager.getLoggedUserFromDB() != null) {
+                    ArrayList<Vehicle> list = (ArrayList<Vehicle>) manager.getRegisteredUserVehiclesFromDB();
+                    for (Vehicle x : list) {
+                        ImageUtils.mapImageToVehicle(x, ImageUtils.getBitmapFromPath(x.getPathToImage()));
                     }
+                    return true;
                 }
+                return false;
+
             }
+
             return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean flag) {
-
-            Intent intent = null;
-            if (flag){
-                intent = new Intent(LoaderActivity.this,GarageActivity.class);
-            }else {
-                intent= new Intent(LoaderActivity.this,LoginActivity.class);
-            }
-            startActivity(intent);
-            finish();
-        }
     }
+
+    @Override
+    protected void onPostExecute(Boolean flag) {
+
+        Intent intent = null;
+        if (flag) {
+            intent = new Intent(LoaderActivity.this, GarageActivity.class);
+        } else {
+            intent = new Intent(LoaderActivity.this, LoginActivity.class);
+        }
+        startActivity(intent);
+        finish();
+    }
+}
 }
 
 

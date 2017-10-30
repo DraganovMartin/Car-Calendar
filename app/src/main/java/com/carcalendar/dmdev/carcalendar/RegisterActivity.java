@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
                             return;
                         }
                         userManager.registerUser(userManager.createUser(usernameET.getText().toString(),passET.getText().toString(),age));
+                        userManager.registerUserForDB(userManager.createUser(usernameET.getText().toString(),passET.getText().toString(),age));
                         Intent dataToLogin = new Intent();
                         dataToLogin.putExtra("Username",usernameET.getText().toString());
                         dataToLogin.putExtra("Password",passET.getText().toString());

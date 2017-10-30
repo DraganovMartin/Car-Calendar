@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if(LoaderActivity.userManagerFileAvailable(this)){
+        if(LoaderActivity.DatabaseAvailable(this)){
             if(manager.getLoggedUser() != null){
                 Intent toMain = new Intent(this.getApplicationContext(),GarageActivity.class);
                 finish();
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                if(manager.authenticateLogin(usernameET.getText().toString(),passET.getText().toString())){
                    // TODO : start AsyncTaskLoader to map images in login
                   // LoginMappe
-                   UserManager.saveDataUserManager(view.getContext(),manager);
+                   //UserManager.saveDataUserManager(view.getContext(),manager);
                    Intent toMain = new Intent(view.getContext(),GarageActivity.class);
                    startActivity(toMain);
                    finish();

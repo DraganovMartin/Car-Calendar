@@ -175,82 +175,15 @@ public class DatabaseManager {
         return cursor;
     }
 
-
-//    /**
-//     * Updates Vehicle objects in DB
-//     * @return rows affected or -1 if method not executed
-//     */
-//    public int update(Object modelObj) {
-//        ContentValues vehicleContent = new ContentValues();
-//        ContentValues insuranceContent = new ContentValues();
-//        ContentValues taxContent = new ContentValues();
-//        ContentValues vignetteContent = new ContentValues();
-//        Car tempCar = null;
-//        Motorcycle tempCycle = null;
-//        if (modelObj instanceof Vehicle) {
-//            Vehicle tempVehicle = (Vehicle)modelObj;
-//            // Vehicle data
-//            vehicleContent.put(DatabaseHelper.VEHICLES_REGISTRATION, tempVehicle.getRegistrationPlate());
-//            vehicleContent.put(DatabaseHelper.VEHICLES_OWNERID, UserManager.getInstance().getLoggedUserName());
-//            vehicleContent.put(DatabaseHelper.VEHICLES_BRAND,tempVehicle.getBrand());
-//            vehicleContent.put(DatabaseHelper.VEHICLES_MODEL,tempVehicle.getModel());
-//            vehicleContent.put(DatabaseHelper.VEHICLES_PROD_YEAR,tempVehicle.getProductionYear());
-//            vehicleContent.put(DatabaseHelper.VEHICLES_IMAGE_PATH,tempVehicle.getPathToImage());
-//            vehicleContent.put(DatabaseHelper.VEHICLES_NEXT_OIL,Integer.parseInt(tempVehicle.getNextOilChange()));
-//            // Insurance data
-//            if (tempVehicle.getInsurance() != null) {
-//                vehicleContent.put(DatabaseHelper.TAXES_VEHICLE_REGISTRATION, tempVehicle.getRegistrationPlate());
-//                vehicleContent.put(DatabaseHelper.TAXES_TYPE, tempVehicle.getInsurance().getTypeForDB());
-//                vehicleContent.put(DatabaseHelper.TAXES_DATE_FROM, tempVehicle.getInsurance().getStartDate());
-//                vehicleContent.put(DatabaseHelper.TAXES_DATE_TO, tempVehicle.getInsurance().getEndDateString());
-//                vehicleContent.put(DatabaseHelper.TAXES_PRICE, tempVehicle.getInsurance().getPrice());
-//            }
-//            // Taxes data
-//            if (tempVehicle.getTax() != null){
-//                vehicleContent.put(DatabaseHelper.TAXES_VEHICLE_REGISTRATION, tempVehicle.getRegistrationPlate());
-//                vehicleContent.put(DatabaseHelper.TAXES_TYPE, tempVehicle.getTax().getType());
-//                vehicleContent.put(DatabaseHelper.TAXES_DATE_FROM, tempVehicle.getTax().getEndDate());
-//                vehicleContent.put(DatabaseHelper.TAXES_DATE_TO, tempVehicle.getTax().getEndDate());
-//                vehicleContent.put(DatabaseHelper.TAXES_PRICE, tempVehicle.getTax().getAmount());
-//            }
-//
-//        }
-//        if (modelObj instanceof Car){
-//            tempCar = (Car)modelObj;
-//            vehicleContent.put(DatabaseHelper.VEHICLES_ENGINE_TYPE,tempCar.getEngineType());
-//            vehicleContent.put(DatabaseHelper.VEHICLES_TYPE,"Car");
-//            vehicleContent.put(DatabaseHelper.VEHICLES_BODY_TYPE,tempCar.getCarType());
-//            vehicleContent.put(DatabaseHelper.VEHICLES_RANGE,tempCar.getKmRange());
-//            // Vignette addition
-//            vehicleContent.put(DatabaseHelper.TAXES_VEHICLE_REGISTRATION, tempCar.getRegistrationPlate());
-//            switch(tempCar.getVignette().getType()){
-//                case "Annual":
-//                    vehicleContent.put(DatabaseHelper.TAXES_TYPE,"annual-vignette");
-//                    break;
-//                case "Month":
-//                    vehicleContent.put(DatabaseHelper.TAXES_TYPE,"month-vignette");
-//                    break;
-//                case "Week":
-//                    vehicleContent.put(DatabaseHelper.TAXES_TYPE,"week-vignette");
-//                    break;
-//            }
-//            vehicleContent.put(DatabaseHelper.TAXES_DATE_FROM, tempCar.getVignette().getStartDate());
-//            vehicleContent.put(DatabaseHelper.TAXES_DATE_TO, tempCar.getVignette().getEndDate());
-//            vehicleContent.put(DatabaseHelper.TAXES_PRICE, tempCar.getVignette().getPrice());
-//            return database.update(DatabaseHelper.VEHICLES_TABLE,vehicleContent,null,null);
-//
-//        }
-//        else if (modelObj instanceof  Motorcycle){
-//            tempCycle = (Motorcycle) modelObj;
-//            vehicleContent.put(DatabaseHelper.VEHICLES_TYPE,"Motorcycle");
-//            vehicleContent.put(DatabaseHelper.VEHICLES_ENGINE_TYPE,tempCycle.getEngineType());
-//            vehicleContent.put(DatabaseHelper.VEHICLES_BODY_TYPE,tempCycle.getMotorcycleType());
-//            vehicleContent.put(DatabaseHelper.VEHICLES_RANGE,tempCycle.getKmRange());
-//            return database.update(DatabaseHelper.VEHICLES_TABLE,vehicleContent,null,null);
-//        }
-//        return -1;
-//    }
-
+    /**
+     * This method can also be used for logging out user, just set status to false
+     * @param username
+     * @param pass
+     * @param age
+     * @param shouldUpdateStatus
+     * @param status
+     * @return boolean - true if everything is okay, false otherwise
+     */
     public boolean updateUser(String username,String pass,int age,boolean shouldUpdateStatus,boolean status){
         ContentValues contentValues = new ContentValues();
         if (shouldUpdateStatus){
@@ -302,6 +235,7 @@ public class DatabaseManager {
 
         return new String[]{username, password, age};
     }
+
 
     /**
      * Gets the user's vehicles from the database as an ArrayList.

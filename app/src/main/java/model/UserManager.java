@@ -2,6 +2,7 @@ package model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.carcalendar.dmdev.carcalendar.services.StorageManager;
 import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
@@ -9,6 +10,7 @@ import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -40,11 +42,20 @@ public class UserManager implements IUserAuthenticator,Serializable {
     }
 
     /**
+     * Sets android context to database manager. Android specific !
+     * @param context
+     */
+    public void setDbContext(Context context){
+        dbManager = new DatabaseManager(context);
+        Log.d("DB", "DB created!");
+    }
+
+    /**
      * Increments userId and passes it to the created user.
      */
     public User createUser(String name,String password, int age){
-        userId++;
-        return new User(name,password,age,userId);
+        //userId++;
+        return new User(name,password,age);
     }
 
     private boolean isPasswordGood(String password){
@@ -57,24 +68,95 @@ public class UserManager implements IUserAuthenticator,Serializable {
         registeredUsers.add(x);
     }
 
+    public void registerUserForDB(User x){
+        try {
+            dbManager.insertUser(x.name,x.password,x.age);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addVehicle(Vehicle x){
         loggedUser.addVehicle(x);
+    }
+
+
+    public void addVehicleForDB(Vehicle x){
+        try {
+            dbManager.insert(x,false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void removeVehicle(Vehicle v,boolean removeImageAlso){
         loggedUser.removeVehicle(v,removeImageAlso);
     }
 
+    //TODO : removing only image path from DB
+//    public void removeVehicleForDB(Vehicle v,boolean removeImageAlso){
+//        loggedUser.removeVehicle(v,removeImageAlso);
+//    }
+
     public String getLoggedUserName() {
        return loggedUser.name;
    }
 
+    public String getLoggedUserNameFromDB() {
+
+        try {
+            return dbManager.getLoggedUserFromDB()[0];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @return
+     */
     public User getLoggedUser() {
+        return loggedUser;
+    }
+
+    /**
+     * Gets logged user from DB. For initial load only.
+     * @return
+     */
+    public User getLoggedUserFromDB(){
+        try {
+            String[] loggedUserData = dbManager.getLoggedUserFromDB();
+            if (loggedUserData != null) {
+                loggedUser.name = loggedUserData[0];
+                loggedUser.password = loggedUserData[1];
+                loggedUser.age = Integer.parseInt(loggedUserData[2]);
+                loggedUser = new User(loggedUserData[0],loggedUserData[1],Integer.parseInt(loggedUserData[2]));
+            }
+            else return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return loggedUser;
     }
 
     public List<Vehicle> getRegisteredUserVehicles(){
         return new ArrayList<>(loggedUser.ownedVehicles);
+    }
+
+    /**
+     * Gets logged user vehicles with included data from DB. For initial load only.
+     * @return
+     */
+    public List<Vehicle> getRegisteredUserVehiclesFromDB(){
+        try {
+            ArrayList<Vehicle> tmplist = (ArrayList<Vehicle>) dbManager.getVehiclesForLoggedUser(loggedUser.name);
+            loggedUser.ownedVehicles = new TreeSet<>(tmplist);
+            return tmplist;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
@@ -83,6 +165,10 @@ public class UserManager implements IUserAuthenticator,Serializable {
      */
     public void userLogout(){
         loggedUser = null;
+    }
+
+    public void userLogoutForDB(){
+        dbManager.updateUser(loggedUser.name,loggedUser.password,loggedUser.age,true,false);
     }
 
     /**
@@ -95,13 +181,13 @@ public class UserManager implements IUserAuthenticator,Serializable {
         userId = x.registeredUsers.last().getId();
     }
 
-    /**
-     * For testing purposes
-     * @param username
-     */
-    public void setLoggedUserUsername(String username) {
-        loggedUser = new User(username, "ddd", 22, 1);
-    }
+//    /**
+//     * For testing purposes
+//     * @param username
+//     */
+//    public void setLoggedUserUsername(String username) {
+//        loggedUser = new User(username, "ddd", 22);
+//    }
 
     /**
      * Update UserManager and Model from the db
@@ -133,11 +219,13 @@ public class UserManager implements IUserAuthenticator,Serializable {
         for (User x: registeredUsers) {
             if(x.name.equals(username) && x.password.equals(password)){
                 loggedUser = x;
+                dbManager.updateUser(loggedUser.name,loggedUser.password,loggedUser.age,true,true);
                 return true;
             }
         }
         return false;
     }
+
 
     /**
      *
@@ -171,12 +259,12 @@ public class UserManager implements IUserAuthenticator,Serializable {
         private int id;
         private TreeSet<Vehicle> ownedVehicles;
 
-        private User(String name, String password, int age, int id) {
+        private User(String name, String password, int age) {
             this.name = name;
             this.age = age;
             this.password = password;
             ownedVehicles = new TreeSet<>();
-            this.id = id;
+           // this.id = id;
         }
 //        private User(User x){
 //            this.name = x.name;
