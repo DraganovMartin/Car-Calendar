@@ -104,6 +104,35 @@ public class UserManager implements IUserAuthenticator,Serializable {
     }
 
     /**
+     * For testing purposes
+     * @return
+     */
+    public String[] getAllRegisteredUsers() {
+        StringBuilder builder = new StringBuilder();
+        String[] userData = new String[registeredUsers.size()];
+        int i = 0;
+        for (User user : registeredUsers) {
+            builder.append(user.name).append(" ").append(user.password).append(" ").append(user.age);
+            userData[i] = builder.toString();
+            i++;
+        }
+
+        return userData;
+    }
+
+    /**
+     * Wraps the user data in a User object and stores it in the registeredUser collection
+     *
+     * @param name the user's username
+     * @param password the user's password
+     * @param age the user's age
+     */
+    public void addToRegisteredUsers(String name, String password, int age){
+        // TODO id
+        registerUser(new User(name,password,age,0));
+    }
+
+    /**
      * Update UserManager and Model from the db
      */
     public void updateFromDB() {
