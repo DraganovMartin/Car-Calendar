@@ -236,6 +236,27 @@ public class DatabaseManager {
         return new String[]{username, password, age};
     }
 
+    public void getAndStoreAllUsers() {
+        Cursor cursor = database.query(DatabaseHelper.USERS_TABLE,
+                DatabaseHelper.USER_TABLE_COLUMNS,
+                null, null,null, null, null);
+
+        String username;
+        String password;
+        int age;
+        while(cursor.moveToNext()) {
+            username = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DatabaseHelper.USERS_USERNAME));
+            password = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DatabaseHelper.USERS_PASSWORD));
+            age = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(DatabaseHelper.USERS_AGE));
+
+            userManager.addToRegisteredUsers(username, password, age);
+        }
+
+        cursor.close();
+    }
 
     /**
      * Gets the user's vehicles from the database as an ArrayList.
