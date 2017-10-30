@@ -40,6 +40,7 @@ public class FetchFromDBTest {
     private static final Insurance insurance = new Insurance(Insurance.Payments.FOUR, 123.2, Calendar.getInstance());
     private static final AnnualVignette vignette = new AnnualVignette(2017, 10, 27, 100000);
     private static final VehicleTax tax = new VehicleTax();
+    private static final String[][] USER_DATA = {{"test", "pass", "22"}, {"test1", "password", "22"}};
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -47,9 +48,10 @@ public class FetchFromDBTest {
         dbManager = new DatabaseManager(appContext);
 
         // Insert user in db
-        dbManager.insertUser("dimcho", "pass", 22);
-        dbManager.updateUser("dimcho", "pass", 22, true, true);
-        UserManager.getInstance().setLoggedUserUsername("dimcho");
+        dbManager.insertUser("test", "pass", 22);
+        dbManager.insertUser("test1", "password", 22);
+        dbManager.updateUser("test", "pass", 22, true, true);
+        UserManager.getInstance().setLoggedUserUsername("test");
 
 
         car.setTax(tax);
@@ -62,58 +64,79 @@ public class FetchFromDBTest {
     public void shouldFetchUserFromDB() throws Exception {
         String[] userData  = dbManager.getLoggedUserFromDB();
         assertEquals(3, userData.length);
-        assertEquals(userData[0], "dimcho");
-        assertEquals(userData[1], "pass");
-        assertEquals(userData[2], "22");
+        assertEquals("test", userData[0]);
+        assertEquals("pass", userData[1]);
+        assertEquals("22", userData[2]);
     }
 
     @Test
     public void shouldFetchUserVehicleData() throws Exception {
-        List<Vehicle> vehicles = dbManager.getVehiclesForLoggedUser("dimcho");
+        List<Vehicle> vehicles = dbManager.getVehiclesForLoggedUser("test");
         assertEquals(1, vehicles.size());
 
         for (Vehicle vehicle : vehicles) {
-            assertEquals(vehicle.getRegistrationPlate(), car.getRegistrationPlate());
-            assertEquals(vehicle.getBrand(), car.getBrand());
-            assertEquals(vehicle.getModel(), car.getModel());
-            assertEquals(vehicle.getProductionYear(), car.getProductionYear());
-            assertEquals(vehicle.getPathToImage(), car.getPathToImage());
-            assertEquals(vehicle.getPathToImage(), car.getPathToImage());
-            assertEquals(vehicle.getNextOilChange(), car.getNextOilChange());
+            assertEquals(car.getRegistrationPlate(), vehicle.getRegistrationPlate());
+            assertEquals(car.getBrand(), vehicle.getBrand());
+            assertEquals(car.getModel(), vehicle.getModel());
+            assertEquals(car.getProductionYear(), vehicle.getProductionYear());
+            assertEquals(car.getPathToImage(), vehicle.getPathToImage());
+            assertEquals(car.getPathToImage(),vehicle.getPathToImage());
+            assertEquals(car.getNextOilChange(), vehicle.getNextOilChange());
 
             // Insurance
             Insurance tempInsurance = vehicle.getInsurance();
-            assertEquals(tempInsurance.getStartDate(), insurance.getStartDate());
-            assertEquals(tempInsurance.getTotalEndDate(), insurance.getTotalEndDate());
-            assertEquals(tempInsurance.getTypeForDB(), insurance.getTypeForDB());
-            assertEquals(String.valueOf(tempInsurance.getPrice()), String.valueOf(insurance.getPrice()));
+            assertEquals(insurance.getStartDate(), tempInsurance.getStartDate());
+            assertEquals(insurance.getTotalEndDate(), tempInsurance.getTotalEndDate());
+            assertEquals(insurance.getTypeForDB(), tempInsurance.getTypeForDB());
+            assertEquals(String.valueOf(insurance.getPrice()), String.valueOf(tempInsurance.getPrice()));
 
             // Tax
             Tax tmpTax = vehicle.getTax();
-            assertEquals(tmpTax.getEndDate(), tax.getEndDate());
-            assertEquals(tmpTax.getType(), tax.getType());
-            assertEquals(String.valueOf(tmpTax.getAmount()), String.valueOf(tax.getAmount()));
+            assertEquals(tax.getEndDate(), tmpTax.getEndDate());
+            assertEquals(tax.getType(), tmpTax.getType());
+            assertEquals(String.valueOf(tax.getAmount()), String.valueOf(tmpTax.getAmount()));
 
             if(vehicle instanceof Car) {
                 Car tmpCar = (Car) vehicle;
-                assertEquals(tmpCar.getKmRange(), car.getKmRange());
-                assertEquals(tmpCar.getEngineType(), car.getEngineType());
-                assertEquals(tmpCar.getCarType(), car.getCarType());
+                assertEquals(car.getKmRange(), tmpCar.getKmRange());
+                assertEquals(car.getEngineType(), tmpCar.getEngineType());
+                assertEquals(car.getCarType(), tmpCar.getCarType());
 
                 IVignette tmpVignette = tmpCar.getVignette();
-                assertEquals(tmpVignette.getStartDate(), vignette.getStartDate());
-                assertEquals(tmpVignette.getEndDate(), vignette.getEndDate());
-                assertEquals(tmpVignette.getType(), vignette.getType());
-                assertEquals(String.valueOf(tmpVignette.getPrice()), String.valueOf(vignette.getPrice()));
+                assertEquals(vignette.getStartDate(), tmpVignette.getStartDate());
+                assertEquals(vignette.getEndDate(), tmpVignette.getEndDate());
+                assertEquals( vignette.getType(), tmpVignette.getType());
+                assertEquals(String.valueOf(vignette.getPrice()), String.valueOf(tmpVignette.getPrice()));
             }
 
         }
     }
 
+    @Test
+    public void shouldFetchAllUsersAndInitializeUserManager() {
+        dbManager.getAndStoreAllUsers();
+        UserManager manager = UserManager.getInstance();
+        String[] registeredUsers = manager.getAllRegisteredUsers();
+
+        int i = 0;
+        for (String user :  registeredUsers) {
+            String[] userData =  user.split(" ");
+
+            assertEquals(3, userData.length);
+            assertEquals(USER_DATA[i][0], userData[0]);
+            assertEquals(USER_DATA[i][1], userData[1]);
+            assertEquals(USER_DATA[i][2], userData[2]);
+
+            i++;
+       }
+
+    }
+
     @AfterClass
     public static void tearDown() {
-        dbManager.delete(DatabaseHelper.USERS_TABLE, "username = 'dimcho'");
-        dbManager.delete(DatabaseHelper.VEHICLES_TABLE,"ownerID = 'dimcho'");
+        dbManager.delete(DatabaseHelper.USERS_TABLE, "username = 'test'");
+        dbManager.delete(DatabaseHelper.USERS_TABLE, "username = 'test1'");
+        dbManager.delete(DatabaseHelper.VEHICLES_TABLE,"ownerID = 'test'");
         dbManager.delete(DatabaseHelper.TAXES_TABLE,"vehicle_registration = 'FU2334CK'");
         dbManager.close();
     }
