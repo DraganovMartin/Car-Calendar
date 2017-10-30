@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.carcalendar.dmdev.carcalendar.services.StorageManager;
+import com.carcalendar.dmdev.carcalendar.utils.DatabaseHelper;
 import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -89,14 +89,15 @@ public class UserManager implements IUserAuthenticator,Serializable {
         }
     }
 
-    public void removeVehicle(Vehicle v,boolean removeImageAlso){
+    public void removeVehicle(Vehicle v, boolean removeImageAlso){
         loggedUser.removeVehicle(v,removeImageAlso);
     }
 
-    //TODO : removing only image path from DB
-//    public void removeVehicleForDB(Vehicle v,boolean removeImageAlso){
-//        loggedUser.removeVehicle(v,removeImageAlso);
-//    }
+//    TODO : removing only image path from DB
+    public void removeVehicleForDB(Vehicle v){
+        dbManager.delete(DatabaseHelper.VEHICLES_TABLE, "registration = '" + v.getRegistrationPlate() + "'");
+        dbManager.delete(DatabaseHelper.TAXES_TABLE, "vehicle_registration = '" + v.getRegistrationPlate() + "'");
+    }
 
     public String getLoggedUserName() {
        return loggedUser.name;
@@ -128,10 +129,9 @@ public class UserManager implements IUserAuthenticator,Serializable {
         try {
             String[] loggedUserData = dbManager.getLoggedUserFromDB();
             if (loggedUserData != null) {
-                loggedUser.name = loggedUserData[0];
-                loggedUser.password = loggedUserData[1];
-                loggedUser.age = Integer.parseInt(loggedUserData[2]);
-                loggedUser = new User(loggedUserData[0],loggedUserData[1],Integer.parseInt(loggedUserData[2]));
+                loggedUser = new User(loggedUserData[0],
+                        loggedUserData[1],
+                        Integer.parseInt(loggedUserData[2]));
             }
             else return null;
         } catch (Exception e) {
@@ -181,13 +181,13 @@ public class UserManager implements IUserAuthenticator,Serializable {
         userId = x.registeredUsers.last().getId();
     }
 
-//    /**
-//     * For testing purposes
-//     * @param username
-//     */
-//    public void setLoggedUserUsername(String username) {
-//        loggedUser = new User(username, "ddd", 22);
-//    }
+    /**
+     * For testing purposes
+     * @param username
+     */
+    public void setLoggedUserUsername(String username) {
+        loggedUser = new User(username, "ddd", 22);
+    }
 
     /**
      * For testing purposes
@@ -215,7 +215,7 @@ public class UserManager implements IUserAuthenticator,Serializable {
      */
     public void addToRegisteredUsers(String name, String password, int age){
         // TODO id
-        registerUser(new User(name,password,age,0));
+        registerUser(new User(name,password,age));
     }
 
     /**

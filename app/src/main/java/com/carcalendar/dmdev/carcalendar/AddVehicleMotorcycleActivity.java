@@ -5,15 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -123,6 +122,22 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
                     engineTypeSpinner.setSelection(2);
             }
 
+            // Sets the insurance type
+            switch (motorcycle.getInsurance().getTypeCount()) {
+                case 1:
+                    insuranceTypeSpinner.setSelection(3);
+                    break;
+                case 2:
+                    insuranceTypeSpinner.setSelection(2);
+                    break;
+                case 3:
+                    insuranceTypeSpinner.setSelection(1);
+                    break;
+                case 4:
+                    insuranceTypeSpinner.setSelection(0);
+                    break;
+            }
+
             // Sets the vehicle brand
             brand.setText(motorcycle.getBrand());
 
@@ -140,6 +155,12 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
 
             // Sets the registrationPlate
             registrationNumber.setText(motorcycle.getRegistrationPlate());
+
+            // Sets the next Oil change
+            oilET.setText(motorcycle.getNextOilChange());
+
+            // Sets the insurance price
+            insuranceAmmount.setText(String.valueOf(motorcycle.getInsurance().getPrice()));
 
             if (motorcycle.getTax().getEndDateAsCalendarObject().get(Calendar.YEAR) > 0){
                 taxDatePickerActivated = true;
@@ -203,26 +224,30 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
             }
         });
 
-//        insuranceTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                switch (i) {
-//                    case 0:         // Three Month
-//                        motorcycle.getInsurance().setType(Insurance.THREE_MONTH);
-//                        break;
-//                    case 1:         // Annual
-//                        motorcycle.getInsurance().setType(Insurance.ANNUAL);
-//                        break;
-//
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//                motorcycle.getInsurance().setType(null);
-//            }
-//        });
+        insuranceTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:         // FOUR
+                        motorcycle.getInsurance().setTypeCount(Insurance.Payments.FOUR);
+                        break;
+                    case 1:         // THREE
+                        motorcycle.getInsurance().setTypeCount(Insurance.Payments.THREE);
+                        break;
+                    case 2:         // TWO
+                        motorcycle.getInsurance().setTypeCount(Insurance.Payments.TWO);
+                        break;
+                    case 3:
+                        motorcycle.getInsurance().setTypeCount(Insurance.Payments.ONE);
+                        break;
+                }
+            }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+            motorcycle.getInsurance().setTypeCount(null);
+        }
+    });
 
         motBtn.setOnClickListener(new View.OnClickListener() {
             @Override
