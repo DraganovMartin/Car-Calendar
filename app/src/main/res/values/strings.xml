@@ -47,8 +47,10 @@
     </string-array>
 
     <string-array name="InsurancePeriod">
-        <item>Three \nMonths</item>
-        <item>Annual</item>
+        <item>FOUR</item>
+        <item>THREE</item>
+        <item>TWO</item>
+        <item>ONE</item>
     </string-array>
 
     <string-array name="motorcycle_types">

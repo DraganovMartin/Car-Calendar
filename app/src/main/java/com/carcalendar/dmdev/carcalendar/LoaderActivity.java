@@ -6,18 +6,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.carcalendar.dmdev.carcalendar.utils.DatabaseHelper;
-import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import model.UserManager;
@@ -74,6 +69,10 @@ public class LoaderActivity extends AppCompatActivity {
 
                 if (manager.getLoggedUserFromDB() != null) {
                     ArrayList<Vehicle> list = (ArrayList<Vehicle>) manager.getRegisteredUserVehiclesFromDB();
+                    if(list == null) {
+                        return true;
+                    }
+
                     for (Vehicle x : list) {
                         ImageUtils.mapImageToVehicle(x, ImageUtils.getBitmapFromPath(x.getPathToImage()));
                     }

@@ -31,6 +31,7 @@ import java.util.Calendar;
 
 import model.Stickers.AnnualVignette;
 import model.Stickers.IVignette;
+import model.Stickers.Insurance;
 import model.Stickers.MonthVignette;
 import model.Stickers.WeekVignette;
 import model.UserManager;
@@ -142,6 +143,22 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     break;
             }
 
+            // Sets the insurance type
+            switch (car.getInsurance().getTypeCount()) {
+                case 1:
+                    insuranceTypeSpinner.setSelection(3);
+                    break;
+                case 2:
+                    insuranceTypeSpinner.setSelection(2);
+                    break;
+                case 3:
+                    insuranceTypeSpinner.setSelection(1);
+                    break;
+                case 4:
+                    insuranceTypeSpinner.setSelection(0);
+                    break;
+            }
+
             // Sets the vehicle brand
             brand.setText(car.getBrand());
 
@@ -159,6 +176,12 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
             // Sets the registrationPlate
             registrationNumber.setText(car.getRegistrationPlate());
+
+            // Sets the next Oil change
+            oilET.setText(car.getNextOilChange());
+
+            // Sets the insurance price
+            insuranceAmmount.setText(String.valueOf(car.getInsurance().getPrice()));
 
            if (car.getTax().getEndDateAsCalendarObject().get(Calendar.YEAR) > 1900){
                taxDatePickerActivated = true;
@@ -244,26 +267,30 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             }
         });
 
-//        insuranceTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                switch (i) {
-//                    case 0:         // Three Month
-//                        car.getInsurance().setType(Insurance.THREE_MONTH);
-//                        break;
-//                    case 1:         // Annual
-//                        car.getInsurance().setType(Insurance.ANNUAL);
-//                        break;
-//
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//                car.getInsurance().setType(null);
-//            }
-//        });
+        insuranceTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:         // FOUR
+                        car.getInsurance().setTypeCount(Insurance.Payments.FOUR);
+                        break;
+                    case 1:         // THREE
+                        car.getInsurance().setTypeCount(Insurance.Payments.THREE);
+                        break;
+                    case 2:         // TWO
+                        car.getInsurance().setTypeCount(Insurance.Payments.TWO);
+                        break;
+                    case 3:
+                        car.getInsurance().setTypeCount(Insurance.Payments.ONE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                car.getInsurance().setTypeCount(null);
+            }
+        });
 
         carBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -392,6 +419,13 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     insuranceTypeSpinner.requestFocus();
                 }
 
+                if(insuranceAmmount.getText() == null) {
+                    Toast.makeText(view.getContext(),"Please choose insurance price !",Toast.LENGTH_SHORT).show();
+                    insuranceAmmount.requestFocus();
+                } else {
+                    car.getInsurance().setPrice(Double.parseDouble(insuranceAmmount.getText().toString()));
+                }
+
                 if (imageContainer != null){
                     ImageUtils.mapImageToVehicle(car,imageContainer);
                 }
@@ -429,7 +463,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 manager.addVehicle(car);
                 //UserManager.saveDataUserManager(view.getContext(),manager);
                 try {
-                    databaseManager.insert(car, true);
+                    databaseManager.insert(car, false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
