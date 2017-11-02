@@ -175,11 +175,11 @@ public class UserManager implements IUserAuthenticator,Serializable {
      * IF YOU UPDATE USERMANAGER FROM FILE YOU MUST USE ONLY THIS METHOD AS A SOLUTION !!!
      * @param x - UserManager Singleton
      */
-    public void updateFromFile(UserManager x){
-        this.loggedUser = x.loggedUser;
-        this.registeredUsers = x.registeredUsers;
-        userId = x.registeredUsers.last().getId();
-    }
+//    public void updateFromFile(UserManager x){
+//        this.loggedUser = x.loggedUser;
+//        this.registeredUsers = x.registeredUsers;
+//        userId = x.registeredUsers.last().getId();
+//    }
 
     /**
      * For testing purposes
@@ -230,11 +230,11 @@ public class UserManager implements IUserAuthenticator,Serializable {
      *  Serializing the UserManager object to internal storage  with openFileOutput()
      * @param x - UserManager
      */
-    public static void saveDataUserManager(Context context, final UserManager x){
-        Intent intent = new Intent(context,StorageManager.class);
-        intent.putExtra(SAVE_USER_MANAGER,x);
-        context.startService(intent);
-    }
+//    public static void saveDataUserManager(Context context, final UserManager x){
+//        Intent intent = new Intent(context,StorageManager.class);
+//        intent.putExtra(SAVE_USER_MANAGER,x);
+//        context.startService(intent);
+//    }
 
     /**
      *

@@ -372,6 +372,18 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
                     insuranceTypeSpinner.requestFocus();
                 }
 
+                if (insuranceAmmount.getText().toString().isEmpty()){
+                    Toast.makeText(view.getContext(),"Please enter insurance amount !",Toast.LENGTH_SHORT).show();
+                    insuranceAmmount.requestFocus();
+                }
+                else {
+                    motorcycle.getInsurance().setPrice(Double.parseDouble(insuranceAmmount.getText().toString()));
+                }
+
+                if (!oilET.getText().toString().isEmpty()){
+                    motorcycle.setNextOilChange(oilET.getText().toString());
+                }
+
                 if (imageContainer != null){
                     ImageUtils.mapImageToVehicle(motorcycle,imageContainer);
                 }
@@ -389,7 +401,8 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
                 }
 
                 manager.addVehicle(motorcycle);
-                UserManager.saveDataUserManager(view.getContext(),manager);
+                manager.addVehicleForDB(motorcycle);
+                //UserManager.saveDataUserManager(view.getContext(),manager);
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
                 //Log.e("calendar",String.valueOf(((AnnualVignette) vignette).getEndDateObject().get(Calendar.YEAR)) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.MONTH) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.DAY_OF_MONTH));
                 finish();

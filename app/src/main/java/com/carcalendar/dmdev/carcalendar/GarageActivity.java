@@ -200,9 +200,6 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         }
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
-            // TODO db lines are for testing only
-            new DatabaseHelper(getApplicationContext()).close();
-            UserManager.saveDataUserManager(this,manager);
             return;
         }
 
@@ -225,7 +222,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         switch (item.getItemId()){
             case R.id.Logout:
                     manager.userLogout();
-                UserManager.saveDataUserManager(this,manager);
+                    manager.userLogoutForDB();
                     Intent intent = new Intent(this.getApplicationContext(),LoginActivity.class);
                     finish();
                     startActivity(intent);

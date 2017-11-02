@@ -461,12 +461,8 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 }
 
                 manager.addVehicle(car);
+                manager.addVehicleForDB(car);
                 //UserManager.saveDataUserManager(view.getContext(),manager);
-                try {
-                    databaseManager.insert(car, false);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
                 finish();
 

@@ -40,6 +40,9 @@ public class ViewVehicleFragment extends Fragment {
     private TextView insuranceStartDay;
     private TextView insuranceEndDay;
 
+    private TextView vignetteStartLbl;
+    private TextView vignetteEndLbl;
+
     private Vehicle vehicle;
     public ViewVehicleFragment() {
         // Required empty public constructor
@@ -61,7 +64,15 @@ public class ViewVehicleFragment extends Fragment {
         if (vehicle instanceof Car){
             car = (Car) vehicle;
         }
-        else motorcycle = (Motorcycle) vehicle;
+        else {
+            motorcycle = (Motorcycle) vehicle;
+            vignetteStartDate.setVisibility(View.GONE);
+            vignetteEndDate.setVisibility(View.GONE);
+            vignetteStartLbl.setVisibility(View.GONE);
+            vignetteEndLbl.setVisibility(View.GONE);
+
+
+        }
         if(car != null){
             imageView.setImageBitmap(ImageUtils.getScaledBitmapFromPath(car.getPathToImage(),imageView.getWidth(),imageView.getHeight()));
             registation.setText(car.getRegistrationPlate());
@@ -121,6 +132,8 @@ public class ViewVehicleFragment extends Fragment {
         engine = (TextView) fragmentView.findViewById(R.id.car_engineTV);
         year = (TextView) fragmentView.findViewById(R.id.yearTVVehicle);
         rangeKM = (TextView) fragmentView.findViewById(R.id.rangeTVVehicle);
+        vignetteStartLbl = (TextView) fragmentView.findViewById(R.id.vignette_start);
+        vignetteEndLbl = (TextView) fragmentView.findViewById(R.id.vignette_end_TV);
         vignetteStartDate = (TextView) fragmentView.findViewById(R.id.vignette_startTV);
         vignetteEndDate = (TextView) fragmentView.findViewById(R.id.dateTV);
         nextOilChange = (TextView) fragmentView.findViewById(R.id.oilChangeTV);
