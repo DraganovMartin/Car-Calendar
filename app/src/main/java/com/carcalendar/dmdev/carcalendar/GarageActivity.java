@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleAdapter;
 import com.carcalendar.dmdev.carcalendar.recycle.VehicleViewHolder;
-import com.carcalendar.dmdev.carcalendar.utils.DatabaseHelper;
 
 import model.UserManager;
 import model.Vehicle.Car;
@@ -44,6 +43,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
     private Handler mHandler = null;
     public static final int VEHICLE_ADDED_SUCCESSFULLY = 0;
     public static final int VEHICLE_ADD_CANCELED = 1;
+    public static final int SOMETHING_WENT_WRONG = 2;
 
     private final Runnable mRunnable = new Runnable() {
         @Override
@@ -221,8 +221,8 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.Logout:
-                    manager.userLogout();
                     manager.userLogoutForDB();
+                    manager.userLogout();
                     Intent intent = new Intent(this.getApplicationContext(),LoginActivity.class);
                     finish();
                     startActivity(intent);

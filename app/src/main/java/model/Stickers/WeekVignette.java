@@ -2,7 +2,6 @@ package model.Stickers;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by DevM on 12/20/2016.
@@ -71,12 +70,12 @@ public class WeekVignette implements IVignette {
     }
 
     @Override
-    public Calendar getEndDateAsCalender(){
-        return endDate;
+    public Calendar getStartDateAsCalender(){
+        return startDate;
     }
 
     @Override
     public String getType() {
-        return "Week";
+        return "week-vignette";
     }
 }

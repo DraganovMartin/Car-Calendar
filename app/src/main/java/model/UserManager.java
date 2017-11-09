@@ -1,10 +1,8 @@
 package model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
-import com.carcalendar.dmdev.carcalendar.services.StorageManager;
 import com.carcalendar.dmdev.carcalendar.utils.DatabaseHelper;
 import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 
@@ -81,12 +79,8 @@ public class UserManager implements IUserAuthenticator,Serializable {
     }
 
 
-    public void addVehicleForDB(Vehicle x){
-        try {
-            dbManager.insert(x,false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void addVehicleForDB(Vehicle x) throws Exception{
+        dbManager.insert(x,false);
     }
 
     public void removeVehicle(Vehicle v, boolean removeImageAlso){

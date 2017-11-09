@@ -5,9 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,7 +15,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-import model.Vehicle.Car;
 import model.Vehicle.Vehicle;
 
 /**
@@ -124,7 +120,7 @@ public class ImageUtils {
             File imageFile = new File(path);
             Bitmap scaled = Bitmap.createScaledBitmap(bitmap,120,120,false);
             OutputStream outStream = new FileOutputStream(imageFile);
-            scaled.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+            scaled.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
             outStream.flush();
             outStream.close();
             return imageFile.getAbsolutePath();
@@ -136,7 +132,7 @@ public class ImageUtils {
 
         Bitmap scaled = Bitmap.createScaledBitmap(bitmap,120,120,false);
         OutputStream outStream = new FileOutputStream(imageFile);
-        scaled.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+        scaled.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
         outStream.flush();
         outStream.close();
 

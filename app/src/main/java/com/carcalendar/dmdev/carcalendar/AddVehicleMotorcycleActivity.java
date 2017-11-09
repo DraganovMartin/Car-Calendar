@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.carcalendar.dmdev.carcalendar.dialogs.DatePickerFragment;
+import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 
 import java.io.File;
 import java.io.InputStream;
@@ -90,6 +91,9 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
         if (launchingIntent.hasExtra("Car object")) {
             inEditMode = true;
             motorcycle = (Motorcycle) launchingIntent.getSerializableExtra("Car object");
+
+            // Caching old value in in order to use it in an update query
+            motorcycle.setRegistrationPlateCache(motorcycle.getRegistrationPlate());
 
             Bitmap motImage = ImageUtils.getImageForVehicle(motorcycle);
             motBtn.setImageBitmap(motImage);
@@ -303,9 +307,9 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(inEditMode){
-                    manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"),false);
-                }
+//                if(inEditMode){
+//                    manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"),false);
+//                }
 
                 if (!registrationNumber.getText().toString().isEmpty()) {
                     motorcycle.setRegistrationPlate(registrationNumber.getText().toString());
@@ -400,8 +404,26 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
                     ImageUtils.mapImageToVehicle(motorcycle,bm);
                 }
 
+                DatabaseManager databaseManager = new DatabaseManager(getApplicationContext());
+                try {
+                    if(inEditMode){
+                        if(databaseManager.insert(motorcycle, true) == -3) {
+                            Toast.makeText(saveBtn.getContext(), "Vehicle not updated !", Toast.LENGTH_SHORT).show();
+                        }
+                        manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"), false);
+
+                    } else {
+                        manager.addVehicleForDB(motorcycle);
+                        //UserManager.saveDataUserManager(view.getContext(),manager);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    setResult(GarageActivity.SOMETHING_WENT_WRONG);
+                    finish();
+                }
+
                 manager.addVehicle(motorcycle);
-                manager.addVehicleForDB(motorcycle);
                 //UserManager.saveDataUserManager(view.getContext(),manager);
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
                 //Log.e("calendar",String.valueOf(((AnnualVignette) vignette).getEndDateObject().get(Calendar.YEAR)) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.MONTH) + " " + ((AnnualVignette) vignette).getEndDateObject().get(Calendar.DAY_OF_MONTH));
@@ -508,7 +530,7 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
                 System.err.println("Problem in getting bitmap from gallery");
                 e.printStackTrace();
             }
-        }else {
+        }else if (requestCode == REQUEST_IMAGE_CAMERA && resultCode == RESULT_OK){
             Bitmap cameraBitmap = ImageUtils.getScaledBitmapFromPath(pathToImage, motBtn.getWidth(), motBtn.getHeight());
             String realPath=null;
             try {

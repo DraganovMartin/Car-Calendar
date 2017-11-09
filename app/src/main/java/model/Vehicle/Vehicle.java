@@ -2,7 +2,6 @@ package model.Vehicle;
 
 import java.io.Serializable;
 
-import model.Stickers.IVignette;
 import model.Stickers.Insurance;
 import model.taxes.Tax;
 import model.taxes.VehicleTax;
@@ -16,6 +15,7 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     private String model;
     private int productionYear;
     private String registrationPlate;
+    private String registrationPlateCache;
     private String pathToImage;
     private Insurance insurance;
     private VehicleTax tax;
@@ -78,6 +78,12 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
 
     public String getRegistrationPlate() {
         return registrationPlate;
+    }
+    public void setRegistrationPlateCache(String registrationPlateCache) {
+        this.registrationPlateCache = registrationPlateCache;
+    }
+    public String getRegistrationPlateCache() {
+        return registrationPlateCache;
     }
 
     @Override
@@ -150,5 +156,4 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     public int hashCode() {
         return this.brand.hashCode()*this.model.hashCode()*this.myId;
     }
-
 }

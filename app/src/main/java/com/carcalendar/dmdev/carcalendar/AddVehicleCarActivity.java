@@ -99,6 +99,9 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             inEditMode = true;
             car = (Car) launchingIntent.getSerializableExtra("Car object");
 
+            // Caching old values in in order to use it in an update query
+            car.setRegistrationPlateCache(car.getRegistrationPlate());
+
             Bitmap carImage = ImageUtils.getImageForVehicle(car);
             carBtn.setImageBitmap(carImage);
             imageContainer = carImage;
@@ -132,13 +135,13 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
             // Sets the vignette type
             switch (car.getVignette().getType()) {
-                case "Weekly":
+                case "week-vignette":
                     vignetteTypeSpinner.setSelection(0);
                     break;
-                case "Monthly":
+                case "month-vignette":
                     vignetteTypeSpinner.setSelection(1);
                     break;
-                case "Annual":
+                case "annual-vignette":
                     vignetteTypeSpinner.setSelection(2);
                     break;
             }
@@ -247,15 +250,34 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         vignetteTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                IVignette vignetteBeforeEdit = car.getVignette();
                 switch (i) {
                     case 0:         //Weekly
                         vignette = new WeekVignette();
+                        if(car.getVignette() != null) {
+                            Calendar tmp = vignetteBeforeEdit.getStartDateAsCalender();
+                            ((WeekVignette) vignette).setStartDate(tmp.get(Calendar.YEAR),
+                                    tmp.get(Calendar.MONTH),
+                                    tmp.get(Calendar.DAY_OF_MONTH));
+                        }
                         break;
                     case 1:         //Monthly
                         vignette = new MonthVignette();
+                        if(car.getVignette() != null) {
+                            Calendar tmp = vignetteBeforeEdit.getStartDateAsCalender();
+                            ((MonthVignette) vignette).setStartDate(tmp.get(Calendar.YEAR),
+                                    tmp.get(Calendar.MONTH),
+                                    tmp.get(Calendar.DAY_OF_MONTH));
+                        }
                         break;
                     case 2:         //Annual
                         vignette = new AnnualVignette();
+                        if(car.getVignette() != null) {
+                            Calendar tmp = vignetteBeforeEdit.getStartDateAsCalender();
+                            ((AnnualVignette) vignette).setStartDate(tmp.get(Calendar.YEAR),
+                                    tmp.get(Calendar.MONTH),
+                                    tmp.get(Calendar.DAY_OF_MONTH));
+                        }
                         break;
 
                 }
@@ -451,21 +473,26 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 }
 
                 DatabaseManager databaseManager = new DatabaseManager(getApplicationContext());
-                if(inEditMode){
-                    manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"),false);
-                    try {
-                        if(databaseManager.insert(car, true) != -1) Toast.makeText(saveBtn.getContext(),"Vehicle not updated !",Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                try {
+                    if(inEditMode){
+                        if(databaseManager.insert(car, true) == -3) {
+                            Toast.makeText(saveBtn.getContext(),"Vehicle not updated !",Toast.LENGTH_SHORT).show();
+                        }
+                        manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"),false);
+                    } else {
+                        manager.addVehicleForDB(car);
+                        //UserManager.saveDataUserManager(view.getContext(),manager);
                     }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    setResult(GarageActivity.SOMETHING_WENT_WRONG);
+                    finish();
                 }
 
                 manager.addVehicle(car);
-                manager.addVehicleForDB(car);
-                //UserManager.saveDataUserManager(view.getContext(),manager);
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
                 finish();
-
             }
         });
 
@@ -593,7 +620,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 System.err.println("Problem in getting bitmap from gallery");
                 e.printStackTrace();
             }
-        }else {
+        }else if (requestCode == REQUEST_IMAGE_CAMERA && resultCode == RESULT_OK) {
             Bitmap cameraBitmap = ImageUtils.getScaledBitmapFromPath(pathToImage, carBtn.getWidth(), carBtn.getHeight());
             String realPath = null;
             try {
