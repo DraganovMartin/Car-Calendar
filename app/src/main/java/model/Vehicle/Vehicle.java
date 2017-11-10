@@ -67,6 +67,9 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     public int getId(){
         return myId;
     }
+    public void setId(int id) {
+        myId = id;
+    }
 
     public int getProductionYear() {
         return productionYear;

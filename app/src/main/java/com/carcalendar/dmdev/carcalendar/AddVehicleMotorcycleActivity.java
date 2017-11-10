@@ -33,6 +33,7 @@ import model.Stickers.Insurance;
 import model.UserManager;
 import model.Vehicle.Motorcycle;
 import model.Vehicle.Vehicle;
+import model.taxes.VehicleTax;
 import model.util.ImageUtils;
 
 public class AddVehicleMotorcycleActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener,DatePickerFragment.cancelDate {
@@ -63,6 +64,25 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
     private static final int REQUEST_IMAGE_CAMERA = 0;
     private static final int REQUEST_IMAGE_GALLERY = 1;
 
+    private Motorcycle copyMotorcycle(Motorcycle motorcycleToCpy) {
+        Motorcycle motorcycle = new Motorcycle();
+
+        motorcycle.setId(motorcycleToCpy.getId());
+        motorcycle.setRegistrationPlate(motorcycleToCpy.getRegistrationPlate());
+        motorcycle.setMotorcycleType(motorcycleToCpy.getMotorcycleType());
+        motorcycle.setEngineType(motorcycleToCpy.getEngineType());
+        motorcycle.setKmRange(motorcycleToCpy.getKmRange());
+        motorcycle.setBrand(motorcycleToCpy.getBrand());
+        motorcycle.setInsurance(motorcycleToCpy.getInsurance());
+        motorcycle.setModel(motorcycleToCpy.getModel());
+        motorcycle.setNextOilChange(motorcycleToCpy.getNextOilChange());
+        motorcycle.setPathToImage(motorcycleToCpy.getPathToImage());
+        motorcycle.setProductionYear(motorcycleToCpy.getProductionYear());
+        motorcycle.setTax((VehicleTax) motorcycleToCpy.getTax());
+
+        return motorcycle;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +110,8 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
         final Intent launchingIntent = getIntent();
         if (launchingIntent.hasExtra("Car object")) {
             inEditMode = true;
-            motorcycle = (Motorcycle) launchingIntent.getSerializableExtra("Car object");
+            // Copy data from original reference so manager.removeVehicle() works properly
+            motorcycle = copyMotorcycle((Motorcycle) launchingIntent.getSerializableExtra("Car object"));
 
             // Caching old value in in order to use it in an update query
             motorcycle.setRegistrationPlateCache(motorcycle.getRegistrationPlate());

@@ -37,6 +37,7 @@ import model.Stickers.WeekVignette;
 import model.UserManager;
 import model.Vehicle.Car;
 import model.Vehicle.Vehicle;
+import model.taxes.VehicleTax;
 import model.util.ImageUtils;
 
 public class AddVehicleCarActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener,DatePickerFragment.cancelDate{
@@ -70,6 +71,26 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private static final int REQUEST_IMAGE_GALLERY = 1;
     public static final String GET_VEHICLE_TYPE = "Car";
 
+    private Car copyCar(Car carToCpy) {
+        Car car = new Car();
+
+        car.setId(carToCpy.getId());
+        car.setRegistrationPlate(carToCpy.getRegistrationPlate());
+        car.setCarType(carToCpy.getCarType());
+        car.setEngineType(carToCpy.getEngineType());
+        car.setKmRange(carToCpy.getKmRange());
+        car.setVignette(carToCpy.getVignette());
+        car.setBrand(carToCpy.getBrand());
+        car.setInsurance(carToCpy.getInsurance());
+        car.setModel(carToCpy.getModel());
+        car.setNextOilChange(carToCpy.getNextOilChange());
+        car.setPathToImage(carToCpy.getPathToImage());
+        car.setProductionYear(carToCpy.getProductionYear());
+        car.setTax((VehicleTax) carToCpy.getTax());
+
+        return car;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +118,10 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         final Intent launchingIntent = getIntent();
         if (launchingIntent.hasExtra("Car object")) {
             inEditMode = true;
-            car = (Car) launchingIntent.getSerializableExtra("Car object");
+
+            // Copy data from original reference so manager.removeVehicle() works properly
+            car = copyCar((Car) launchingIntent.getSerializableExtra("Car object"));
+
 
             // Caching old values in in order to use it in an update query
             car.setRegistrationPlateCache(car.getRegistrationPlate());
@@ -478,7 +502,9 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                         if(databaseManager.insert(car, true) == -3) {
                             Toast.makeText(saveBtn.getContext(),"Vehicle not updated !",Toast.LENGTH_SHORT).show();
                         }
-                        manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"),false);
+
+                        manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"), false);
+
                     } else {
                         manager.addVehicleForDB(car);
                         //UserManager.saveDataUserManager(view.getContext(),manager);
