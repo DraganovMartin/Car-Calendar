@@ -3,8 +3,8 @@ package com.carcalendar.dmdev.carcalendar;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,10 +59,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                if(manager.authenticateLogin(usernameET.getText().toString(),passET.getText().toString())){
-                   // TODO : start AsyncTaskLoader to map images in login
-                  // LoginMappe
-                   //UserManager.saveDataUserManager(view.getContext(),manager);
-                   Intent toMain = new Intent(view.getContext(),GarageActivity.class);
+
+                   Intent toMain = new Intent(view.getContext(),LoaderActivity.class);
                    startActivity(toMain);
                    finish();
                }

@@ -239,14 +239,14 @@ public class UserManager implements IUserAuthenticator,Serializable {
     @Override
     public boolean authenticateLogin(String username, String password)
     {
-        for (User x: registeredUsers) {
-            if(x.name.equals(username) && x.password.equals(password)){
-                loggedUser = x;
-                dbManager.updateUser(loggedUser.name,loggedUser.password,loggedUser.age,true,true);
-                return true;
-            }
+        int age = dbManager.checkUserLogin(username, password);
+        if(age == 0) {
+            return false;
         }
-        return false;
+
+        loggedUser = new User(username, password, age);
+        dbManager.updateUser(loggedUser.name,loggedUser.password,loggedUser.age,true,true);
+        return true;
     }
 
 
