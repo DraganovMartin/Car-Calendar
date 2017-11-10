@@ -73,9 +73,13 @@ public class DatabaseManager {
                 insuranceContent.put(DatabaseHelper.TAXES_DATE_TO, tempVehicle.getInsurance().getEndDateString());
                 insuranceContent.put(DatabaseHelper.TAXES_PRICE, tempVehicle.getInsurance().getPrice());
                 if (shouldUpdate){
-                    if (database.update(DatabaseHelper.TAXES_TABLE,insuranceContent,null,null) ==0){
+                    if (database.update(DatabaseHelper.TAXES_TABLE,
+                            insuranceContent,
+                            "vehicle_registration = ? AND type Like '%insurance'",
+                            new String[]{tempVehicle.getRegistrationPlateCache()}) ==0){
                         throw new Exception("Updating insurance data fucked up !!");
                     }
+
                 }
                 else {
                     database.insertOrThrow(DatabaseHelper.TAXES_TABLE, null, insuranceContent);
@@ -89,7 +93,10 @@ public class DatabaseManager {
                 taxContent.put(DatabaseHelper.TAXES_DATE_TO, tempVehicle.getTax().getEndDate());
                 taxContent.put(DatabaseHelper.TAXES_PRICE, tempVehicle.getTax().getAmount());
                 if (shouldUpdate){
-                    if (database.update(DatabaseHelper.TAXES_TABLE,insuranceContent,null,null) ==0){
+
+                    if (database.update(DatabaseHelper.TAXES_TABLE, taxContent,
+                            "vehicle_registration = ? AND type = 'tax'",
+                            new String[]{tempVehicle.getRegistrationPlateCache()}) ==0){
                         throw new Exception("Updating tax data fucked up !!");
                     }
                 }
@@ -108,22 +115,14 @@ public class DatabaseManager {
             // Vignette addition
             if (tempCar.getVignette() != null) {
                 vignetteContent.put(DatabaseHelper.TAXES_VEHICLE_REGISTRATION, tempCar.getRegistrationPlate());
-                switch (tempCar.getVignette().getType()) {
-                    case "Annual":
-                        vignetteContent.put(DatabaseHelper.TAXES_TYPE, "annual-vignette");
-                        break;
-                    case "Month":
-                        vignetteContent.put(DatabaseHelper.TAXES_TYPE, "month-vignette");
-                        break;
-                    case "Week":
-                        vignetteContent.put(DatabaseHelper.TAXES_TYPE, "week-vignette");
-                        break;
-                }
+                vignetteContent.put(DatabaseHelper.TAXES_TYPE, tempCar.getVignette().getType());
                 vignetteContent.put(DatabaseHelper.TAXES_DATE_FROM, tempCar.getVignette().getStartDate());
                 vignetteContent.put(DatabaseHelper.TAXES_DATE_TO, tempCar.getVignette().getEndDate());
                 vignetteContent.put(DatabaseHelper.TAXES_PRICE, tempCar.getVignette().getPrice());
                 if (shouldUpdate){
-                    if (database.update(DatabaseHelper.TAXES_TABLE,insuranceContent,null,null) ==0){
+                    if (database.update(DatabaseHelper.TAXES_TABLE,vignetteContent,
+                                    "vehicle_registration = ? AND type Like '%vignette'",
+                            new String[]{tempCar.getRegistrationPlateCache()}) ==0){
                         throw new Exception("Updating vignette data fucked up !!");
                     }
                 }
@@ -132,9 +131,13 @@ public class DatabaseManager {
                 }
             }
             if (shouldUpdate){
-                if (database.update(DatabaseHelper.VEHICLES_TABLE,insuranceContent,null,null) ==0){
+                if (database.update(DatabaseHelper.VEHICLES_TABLE, contentValues,
+                        "registration = ?",
+                        new String[]{tempCar.getRegistrationPlateCache()}) ==0){
                     throw new Exception("Updating vehicle data fucked up !!");
                 }
+
+                return 1;
             }
             else return database.insertOrThrow(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
 
@@ -147,12 +150,16 @@ public class DatabaseManager {
             contentValues.put(DatabaseHelper.VEHICLES_RANGE,tempCycle.getKmRange());
 
             if (shouldUpdate){
-                if (database.update(DatabaseHelper.VEHICLES_TABLE,insuranceContent,null,null) ==0){
+                if (database.update(DatabaseHelper.VEHICLES_TABLE,contentValues,"registration = ?",
+                        new String[]{tempCycle.getRegistrationPlateCache()}) ==0){
                     throw new Exception("Updating vehicle data fucked up !!");
                 }
+
+                return 1;
             }
             else return database.insertOrThrow(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
         }
+
         return -3;
     }
 

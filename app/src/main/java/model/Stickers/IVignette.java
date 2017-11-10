@@ -13,5 +13,5 @@ public interface IVignette extends Serializable {
     String getStartDate();
     String getEndDate();
     String getType();
-    Calendar getEndDateAsCalender();
+    Calendar getStartDateAsCalender();
 }

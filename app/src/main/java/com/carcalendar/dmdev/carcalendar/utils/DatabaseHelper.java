@@ -95,7 +95,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "\tdateFrom\tTEXT NOT NULL,\n" +
                 "\tdateTo\tTEXT NOT NULL,\n" +
                 "\tprice\tREAL DEFAULT 0.0,\n" +
-                "\tPRIMARY KEY(vehicle_registration,'type','dateFrom'),\n" +
                 "\tFOREIGN KEY(vehicle_registration) REFERENCES 'vehicles'('registration')\n" +
                 ");");
 
@@ -105,8 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "\trepair_type\tTEXT NOT NULL DEFAULT 'repair',\n" +
                 "\tdate\tTEXT NOT NULL,\n" +
                 "\tprice\tREAL DEFAULT 0.0,\n" +
-                "\tFOREIGN KEY(vehicle_registration) REFERENCES 'vehicles'('registration'),\n" +
-                "\tPRIMARY KEY(vehicle_registration,'repair_type','date')\n" +
+                "\tFOREIGN KEY(vehicle_registration) REFERENCES 'vehicles'('registration')\n" +
                 ");");
     }
 

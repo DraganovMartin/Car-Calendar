@@ -74,12 +74,12 @@ public class AnnualVignette implements IVignette {
     }
 
     @Override
-    public Calendar getEndDateAsCalender(){
-        return endDate;
+    public Calendar getStartDateAsCalender(){
+        return startDate;
     }
 
     @Override
     public String getType() {
-        return "Annual";
+        return "annual-vignette";
     }
 }
