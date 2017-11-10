@@ -266,6 +266,29 @@ public class DatabaseManager {
     }
 
     /**
+     * Checks if such user exists in the db.
+     *
+     * @param username
+     * @param password
+     * @return the user's age or 0 if there is no such user
+     */
+    public int checkUserLogin(String username, String password) {
+        Cursor cursor = database.query(DatabaseHelper.USERS_TABLE,
+                DatabaseHelper.USER_TABLE_COLUMNS,
+                "username = ? AND password = ?", new String[]{username, password},
+                null, null, null);
+
+        if(!cursor.moveToFirst()){
+            return 0;
+        }
+
+        int age = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.USERS_AGE));
+        cursor.close();
+
+        return age;
+    }
+
+    /**
      * Gets the user's vehicles from the database as an ArrayList.
      *
      * The method also gets and sets the taxes, vignettes and insurance of the vehicle
