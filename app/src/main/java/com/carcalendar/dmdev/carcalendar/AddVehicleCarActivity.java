@@ -119,6 +119,8 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         if (launchingIntent.hasExtra("Car object")) {
             inEditMode = true;
 
+            registrationNumber.setEnabled(false);
+
             // Copy data from original reference so manager.removeVehicle() works properly
             car = copyCar((Car) launchingIntent.getSerializableExtra("Car object"));
 

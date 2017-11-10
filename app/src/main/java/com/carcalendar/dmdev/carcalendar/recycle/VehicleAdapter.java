@@ -51,6 +51,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
             holder.vehicleModel.setText(car.getModel());
             holder.vehicleYear.setText(String.valueOf(car.getProductionYear()));
             holder.vehicleRange.setText(car.getKmRange());
+            holder.regNumber.setText(car.getRegistrationPlate());
         } else {
             motorcycle = (Motorcycle) vehicleList.get(position);
 
@@ -59,6 +60,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
             holder.vehicleModel.setText(motorcycle.getModel());
             holder.vehicleYear.setText(String.valueOf(motorcycle.getProductionYear()));
             holder.vehicleRange.setText(motorcycle.getKmRange());
+            holder.regNumber.setText(motorcycle.getRegistrationPlate());
         }
         // set data from a vehicle object
     }

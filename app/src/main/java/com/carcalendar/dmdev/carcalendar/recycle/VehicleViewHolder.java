@@ -14,6 +14,8 @@ public class VehicleViewHolder extends RecyclerView.ViewHolder implements View.O
     protected TextView vehicleModel;
     protected TextView vehicleYear;
     protected TextView vehicleRange;
+    protected TextView regNumber;
+
     private OnRecyclerViewItemLongPressListener recyclerViewLongPressListener;
     private OnRecyclerViewItemClickListener recyclerViewItemClickListener;
 
@@ -24,6 +26,7 @@ public class VehicleViewHolder extends RecyclerView.ViewHolder implements View.O
         vehicleModel = (TextView) view.findViewById(R.id.vehicle_model_view_TV);
         vehicleYear = (TextView) view.findViewById(R.id.year_vehicle_view_TV);
         vehicleRange = (TextView) view.findViewById(R.id.range_vehicle_view_TV);
+        regNumber = (TextView) view.findViewById(R.id.regNumber);
         view.setOnLongClickListener(this);
         view.setOnClickListener(this);
         recyclerViewLongPressListener = rViewLongPressListener;

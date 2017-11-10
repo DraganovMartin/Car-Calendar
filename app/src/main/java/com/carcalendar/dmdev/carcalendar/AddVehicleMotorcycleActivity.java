@@ -110,6 +110,9 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
         final Intent launchingIntent = getIntent();
         if (launchingIntent.hasExtra("Car object")) {
             inEditMode = true;
+
+            registrationNumber.setEnabled(false);
+
             // Copy data from original reference so manager.removeVehicle() works properly
             motorcycle = copyMotorcycle((Motorcycle) launchingIntent.getSerializableExtra("Car object"));
 
