@@ -144,9 +144,14 @@ public class UserManager implements IUserAuthenticator,Serializable {
      */
     public List<Vehicle> getRegisteredUserVehiclesFromDB(){
         try {
-            ArrayList<Vehicle> tmplist = (ArrayList<Vehicle>) dbManager.getVehiclesForLoggedUser(loggedUser.name);
-            loggedUser.ownedVehicles = new TreeSet<>(tmplist);
-            return tmplist;
+            if (dbManager.getVehiclesForLoggedUser(loggedUser.name) == null){
+                return null;
+            }
+            else {
+                ArrayList<Vehicle> tmplist = (ArrayList<Vehicle>) dbManager.getVehiclesForLoggedUser(loggedUser.name);
+                loggedUser.ownedVehicles = new TreeSet<>(tmplist);
+                return tmplist;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -65,11 +66,13 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private UserManager manager = UserManager.getInstance();
 
     private Uri photoURIFromCamera;
-    private Bitmap imageContainer;
+    private Bitmap cameraBitmap;
+    private Bitmap galleryBitmap;
 
     private static final int REQUEST_IMAGE_CAMERA = 0;
     private static final int REQUEST_IMAGE_GALLERY = 1;
     public static final String GET_VEHICLE_TYPE = "Car";
+
 
     private Car copyCar(Car carToCpy) {
         Car car = new Car();
@@ -113,6 +116,28 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         yearText = (EditText) findViewById(R.id.yearEText);
         rangeText = (EditText) findViewById(R.id.rangeEText);
 
+
+        // TODO : fucking fix image on orientation change ...
+        if (savedInstanceState != null){
+            if (savedInstanceState.get("camera") != null){
+                this.cameraBitmap = (Bitmap) savedInstanceState.get("camera");
+                carBtn.setImageBitmap(cameraBitmap);
+            }
+            else if (savedInstanceState.get("gallery") != null){
+                this.galleryBitmap = (Bitmap) savedInstanceState.get("gallery");
+                carBtn.setImageBitmap(galleryBitmap);
+            }
+            else {
+                carBtn.setImageResource(getIntent().getIntExtra("Car", R.mipmap.car_add_image));
+                cameraBitmap = null;
+                galleryBitmap = null;
+            }
+            carBtn.refreshDrawableState();
+        }
+
+
+        carBtn.setDrawingCacheEnabled(true);
+
         // Gets the data from an already registered car
         // Sets the the data fields using the extra Car object
         final Intent launchingIntent = getIntent();
@@ -130,7 +155,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
             Bitmap carImage = ImageUtils.getImageForVehicle(car);
             carBtn.setImageBitmap(carImage);
-            imageContainer = carImage;
+            this.cameraBitmap = carImage;
 
             // Sets the car type for ex. : Sedan, Jeep ...
             switch (car.getCarType()) {
@@ -222,7 +247,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             car = new Car();
             pathToImage = null;
             photoURIFromCamera = null;
-            imageContainer = null;
+            this.cameraBitmap = null;
             saveBtn.setClickable(false);
         }
 
@@ -474,8 +499,8 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     car.getInsurance().setPrice(Double.parseDouble(insuranceAmmount.getText().toString()));
                 }
 
-                if (imageContainer != null){
-                    ImageUtils.mapImageToVehicle(car,imageContainer);
+                if (cameraBitmap != null){
+                    ImageUtils.mapImageToVehicle(car, cameraBitmap);
                 }
                 else {
                     Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.car_add_image);
@@ -546,6 +571,39 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             }
         });
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (this.cameraBitmap != null){
+            outState.putParcelable("camera",this.cameraBitmap);
+        }
+        else if (this.galleryBitmap != null){
+            outState.putParcelable("gallery",this.galleryBitmap);
+        }
+        Log.d("saveInstance","onSaveInstanceState called in add car activity");
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (outState.get("camera") != null){
+            this.cameraBitmap = (Bitmap) outState.get("camera");
+            carBtn.setImageBitmap(cameraBitmap);
+        }
+        else if (outState.get("gallery") != null){
+            this.galleryBitmap = (Bitmap) outState.get("gallery");
+            carBtn.setImageBitmap(galleryBitmap);
+        }
+        else {
+            carBtn.setImageResource(getIntent().getIntExtra("Car", R.mipmap.car_add_image));
+            cameraBitmap = null;
+            galleryBitmap = null;
+        }
+        carBtn.refreshDrawableState();
+        outState.clear();
     }
 
     @Override
@@ -641,27 +699,32 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             Uri uri = data.getData();
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null,null);
-                new SaveAndLoadImage().execute(bitmap);
+                this.galleryBitmap = BitmapFactory.decodeStream(inputStream, null,null);
+                new SaveAndLoadImage().execute(this.galleryBitmap);
 
             } catch (Exception e) {
                 System.err.println("Problem in getting bitmap from gallery");
                 e.printStackTrace();
             }
         }else if (requestCode == REQUEST_IMAGE_CAMERA && resultCode == RESULT_OK) {
-            Bitmap cameraBitmap = ImageUtils.getScaledBitmapFromPath(pathToImage, carBtn.getWidth(), carBtn.getHeight());
+            this.cameraBitmap = ImageUtils.getScaledBitmapFromPath(pathToImage, carBtn.getWidth(), carBtn.getHeight());
             String realPath = null;
             try {
-                realPath = ImageUtils.saveBitmapImage(pathToImage, cameraBitmap);
+                realPath = ImageUtils.saveBitmapImage(pathToImage, this.cameraBitmap);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            imageContainer = cameraBitmap;
-            carBtn.setImageBitmap(imageContainer);
+            carBtn.setImageBitmap(this.cameraBitmap);
             car.setPathToImage(realPath);
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //carBtn.getDrawingCache().recycle();
+        Log.d("onDestroy","onDestroy add car activity called");
+    }
 
     private class SaveAndLoadImage extends AsyncTask<Bitmap,Void,Bitmap> {
 
@@ -687,7 +750,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             if(bitmap != null){
                 carBtn.setImageBitmap(bitmap);
                 carBtn.refreshDrawableState();
-                imageContainer = bitmap;
+                cameraBitmap = bitmap;
                 saveBtn.setClickable(true);
             }
         }
