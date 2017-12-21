@@ -81,7 +81,6 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
         fabMenu = (ListView) findViewById(R.id.list_vehicle_types);
         fabMenu.setAdapter(adapter);
 
-        Log.e("marto",String.valueOf(manager.getRegisteredUserVehicles().size()));
 
         fabMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -289,7 +288,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
 
     @Override
     public void onRecyclerViewClick(View view, int pos) {
-        Vehicle vehicle = manager.getRegisteredUserVehicles().get(pos);
+        Vehicle vehicle = manager.getRegisteredUserVehiclesFromDB().get(pos);
         Intent toFrag = new Intent(view.getContext(),HoldViewVehicleFragmentActivity.class);
         toFrag.putExtra("vehicle",vehicle);
         startActivity(toFrag);

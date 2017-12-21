@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 
@@ -74,22 +75,26 @@ public class ViewVehicleFragment extends Fragment {
 
         }
         if(car != null){
-            imageView.setImageBitmap(ImageUtils.getScaledBitmapFromPath(car.getPathToImage(),imageView.getWidth(),imageView.getHeight()));
-            registation.setText(car.getRegistrationPlate());
-            brand.setText(car.getBrand());
-            model.setText(car.getModel());
-            type.setText(car.getCarType());
-            engine.setText(car.getEngineType());
-            year.setText(String.valueOf(car.getProductionYear()));
-            rangeKM.setText(car.getKmRange());
-            vignetteStartDate.setText(car.getVignette().getStartDate());
-            vignetteEndDate.setText(car.getVignette().getEndDate());
-            insuranceAmount.setText(String.valueOf(car.getInsurance().getPrice()));
-            insuranceStartDay.setText(car.getInsurance().getStartDate());
-            insuranceEndDay.setText(new SimpleDateFormat("yyyy-MM-dd").format(car.getInsurance().getActiveEndDate().getTime()));
-            vehicleTax.setText(String.valueOf(car.getTax().getAmount()));
-            nextOilChange.setText(car.getNextOilChange());
-            nextTaxPayment.setText(car.getTax().getEndDate());
+            if (car.getPathToImage() == null){
+                Toast.makeText(getContext(),"You fucked up !",Toast.LENGTH_SHORT).show();
+            }else {
+                imageView.setImageBitmap(ImageUtils.getScaledBitmapFromPath(car.getPathToImage(), imageView.getWidth(), imageView.getHeight()));
+                registation.setText(car.getRegistrationPlate());
+                brand.setText(car.getBrand());
+                model.setText(car.getModel());
+                type.setText(car.getCarType());
+                engine.setText(car.getEngineType());
+                year.setText(String.valueOf(car.getProductionYear()));
+                rangeKM.setText(car.getKmRange());
+                vignetteStartDate.setText(car.getVignette().getStartDate());
+                vignetteEndDate.setText(car.getVignette().getEndDate());
+                insuranceAmount.setText(String.valueOf(car.getInsurance().getPrice()));
+                insuranceStartDay.setText(car.getInsurance().getStartDate());
+                insuranceEndDay.setText(new SimpleDateFormat("yyyy-MM-dd").format(car.getInsurance().getActiveEndDate().getTime()));
+                vehicleTax.setText(String.valueOf(car.getTax().getAmount()));
+                nextOilChange.setText(car.getNextOilChange());
+                nextTaxPayment.setText(car.getTax().getEndDate());
+            }
 
         }else if(motorcycle!=null){
             imageView.setImageBitmap(ImageUtils.getScaledBitmapFromPath(motorcycle.getPathToImage(),imageView.getWidth(),imageView.getHeight()));

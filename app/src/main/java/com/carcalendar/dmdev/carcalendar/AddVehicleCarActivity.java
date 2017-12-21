@@ -29,6 +29,7 @@ import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import model.Stickers.AnnualVignette;
 import model.Stickers.IVignette;
@@ -39,9 +40,10 @@ import model.UserManager;
 import model.Vehicle.Car;
 import model.Vehicle.Vehicle;
 import model.taxes.VehicleTax;
+import model.util.DateHolder;
 import model.util.ImageUtils;
 
-public class AddVehicleCarActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener,DatePickerFragment.cancelDate{
+public class AddVehicleCarActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener, DatePickerFragment.cancelDate {
     private Button saveBtn;
     private Button cancelBtn;
     private ImageButton carBtn;
@@ -64,6 +66,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private boolean taxDatePickerActivated = false;
     private boolean inEditMode = false;
     private UserManager manager = UserManager.getInstance();
+    private HashMap<String, DateHolder> dateHolder = new HashMap<>();
 
     private Uri photoURIFromCamera;
     private Bitmap cameraBitmap;
@@ -116,21 +119,48 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         yearText = (EditText) findViewById(R.id.yearEText);
         rangeText = (EditText) findViewById(R.id.rangeEText);
 
+        car = new Car();
 
-        // TODO : fucking fix image on orientation change ...
-        if (savedInstanceState != null){
-            if (savedInstanceState.get("camera") != null){
+        if (savedInstanceState != null) {
+
+            if (savedInstanceState.get("imagePath") != null) {
+                pathToImage = (String) savedInstanceState.get("imagePath");
+                car.setPathToImage(pathToImage);
+            }
+            if (savedInstanceState.get("camera") != null) {
                 this.cameraBitmap = (Bitmap) savedInstanceState.get("camera");
                 carBtn.setImageBitmap(cameraBitmap);
-            }
-            else if (savedInstanceState.get("gallery") != null){
+            } else if (savedInstanceState.get("gallery") != null) {
                 this.galleryBitmap = (Bitmap) savedInstanceState.get("gallery");
                 carBtn.setImageBitmap(galleryBitmap);
-            }
-            else {
+            } else {
                 carBtn.setImageResource(getIntent().getIntExtra("Car", R.mipmap.car_add_image));
                 cameraBitmap = null;
                 galleryBitmap = null;
+            }
+            if (savedInstanceState.get("dateMap") != null) {
+
+                dateHolder = (HashMap<String, DateHolder>) savedInstanceState.get("dateMap");
+                DateHolder temp;
+                if (dateHolder.get("vignette") != null) {
+                    temp = dateHolder.get("vignette");
+                    if (vignette instanceof WeekVignette) {
+                        ((WeekVignette) vignette).setStartDate(temp.getYear(), temp.getMonth(), temp.getYear());
+                    }
+                    if (vignette instanceof MonthVignette) {
+                        ((MonthVignette) vignette).setStartDate(temp.getYear(), temp.getMonth(), temp.getYear());
+                    }
+                    if (vignette instanceof AnnualVignette) {
+                        ((AnnualVignette) vignette).setStartDate(temp.getYear(), temp.getMonth(), temp.getYear());
+                    }
+                } else if (dateHolder.get("tax") != null) {
+                    temp = dateHolder.get("tax");
+                    car.getTax().setEndDate(temp.getYear(), temp.getMonth(), temp.getYear());
+                    taxDatePickerActivated = true;
+                } else {
+                    temp = dateHolder.get("insurance");
+                    car.getInsurance().setStartDate(temp.getYear(), temp.getMonth(), temp.getYear());
+                }
             }
             carBtn.refreshDrawableState();
         }
@@ -237,10 +267,10 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             // Sets the insurance price
             insuranceAmmount.setText(String.valueOf(car.getInsurance().getPrice()));
 
-           if (car.getTax().getEndDateAsCalendarObject().get(Calendar.YEAR) > 1900){
-               taxDatePickerActivated = true;
-           }
-           pathToImage = car.getPathToImage();
+            if (car.getTax().getEndDateAsCalendarObject().get(Calendar.YEAR) > 1900) {
+                taxDatePickerActivated = true;
+            }
+            pathToImage = car.getPathToImage();
 
         } else {
             // Initialize an empty car object
@@ -305,7 +335,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 switch (i) {
                     case 0:         //Weekly
                         vignette = new WeekVignette();
-                        if(car.getVignette() != null) {
+                        if (car.getVignette() != null) {
                             Calendar tmp = vignetteBeforeEdit.getStartDateAsCalender();
                             ((WeekVignette) vignette).setStartDate(tmp.get(Calendar.YEAR),
                                     tmp.get(Calendar.MONTH),
@@ -314,7 +344,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                         break;
                     case 1:         //Monthly
                         vignette = new MonthVignette();
-                        if(car.getVignette() != null) {
+                        if (car.getVignette() != null) {
                             Calendar tmp = vignetteBeforeEdit.getStartDateAsCalender();
                             ((MonthVignette) vignette).setStartDate(tmp.get(Calendar.YEAR),
                                     tmp.get(Calendar.MONTH),
@@ -323,7 +353,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                         break;
                     case 2:         //Annual
                         vignette = new AnnualVignette();
-                        if(car.getVignette() != null) {
+                        if (car.getVignette() != null) {
                             Calendar tmp = vignetteBeforeEdit.getStartDateAsCalender();
                             ((AnnualVignette) vignette).setStartDate(tmp.get(Calendar.YEAR),
                                     tmp.get(Calendar.MONTH),
@@ -388,7 +418,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                             if (photoFile != null) {
                                 pathToImage = photoFile.getAbsolutePath();
                                 photoURIFromCamera = FileProvider.getUriForFile(getApplicationContext(),
-                                        "com.carcalendar.dmdev.carcalendar.fileprovider",photoFile);
+                                        "com.carcalendar.dmdev.carcalendar.fileprovider", photoFile);
                                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURIFromCamera);
                                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAMERA);
                             }
@@ -487,47 +517,45 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 }
 
 
-                if (car.getInsurance().getTypeForDB() == null){
-                    Toast.makeText(view.getContext(),"Please choose insurance period !",Toast.LENGTH_SHORT).show();
+                if (car.getInsurance().getTypeForDB() == null) {
+                    Toast.makeText(view.getContext(), "Please choose insurance period !", Toast.LENGTH_SHORT).show();
                     insuranceTypeSpinner.requestFocus();
                 }
 
-                if(insuranceAmmount.getText() == null) {
-                    Toast.makeText(view.getContext(),"Please choose insurance price !",Toast.LENGTH_SHORT).show();
+                if (insuranceAmmount.getText() == null) {
+                    Toast.makeText(view.getContext(), "Please choose insurance price !", Toast.LENGTH_SHORT).show();
                     insuranceAmmount.requestFocus();
                 } else {
                     car.getInsurance().setPrice(Double.parseDouble(insuranceAmmount.getText().toString()));
                 }
 
-                if (cameraBitmap != null){
+                if (cameraBitmap != null) {
                     ImageUtils.mapImageToVehicle(car, cameraBitmap);
-                }
-                else {
+                } else {
                     Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.car_add_image);
                     File picsDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                     try {
-                        String resourcePath = ImageUtils.saveBitmapImage(picsDir.getAbsolutePath(),bm);
+                        String resourcePath = ImageUtils.saveBitmapImage(picsDir.getAbsolutePath(), bm);
                         car.setPathToImage(resourcePath);
                     } catch (Exception e) {
                         System.err.println("Problem in saving resource bitmap");
                         e.printStackTrace();
                     }
-                    ImageUtils.mapImageToVehicle(car,bm);
+                    ImageUtils.mapImageToVehicle(car, bm);
                 }
 
-                if (oilET.getText().toString().isEmpty()){
+                if (oilET.getText().toString().isEmpty()) {
                     oilET.setError("Please enter next oil change");
                     oilET.requestFocus();
-                }
-                else {
+                } else {
                     car.setNextOilChange(oilET.getText().toString());
                 }
 
                 DatabaseManager databaseManager = new DatabaseManager(getApplicationContext());
                 try {
-                    if(inEditMode){
-                        if(databaseManager.insert(car, true) == -3) {
-                            Toast.makeText(saveBtn.getContext(),"Vehicle not updated !",Toast.LENGTH_SHORT).show();
+                    if (inEditMode) {
+                        if (databaseManager.insert(car, true) == -3) {
+                            Toast.makeText(saveBtn.getContext(), "Vehicle not updated !", Toast.LENGTH_SHORT).show();
                         }
 
                         manager.removeVehicle((Vehicle) launchingIntent.getSerializableExtra("Car object"), false);
@@ -542,7 +570,6 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     setResult(GarageActivity.SOMETHING_WENT_WRONG);
                     finish();
                 }
-
                 manager.addVehicle(car);
                 setResult(GarageActivity.VEHICLE_ADDED_SUCCESSFULLY);
                 finish();
@@ -575,35 +602,67 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        outState.remove("camera");
+        outState.remove("gallery");
         super.onSaveInstanceState(outState);
-        if (this.cameraBitmap != null){
-            outState.putParcelable("camera",this.cameraBitmap);
+        if (this.cameraBitmap != null) {
+            outState.putParcelable("camera", this.cameraBitmap);
+        } else if (this.galleryBitmap != null) {
+            outState.putParcelable("gallery", this.galleryBitmap);
         }
-        else if (this.galleryBitmap != null){
-            outState.putParcelable("gallery",this.galleryBitmap);
+        if (car.getPathToImage() != null) {
+            outState.putString("imagePath", car.getPathToImage());
         }
-        Log.d("saveInstance","onSaveInstanceState called in add car activity");
+        outState.putSerializable("dateMap", dateHolder);
+        Log.d("saveInstance", "onSaveInstanceState called in add car activity");
     }
 
     @Override
     public void onRestoreInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+        super.onRestoreInstanceState(outState);
 
-        if (outState.get("camera") != null){
+        if (outState.get("imagePath") != null) {
+            pathToImage = (String) outState.get("imagePath");
+            car.setPathToImage(pathToImage); // This fucking line was missing
+        }
+
+        if (outState.get("camera") != null) {
             this.cameraBitmap = (Bitmap) outState.get("camera");
             carBtn.setImageBitmap(cameraBitmap);
-        }
-        else if (outState.get("gallery") != null){
+        } else if (outState.get("gallery") != null) {
             this.galleryBitmap = (Bitmap) outState.get("gallery");
             carBtn.setImageBitmap(galleryBitmap);
-        }
-        else {
+        } else {
             carBtn.setImageResource(getIntent().getIntExtra("Car", R.mipmap.car_add_image));
             cameraBitmap = null;
             galleryBitmap = null;
         }
+        if (outState.get("dateMap") != null) {
+            dateHolder = (HashMap<String, DateHolder>) outState.get("dateMap");
+            DateHolder temp;
+            if (dateHolder.get("vignette") != null) {
+                temp = dateHolder.get("vignette");
+                if (vignette instanceof WeekVignette) {
+                    ((WeekVignette) vignette).setStartDate(temp.getYear(), temp.getMonth(), temp.getYear());
+                }
+                if (vignette instanceof MonthVignette) {
+                    ((MonthVignette) vignette).setStartDate(temp.getYear(), temp.getMonth(), temp.getYear());
+                }
+                if (vignette instanceof AnnualVignette) {
+                    ((AnnualVignette) vignette).setStartDate(temp.getYear(), temp.getMonth(), temp.getYear());
+                }
+            }
+            if (dateHolder.get("tax") != null) {
+                temp = dateHolder.get("tax");
+                car.getTax().setEndDate(temp.getYear(), temp.getMonth(), temp.getYear());
+                taxDatePickerActivated = true;
+            }
+            if (dateHolder.get("insurance") != null){
+                temp = dateHolder.get("insurance");
+                car.getInsurance().setStartDate(temp.getYear(), temp.getMonth(), temp.getYear());
+            }
+        }
         carBtn.refreshDrawableState();
-        outState.clear();
     }
 
     @Override
@@ -639,10 +698,9 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
-       String tag = (String) datePicker.getTag();
-        switch (tag){
+        String tag = (String) datePicker.getTag();
+        switch (tag) {
             case "vignetteDatePick":
-                Toast.makeText(datePicker.getContext(),"vignette",Toast.LENGTH_SHORT).show();
                 if (vignette instanceof WeekVignette) {
                     ((WeekVignette) vignette).setStartDate(year, month, day);
                 }
@@ -652,23 +710,27 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 if (vignette instanceof AnnualVignette) {
                     ((AnnualVignette) vignette).setStartDate(year, month, day);
                 }
+                dateHolder.put("vignette", new DateHolder(year, month, day));
                 break;
             case "taxDatePick":
-                car.getTax().setEndDate(year,month,day);
+                car.getTax().setEndDate(year, month, day);
+                dateHolder.put("tax", new DateHolder(year, month, day));
+
                 break;
             case "insuranceDatePick":
                 car.getInsurance().setStartDate(year, month, day);
+                dateHolder.put("insurance", new DateHolder(year, month, day));
+
                 break;
         }
 
     }
 
-    // TODO : Implement onCancelDate for dialogFragments and distinguish different pickers(Tax,Vignette and etc.)
     @Override
     public void onCancelDate(DialogInterface dialog) {
         DatePickerDialog realDialog = (DatePickerDialog) dialog;
-        String tag = (String)realDialog.getDatePicker().getTag();
-        switch (tag){
+        String tag = (String) realDialog.getDatePicker().getTag();
+        switch (tag) {
             case "vignetteDatePick":
                 if (vignette instanceof WeekVignette) {
                     ((WeekVignette) vignette).setStartDate(0, 0, 0);
@@ -682,11 +744,10 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                 break;
             case "taxDatePick":
                 taxDatePickerActivated = false;
-                car.getTax().setEndDate(-1,-1,-1);
+                car.getTax().setEndDate(-1, -1, -1);
                 break;
-            //TODO: after Insurance class is complete add insurance object to Vehicle object and set insurance to null here
             case "insuranceDatePick":
-                car.getInsurance().setStartDate(-1,-1,-1);
+                car.getInsurance().setStartDate(-1, -1, -1);
         }
 
     }
@@ -699,14 +760,14 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             Uri uri = data.getData();
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
-                this.galleryBitmap = BitmapFactory.decodeStream(inputStream, null,null);
+                this.galleryBitmap = BitmapFactory.decodeStream(inputStream, null, null);
                 new SaveAndLoadImage().execute(this.galleryBitmap);
 
             } catch (Exception e) {
                 System.err.println("Problem in getting bitmap from gallery");
                 e.printStackTrace();
             }
-        }else if (requestCode == REQUEST_IMAGE_CAMERA && resultCode == RESULT_OK) {
+        } else if (requestCode == REQUEST_IMAGE_CAMERA && resultCode == RESULT_OK) {
             this.cameraBitmap = ImageUtils.getScaledBitmapFromPath(pathToImage, carBtn.getWidth(), carBtn.getHeight());
             String realPath = null;
             try {
@@ -723,10 +784,10 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     protected void onDestroy() {
         super.onDestroy();
         //carBtn.getDrawingCache().recycle();
-        Log.d("onDestroy","onDestroy add car activity called");
+        Log.d("onDestroy", "onDestroy add car activity called");
     }
 
-    private class SaveAndLoadImage extends AsyncTask<Bitmap,Void,Bitmap> {
+    private class SaveAndLoadImage extends AsyncTask<Bitmap, Void, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(Bitmap... voids) {
@@ -734,7 +795,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
             String pathToBitmap = null;
             Bitmap bm = null;
             try {
-                pathToBitmap = ImageUtils.saveBitmapImage(directoryPath.getAbsolutePath(),voids[0]);
+                pathToBitmap = ImageUtils.saveBitmapImage(directoryPath.getAbsolutePath(), voids[0]);
                 car.setPathToImage(pathToBitmap);
                 pathToImage = pathToBitmap;
                 bm = BitmapFactory.decodeFile(pathToBitmap);
@@ -747,7 +808,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
-            if(bitmap != null){
+            if (bitmap != null) {
                 carBtn.setImageBitmap(bitmap);
                 carBtn.refreshDrawableState();
                 cameraBitmap = bitmap;
