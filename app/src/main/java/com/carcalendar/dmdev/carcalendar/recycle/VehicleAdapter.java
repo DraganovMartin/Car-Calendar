@@ -45,8 +45,8 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
         Motorcycle motorcycle = null;
         if (vehicleList.get(position) instanceof Car) {
             car = (Car) vehicleList.get(position);
-
-            holder.vehicleImage.setImageBitmap(ImageUtils.getImageForVehicle(car));
+            // Below line works but not for production, only for Bai Martin
+            holder.vehicleImage.setImageBitmap(ImageUtils.getBitmapFromPath(car.getPathToImage()));
             holder.vehicleBrand.setText(car.getBrand());
             holder.vehicleModel.setText(car.getModel());
             holder.vehicleYear.setText(String.valueOf(car.getProductionYear()));

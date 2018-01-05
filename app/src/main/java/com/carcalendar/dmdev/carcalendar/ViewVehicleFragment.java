@@ -75,9 +75,6 @@ public class ViewVehicleFragment extends Fragment {
 
         }
         if(car != null){
-            if (car.getPathToImage() == null){
-                Toast.makeText(getContext(),"You fucked up !",Toast.LENGTH_SHORT).show();
-            }else {
                 imageView.setImageBitmap(ImageUtils.getScaledBitmapFromPath(car.getPathToImage(), imageView.getWidth(), imageView.getHeight()));
                 registation.setText(car.getRegistrationPlate());
                 brand.setText(car.getBrand());
@@ -94,7 +91,6 @@ public class ViewVehicleFragment extends Fragment {
                 vehicleTax.setText(String.valueOf(car.getTax().getAmount()));
                 nextOilChange.setText(car.getNextOilChange());
                 nextTaxPayment.setText(car.getTax().getEndDate());
-            }
 
         }else if(motorcycle!=null){
             imageView.setImageBitmap(ImageUtils.getScaledBitmapFromPath(motorcycle.getPathToImage(),imageView.getWidth(),imageView.getHeight()));

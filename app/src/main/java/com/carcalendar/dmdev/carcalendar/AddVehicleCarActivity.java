@@ -809,7 +809,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             if (bitmap != null) {
-                carBtn.setImageBitmap(bitmap);
+                carBtn.setImageBitmap(bitmap); ..
                 carBtn.refreshDrawableState();
                 cameraBitmap = bitmap;
                 saveBtn.setClickable(true);
