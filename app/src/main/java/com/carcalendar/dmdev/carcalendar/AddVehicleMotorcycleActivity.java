@@ -59,7 +59,8 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
     private UserManager manager = UserManager.getInstance();
 
     private Uri photoURIFromCamera;
-    private Bitmap imageContainer;
+    private Bitmap cameraBitmap;
+    private Bitmap galleryBitmap;
 
     private static final int REQUEST_IMAGE_CAMERA = 0;
     private static final int REQUEST_IMAGE_GALLERY = 1;
@@ -105,6 +106,29 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
         yearText = (EditText) findViewById(R.id.yearEText);
         rangeText = (EditText) findViewById(R.id.rangeEText);
 
+        motorcycle = new Motorcycle();
+
+        if (savedInstanceState != null) {
+
+            if (savedInstanceState.get("imagePath") != null) {
+                pathToImage = (String) savedInstanceState.get("imagePath");
+                motorcycle.setPathToImage(pathToImage);
+            }
+            if (savedInstanceState.get("camera") != null) {
+                this.cameraBitmap = (Bitmap) savedInstanceState.get("camera");
+                motBtn.setImageBitmap(cameraBitmap);
+            } else if (savedInstanceState.get("gallery") != null) {
+                this.galleryBitmap = (Bitmap) savedInstanceState.get("gallery");
+                motBtn.setImageBitmap(galleryBitmap);
+            } else {
+                motBtn.setImageResource(getIntent().getIntExtra("Car", R.mipmap.car_add_image));
+                cameraBitmap = null;
+                galleryBitmap = null;
+            }
+            taxDatePickerActivated = (boolean) savedInstanceState.get("TaxDateBoolean");
+            motBtn.refreshDrawableState();
+        }
+
         // Gets the data from an already registered motorcycle
         // Sets the the data fields using the extra Car object
         final Intent launchingIntent = getIntent();
@@ -119,9 +143,14 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
             // Caching old value in in order to use it in an update query
             motorcycle.setRegistrationPlateCache(motorcycle.getRegistrationPlate());
 
-            Bitmap motImage = ImageUtils.getImageForVehicle(motorcycle);
-            motBtn.setImageBitmap(motImage);
-            imageContainer = motImage;
+            if (motorcycle.getPathToImage() != null) {
+                Bitmap motImage = ImageUtils.getBitmapFromPath(motorcycle.getPathToImage());
+                motBtn.setImageBitmap(motImage);
+                cameraBitmap = motImage;
+            }
+            else motBtn.setImageResource(R.mipmap.motorcycle_black);
+
+
 
             // Sets the motorcycle type for ex. : Cruiser, Standard ...
             switch (motorcycle.getMotorcycleType()) {
@@ -201,7 +230,7 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
             motorcycle = new Motorcycle();
             pathToImage = null;
             photoURIFromCamera = null;
-            imageContainer = null;
+            cameraBitmap = null;
             saveBtn.setClickable(false);
         }
 
@@ -412,21 +441,21 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
                     motorcycle.setNextOilChange(oilET.getText().toString());
                 }
 
-                if (imageContainer != null){
-                    ImageUtils.mapImageToVehicle(motorcycle,imageContainer);
+                if (cameraBitmap != null){
+                    ImageUtils.mapImageToVehicle(motorcycle, cameraBitmap);
                 }
-                else {
-                    Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.motorcycle_black);
-                    File picsDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                    try {
-                        String resourcePath = ImageUtils.saveBitmapImage(picsDir.getAbsolutePath(),bm);
-                        motorcycle.setPathToImage(resourcePath);
-                    } catch (Exception e) {
-                        System.err.println("Problem in saving resource bitmap");
-                        e.printStackTrace();
-                    }
-                    ImageUtils.mapImageToVehicle(motorcycle,bm);
-                }
+//                else {
+//                    Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.motorcycle_black);
+//                    File picsDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//                    try {
+//                        String resourcePath = ImageUtils.saveBitmapImage(picsDir.getAbsolutePath(),bm);
+//                        motorcycle.setPathToImage(resourcePath);
+//                    } catch (Exception e) {
+//                        System.err.println("Problem in saving resource bitmap");
+//                        e.printStackTrace();
+//                    }
+//                    ImageUtils.mapImageToVehicle(motorcycle,bm);
+//                }
 
                 DatabaseManager databaseManager = new DatabaseManager(getApplicationContext());
                 try {
@@ -539,6 +568,47 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.remove("camera");
+        outState.remove("gallery");
+        super.onSaveInstanceState(outState);
+        if (this.cameraBitmap != null) {
+            outState.putParcelable("camera", this.cameraBitmap);
+        } else if (this.galleryBitmap != null) {
+            outState.putParcelable("gallery", this.galleryBitmap);
+        }
+        if (motorcycle.getPathToImage() != null) {
+            outState.putString("imagePath", motorcycle.getPathToImage());
+        }
+        outState.putBoolean("TaxDateBoolean",taxDatePickerActivated);
+        // outState.putSerializable("dateMap", dateHolder);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle outState) {
+        super.onRestoreInstanceState(outState);
+
+        if (outState.get("imagePath") != null) {
+            pathToImage = (String) outState.get("imagePath");
+            motorcycle.setPathToImage(pathToImage); // This fucking line was missing
+        }
+
+        if (outState.get("camera") != null) {
+            this.cameraBitmap = (Bitmap) outState.get("camera");
+            motBtn.setImageBitmap(cameraBitmap);
+        } else if (outState.get("gallery") != null) {
+            this.galleryBitmap = (Bitmap) outState.get("gallery");
+            motBtn.setImageBitmap(galleryBitmap);
+        } else {
+            motBtn.setImageResource(getIntent().getIntExtra("Car", R.mipmap.car_add_image));
+            cameraBitmap = null;
+            galleryBitmap = null;
+        }
+        taxDatePickerActivated = (boolean)outState.get("TaxDateBoolean");
+        motBtn.refreshDrawableState();
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -548,6 +618,7 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null,null);
+                this.galleryBitmap = bitmap;
                 new AddVehicleMotorcycleActivity.SaveAndLoadImage().execute(bitmap);
 
             } catch (Exception e) {
@@ -562,8 +633,8 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            imageContainer = cameraBitmap;
-            motBtn.setImageBitmap(imageContainer);
+            this.cameraBitmap = cameraBitmap;
+            motBtn.setImageBitmap(this.cameraBitmap);
             motorcycle.setPathToImage(realPath);
         }
     }
@@ -593,7 +664,7 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
             if(bitmap != null){
                 motBtn.setImageBitmap(bitmap);
                 motBtn.refreshDrawableState();
-                imageContainer = bitmap;
+                cameraBitmap = bitmap;
                 saveBtn.setClickable(true);
             }
         }

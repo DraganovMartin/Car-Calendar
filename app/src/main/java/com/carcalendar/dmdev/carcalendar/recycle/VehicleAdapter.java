@@ -57,9 +57,11 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleViewHolder> {
             holder.regNumber.setText(car.getRegistrationPlate());
         } else {
             motorcycle = (Motorcycle) vehicleList.get(position);
-
-            holder.vehicleImage.setImageBitmap(ImageUtils.getImageForVehicle(motorcycle));
-            holder.vehicleBrand.setText(motorcycle.getMotorcycleType());
+            if (motorcycle.getPathToImage() != null) {
+                holder.vehicleImage.setImageBitmap(ImageUtils.getBitmapFromPath(motorcycle.getPathToImage()));
+            }
+            else  holder.vehicleImage.setImageResource(R.mipmap.motorcycle_black);
+            holder.vehicleBrand.setText(motorcycle.getBrand());
             holder.vehicleModel.setText(motorcycle.getModel());
             holder.vehicleYear.setText(String.valueOf(motorcycle.getProductionYear()));
             holder.vehicleRange.setText(motorcycle.getKmRange());

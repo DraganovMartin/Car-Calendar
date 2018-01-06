@@ -288,7 +288,7 @@ public class GarageActivity extends AppCompatActivity implements VehicleViewHold
 
     @Override
     public void onRecyclerViewClick(View view, int pos) {
-        Vehicle vehicle = manager.getRegisteredUserVehiclesFromDB().get(pos);
+        Vehicle vehicle = manager.getRegisteredUserVehicles().get(pos);
         Intent toFrag = new Intent(view.getContext(),HoldViewVehicleFragmentActivity.class);
         toFrag.putExtra("vehicle",vehicle);
         startActivity(toFrag);

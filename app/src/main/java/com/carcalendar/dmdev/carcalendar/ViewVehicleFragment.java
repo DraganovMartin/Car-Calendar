@@ -96,7 +96,10 @@ public class ViewVehicleFragment extends Fragment {
                 nextTaxPayment.setText(car.getTax().getEndDate());
 
         }else if(motorcycle!=null){
-            imageView.setImageBitmap(ImageUtils.getScaledBitmapFromPath(motorcycle.getPathToImage(),imageView.getWidth(),imageView.getHeight()));
+            if (motorcycle.getPathToImage() != null) {
+                imageView.setImageBitmap(ImageUtils.getScaledBitmapFromPath(motorcycle.getPathToImage(), imageView.getWidth(), imageView.getHeight()));
+            }
+            else imageView.setImageResource(R.mipmap.motorcycle_black);
             registation.setText(motorcycle.getRegistrationPlate());
             brand.setText(motorcycle.getBrand());
             model.setText(motorcycle.getModel());
