@@ -26,12 +26,12 @@ import model.taxes.VehicleTax;
  */
 
 public class DatabaseManager {
+    private final UserManager userManager;
     private DatabaseHelper dbHelper;
     private Context ourcontext;
     private SQLiteDatabase database;
-    private final UserManager userManager;
 
-    public DatabaseManager(Context context){
+    public DatabaseManager(Context context) {
         this.ourcontext = context;
         dbHelper = new DatabaseHelper(ourcontext);
         database = dbHelper.getWritableDatabase();
@@ -43,10 +43,10 @@ public class DatabaseManager {
     }
 
     /**
-     * @param modelObj - Object of the model to be inserted : vehicle and vehicle subclasses, the data embedded
+     * @param modelObj     - Object of the model to be inserted : vehicle and vehicle subclasses, the data embedded
      * @param shouldUpdate - initiates database updated if flag is true, else inserts to database
      * @return long the row ID of the newly inserted row, -3 if whole method is not executed or throws exception
-     *              in case of insurance,tax or vignette failure.
+     * in case of insurance,tax or vignette failure.
      */
     public long insert(Object modelObj, boolean shouldUpdate) throws Exception {
         ContentValues contentValues = new ContentValues();
@@ -56,15 +56,15 @@ public class DatabaseManager {
         Car tempCar = null;
         Motorcycle tempCycle = null;
         if (modelObj instanceof Vehicle) {
-            Vehicle tempVehicle = (Vehicle)modelObj;
+            Vehicle tempVehicle = (Vehicle) modelObj;
             // Vehicle data
             contentValues.put(DatabaseHelper.VEHICLES_REGISTRATION, tempVehicle.getRegistrationPlate());
             contentValues.put(DatabaseHelper.VEHICLES_OWNERID, UserManager.getInstance().getLoggedUserName());
-            contentValues.put(DatabaseHelper.VEHICLES_BRAND,tempVehicle.getBrand());
-            contentValues.put(DatabaseHelper.VEHICLES_MODEL,tempVehicle.getModel());
-            contentValues.put(DatabaseHelper.VEHICLES_PROD_YEAR,tempVehicle.getProductionYear());
-            contentValues.put(DatabaseHelper.VEHICLES_IMAGE_PATH,tempVehicle.getPathToImage());
-            contentValues.put(DatabaseHelper.VEHICLES_NEXT_OIL,Integer.parseInt(tempVehicle.getNextOilChange()));
+            contentValues.put(DatabaseHelper.VEHICLES_BRAND, tempVehicle.getBrand());
+            contentValues.put(DatabaseHelper.VEHICLES_MODEL, tempVehicle.getModel());
+            contentValues.put(DatabaseHelper.VEHICLES_PROD_YEAR, tempVehicle.getProductionYear());
+            contentValues.put(DatabaseHelper.VEHICLES_IMAGE_PATH, tempVehicle.getPathToImage());
+            contentValues.put(DatabaseHelper.VEHICLES_NEXT_OIL, Integer.parseInt(tempVehicle.getNextOilChange()));
             // Insurance data
             if (tempVehicle.getInsurance() != null) {
                 insuranceContent.put(DatabaseHelper.TAXES_VEHICLE_REGISTRATION, tempVehicle.getRegistrationPlate());
@@ -72,46 +72,44 @@ public class DatabaseManager {
                 insuranceContent.put(DatabaseHelper.TAXES_DATE_FROM, tempVehicle.getInsurance().getStartDate());
                 insuranceContent.put(DatabaseHelper.TAXES_DATE_TO, tempVehicle.getInsurance().getEndDateString());
                 insuranceContent.put(DatabaseHelper.TAXES_PRICE, tempVehicle.getInsurance().getPrice());
-                if (shouldUpdate){
+                if (shouldUpdate) {
                     if (database.update(DatabaseHelper.TAXES_TABLE,
                             insuranceContent,
                             "vehicle_registration = ? AND type Like '%insurance'",
-                            new String[]{tempVehicle.getRegistrationPlateCache()}) ==0){
+                            new String[]{tempVehicle.getRegistrationPlate()}) == 0) {
                         throw new Exception("Updating insurance data fucked up !!");
                     }
 
-                }
-                else {
+                } else {
                     database.insertOrThrow(DatabaseHelper.TAXES_TABLE, null, insuranceContent);
                 }
             }
             // Taxes data
-            if (tempVehicle.getTax() != null){
+            if (tempVehicle.getTax() != null) {
                 taxContent.put(DatabaseHelper.TAXES_VEHICLE_REGISTRATION, tempVehicle.getRegistrationPlate());
                 taxContent.put(DatabaseHelper.TAXES_TYPE, tempVehicle.getTax().getType());
                 taxContent.put(DatabaseHelper.TAXES_DATE_FROM, tempVehicle.getTax().getEndDate());
                 taxContent.put(DatabaseHelper.TAXES_DATE_TO, tempVehicle.getTax().getEndDate());
                 taxContent.put(DatabaseHelper.TAXES_PRICE, tempVehicle.getTax().getAmount());
-                if (shouldUpdate){
+                if (shouldUpdate) {
 
                     if (database.update(DatabaseHelper.TAXES_TABLE, taxContent,
                             "vehicle_registration = ? AND type = 'tax'",
-                            new String[]{tempVehicle.getRegistrationPlateCache()}) ==0){
+                            new String[]{tempVehicle.getRegistrationPlateCache()}) == 0) {
                         throw new Exception("Updating tax data fucked up !!");
                     }
-                }
-                else {
+                } else {
                     database.insertOrThrow(DatabaseHelper.TAXES_TABLE, null, taxContent);
                 }
             }
 
         }
-        if (modelObj instanceof Car){
-            tempCar = (Car)modelObj;
-            contentValues.put(DatabaseHelper.VEHICLES_ENGINE_TYPE,tempCar.getEngineType());
-            contentValues.put(DatabaseHelper.VEHICLES_TYPE,"Car");
-            contentValues.put(DatabaseHelper.VEHICLES_BODY_TYPE,tempCar.getCarType());
-            contentValues.put(DatabaseHelper.VEHICLES_RANGE,tempCar.getKmRange());
+        if (modelObj instanceof Car) {
+            tempCar = (Car) modelObj;
+            contentValues.put(DatabaseHelper.VEHICLES_ENGINE_TYPE, tempCar.getEngineType());
+            contentValues.put(DatabaseHelper.VEHICLES_TYPE, "Car");
+            contentValues.put(DatabaseHelper.VEHICLES_BODY_TYPE, tempCar.getCarType());
+            contentValues.put(DatabaseHelper.VEHICLES_RANGE, tempCar.getKmRange());
             // Vignette addition
             if (tempCar.getVignette() != null) {
                 vignetteContent.put(DatabaseHelper.TAXES_VEHICLE_REGISTRATION, tempCar.getRegistrationPlate());
@@ -119,61 +117,59 @@ public class DatabaseManager {
                 vignetteContent.put(DatabaseHelper.TAXES_DATE_FROM, tempCar.getVignette().getStartDate());
                 vignetteContent.put(DatabaseHelper.TAXES_DATE_TO, tempCar.getVignette().getEndDate());
                 vignetteContent.put(DatabaseHelper.TAXES_PRICE, tempCar.getVignette().getPrice());
-                if (shouldUpdate){
-                    if (database.update(DatabaseHelper.TAXES_TABLE,vignetteContent,
-                                    "vehicle_registration = ? AND type Like '%vignette'",
-                            new String[]{tempCar.getRegistrationPlateCache()}) ==0){
+                if (shouldUpdate) {
+                    if (database.update(DatabaseHelper.TAXES_TABLE, vignetteContent,
+                            "vehicle_registration = ? AND type Like '%vignette'",
+                            new String[]{tempCar.getRegistrationPlateCache()}) == 0) {
                         throw new Exception("Updating vignette data fucked up !!");
                     }
-                }
-                else {
+                } else {
                     database.insertOrThrow(DatabaseHelper.TAXES_TABLE, null, vignetteContent);
                 }
             }
-            if (shouldUpdate){
+            if (shouldUpdate) {
                 if (database.update(DatabaseHelper.VEHICLES_TABLE, contentValues,
                         "registration = ?",
-                        new String[]{tempCar.getRegistrationPlateCache()}) ==0){
+                        new String[]{tempCar.getRegistrationPlateCache()}) == 0) {
                     throw new Exception("Updating vehicle data fucked up !!");
                 }
 
                 return 1;
-            }
-            else return database.insertOrThrow(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
+            } else
+                return database.insertOrThrow(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
 
-        }
-        else if (modelObj instanceof  Motorcycle){
+        } else if (modelObj instanceof Motorcycle) {
             tempCycle = (Motorcycle) modelObj;
-            contentValues.put(DatabaseHelper.VEHICLES_TYPE,"Motorcycle");
-            contentValues.put(DatabaseHelper.VEHICLES_ENGINE_TYPE,tempCycle.getEngineType());
-            contentValues.put(DatabaseHelper.VEHICLES_BODY_TYPE,tempCycle.getMotorcycleType());
-            contentValues.put(DatabaseHelper.VEHICLES_RANGE,tempCycle.getKmRange());
+            contentValues.put(DatabaseHelper.VEHICLES_TYPE, "Motorcycle");
+            contentValues.put(DatabaseHelper.VEHICLES_ENGINE_TYPE, tempCycle.getEngineType());
+            contentValues.put(DatabaseHelper.VEHICLES_BODY_TYPE, tempCycle.getMotorcycleType());
+            contentValues.put(DatabaseHelper.VEHICLES_RANGE, tempCycle.getKmRange());
 
-            if (shouldUpdate){
-                if (database.update(DatabaseHelper.VEHICLES_TABLE,contentValues,"registration = ?",
-                        new String[]{tempCycle.getRegistrationPlateCache()}) ==0){
+            if (shouldUpdate) {
+                if (database.update(DatabaseHelper.VEHICLES_TABLE, contentValues, "registration = ?",
+                        new String[]{tempCycle.getRegistrationPlateCache()}) == 0) {
                     throw new Exception("Updating vehicle data fucked up !!");
                 }
 
                 return 1;
-            }
-            else return database.insertOrThrow(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
+            } else
+                return database.insertOrThrow(DatabaseHelper.VEHICLES_TABLE, null, contentValues);
         }
 
         return -3;
     }
 
 
-    public long insertUser(String username, String pass, int age){
+    public long insertUser(String username, String pass, int age) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseHelper.USERS_USERNAME,username);
-        contentValues.put(DatabaseHelper.USERS_PASSWORD,pass);
-        contentValues.put(DatabaseHelper.USERS_AGE,age);
-        contentValues.put(DatabaseHelper.USERS_ISLOGGED,false);
-        return database.insert(DatabaseHelper.USERS_TABLE,null,contentValues);
+        contentValues.put(DatabaseHelper.USERS_USERNAME, username);
+        contentValues.put(DatabaseHelper.USERS_PASSWORD, pass);
+        contentValues.put(DatabaseHelper.USERS_AGE, age);
+        contentValues.put(DatabaseHelper.USERS_ISLOGGED, false);
+        return database.insert(DatabaseHelper.USERS_TABLE, null, contentValues);
     }
 
-    public Cursor fetch(String table,String[] columns, String whereClause, String[] whereValues, String sorter) {
+    public Cursor fetch(String table, String[] columns, String whereClause, String[] whereValues, String sorter) {
         Cursor cursor = database.query(table, columns, whereClause,
                 whereValues, null, null, sorter);
         if (cursor != null) {
@@ -184,6 +180,7 @@ public class DatabaseManager {
 
     /**
      * This method can also be used for logging out user, just set status to false
+     *
      * @param username
      * @param pass
      * @param age
@@ -191,21 +188,21 @@ public class DatabaseManager {
      * @param status
      * @return boolean - true if everything is okay, false otherwise
      */
-    public boolean updateUser(String username,String pass,int age,boolean shouldUpdateStatus,boolean status){
+    public boolean updateUser(String username, String pass, int age, boolean shouldUpdateStatus, boolean status) {
         ContentValues contentValues = new ContentValues();
-        if (shouldUpdateStatus){
-            contentValues.put(DatabaseHelper.USERS_ISLOGGED,status);
+        if (shouldUpdateStatus) {
+            contentValues.put(DatabaseHelper.USERS_ISLOGGED, status);
         }
-        contentValues.put(DatabaseHelper.USERS_USERNAME,username);
-        contentValues.put(DatabaseHelper.USERS_PASSWORD,pass);
-        contentValues.put(DatabaseHelper.USERS_AGE,age);
-        int rowsAffected=0;
-        rowsAffected = database.update(DatabaseHelper.USERS_TABLE,contentValues,"username = ?",new String[]{username});
+        contentValues.put(DatabaseHelper.USERS_USERNAME, username);
+        contentValues.put(DatabaseHelper.USERS_PASSWORD, pass);
+        contentValues.put(DatabaseHelper.USERS_AGE, age);
+        int rowsAffected = 0;
+        rowsAffected = database.update(DatabaseHelper.USERS_TABLE, contentValues, "username = ?", new String[]{username});
         if (rowsAffected > 0) return true;
         return false;
     }
 
-    public int delete(String table,String whereClause) {
+    public int delete(String table, String whereClause) {
         return database.delete(table, whereClause, null);
     }
 
@@ -223,11 +220,11 @@ public class DatabaseManager {
                 new String[]{"1"},
                 null, null, null);
 
-        if(!cursor.moveToFirst()) {
+        if (!cursor.moveToFirst()) {
             return null;
         }
 
-        if(cursor.getCount() > 1) {
+        if (cursor.getCount() > 1) {
             throw new Exception("Two users have the \'isLogged\' flag set to 1!");
         }
 
@@ -246,12 +243,12 @@ public class DatabaseManager {
     public void getAndStoreAllUsers() {
         Cursor cursor = database.query(DatabaseHelper.USERS_TABLE,
                 DatabaseHelper.USER_TABLE_COLUMNS,
-                null, null,null, null, null);
+                null, null, null, null, null);
 
         String username;
         String password;
         int age;
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             username = cursor.getString(
                     cursor.getColumnIndexOrThrow(DatabaseHelper.USERS_USERNAME));
             password = cursor.getString(
@@ -278,7 +275,7 @@ public class DatabaseManager {
                 "username = ? AND password = ?", new String[]{username, password},
                 null, null, null);
 
-        if(!cursor.moveToFirst()){
+        if (!cursor.moveToFirst()) {
             return 0;
         }
 
@@ -290,7 +287,7 @@ public class DatabaseManager {
 
     /**
      * Gets the user's vehicles from the database as an ArrayList.
-     *
+     * <p>
      * The method also gets and sets the taxes, vignettes and insurance of the vehicle
      * The method constructs the individual Vehicle objects (Car, Motorcycle) and stores them in an ArrayList.
      *
@@ -304,12 +301,12 @@ public class DatabaseManager {
                 new String[]{username},
                 null, null, null);
 
-        if(cursor.getCount() == 0) {
+        if (cursor.getCount() == 0) {
             return null;
         }
 
         List<Vehicle> vehicles = new ArrayList<>();
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             String registration = cursor.getString(
                     cursor.getColumnIndexOrThrow(DatabaseHelper.VEHICLES_REGISTRATION));
             String brand = cursor.getString(
@@ -335,8 +332,8 @@ public class DatabaseManager {
             VehicleTax vehicleTax = getTaxForVehicle(registration);
             Insurance vehicleInsurance = getInsuranceForVehicle(registration);
 
-            switch(type){
-                case "Car" :
+            switch (type) {
+                case "Car":
                     Car car = new Car(registration, brand, model, bodyType,
                             engineType, range, imagePath, productionYear, nextOilChange);
 
@@ -353,7 +350,7 @@ public class DatabaseManager {
 
                     break;
 
-                case "Motorcycle" :
+                case "Motorcycle":
                     Motorcycle motor = new Motorcycle(registration, brand, model, bodyType,
                             engineType, range, imagePath, productionYear, nextOilChange);
 
@@ -366,7 +363,8 @@ public class DatabaseManager {
                     vehicles.add(motor);
                     break;
 
-                default: throw new Exception("No such vehicle type! Please check the type in table vehicles.");
+                default:
+                    throw new Exception("No such vehicle type! Please check the type in table vehicles.");
             }
         }
 
@@ -381,7 +379,7 @@ public class DatabaseManager {
      * @param registration the vehicle's registration
      * @return the vehicle tax
      */
-    public VehicleTax getTaxForVehicle(String registration) throws Exception{
+    public VehicleTax getTaxForVehicle(String registration) throws Exception {
         Cursor cursor = database.query(DatabaseHelper.TAXES_TABLE,
                 DatabaseHelper.TAX_TABLE_COLUMNS,
                 "vehicle_registration = ? And type = 'tax'",
@@ -389,7 +387,7 @@ public class DatabaseManager {
                 null, null,
                 null);
 
-        if(!cursor.moveToFirst()) {
+        if (!cursor.moveToFirst()) {
             throw new Exception("No tax for vehicle \'" + registration + "\' found!");
         }
 
@@ -403,12 +401,8 @@ public class DatabaseManager {
         Calendar endDate = Calendar.getInstance();
         // Adding because of SQLite
         endDate.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(dateTo));
-        Calendar check = Calendar.getInstance();
-        if (endDate.after(check) || endDate.compareTo(check) == 0) {
-            System.out.println(endDate.get(Calendar.DAY_OF_MONTH));
-            tax.setAmount(price);
-            tax.setEndDate(endDate.get(Calendar.YEAR), endDate.get(Calendar.MONTH), endDate.get(Calendar.DAY_OF_MONTH));
-        }
+        tax.setAmount(price);
+        tax.setEndDate(endDate.get(Calendar.YEAR), endDate.get(Calendar.MONTH), endDate.get(Calendar.DAY_OF_MONTH));
 
         cursor.close();
 
@@ -430,7 +424,7 @@ public class DatabaseManager {
                 null, null,
                 DatabaseHelper.TAXES_DATE_TO + " DESC Limit 1");
 
-        if(!cursor.moveToFirst()) {
+        if (!cursor.moveToFirst()) {
             throw new Exception("No vignette for vehicle \'" + registration + "\' found!");
         }
 
@@ -483,7 +477,7 @@ public class DatabaseManager {
 
     /**
      * Gets the insurance data for the specified by 'registration' vehicle from db.
-     *
+     * <p>
      * Note that the returned insurance may have expired.
      * The query sorts the dates (dateFRom) in descending order and returns the newest insurance
      *
@@ -498,7 +492,7 @@ public class DatabaseManager {
                 null, null,
                 DatabaseHelper.TAXES_DATE_FROM + " DESC Limit 1");
 
-        if(!cursor.moveToFirst()) {
+        if (!cursor.moveToFirst()) {
             throw new Exception("No insurance for vehicle \'" + registration + "\' found!");
         }
 

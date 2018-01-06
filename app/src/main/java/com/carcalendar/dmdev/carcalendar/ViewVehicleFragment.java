@@ -75,7 +75,10 @@ public class ViewVehicleFragment extends Fragment {
 
         }
         if(car != null){
+            if (car.getPathToImage() != null) {
                 imageView.setImageBitmap(ImageUtils.getScaledBitmapFromPath(car.getPathToImage(), imageView.getWidth(), imageView.getHeight()));
+            }
+            else imageView.setImageResource(R.mipmap.car_add_image);
                 registation.setText(car.getRegistrationPlate());
                 brand.setText(car.getBrand());
                 model.setText(car.getModel());
