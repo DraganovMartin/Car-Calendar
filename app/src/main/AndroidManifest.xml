@@ -58,13 +58,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddVehicleCarActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            />
+        <activity
+            android:name=".AddVehicleCarActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".HoldViewVehicleFragmentActivity" />
-        <activity android:name=".AddVehicleMotorcycleActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            />
+        <activity
+            android:name=".AddVehicleMotorcycleActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <receiver
+            android:name=".utils.DateReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".utils.CheckerIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

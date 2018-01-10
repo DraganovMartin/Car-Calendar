@@ -551,7 +551,6 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
 
     }
 
-    // TODO : Implement onCancelDate for dialogFragments and distinguish different pickers(Tax,Vignette and etc.)
     @Override
     public void onCancelDate(DialogInterface dialog) {
         DatePickerDialog realDialog = (DatePickerDialog) dialog;
@@ -561,7 +560,6 @@ public class AddVehicleMotorcycleActivity extends FragmentActivity implements Da
                 taxDatePickerActivated = false;
                 motorcycle.getTax().setEndDate(-1,-1,-1);
                 break;
-            //TODO: after Insurance class is complete add insurance object to Vehicle object and set insurance to null here
             case "insuranceDatePick":
                 motorcycle.getInsurance().setStartDate(-1,-1,-1);
         }

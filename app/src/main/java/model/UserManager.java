@@ -9,7 +9,10 @@ import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -87,7 +90,7 @@ public class UserManager implements IUserAuthenticator,Serializable {
         loggedUser.removeVehicle(v,removeImageAlso);
     }
 
-//    TODO : removing only image path from DB
+//    TODO : removing only image path from DB - Dimcho
     public void removeVehicleForDB(Vehicle v){
         dbManager.delete(DatabaseHelper.VEHICLES_TABLE, "registration = '" + v.getRegistrationPlate() + "'");
         dbManager.delete(DatabaseHelper.TAXES_TABLE, "vehicle_registration = '" + v.getRegistrationPlate() + "'");
@@ -136,6 +139,16 @@ public class UserManager implements IUserAuthenticator,Serializable {
 
     public List<Vehicle> getRegisteredUserVehicles(){
         return new ArrayList<>(loggedUser.ownedVehicles);
+    }
+
+    /**
+     * Gets all vehicles from all users with full data
+     * @return
+     */
+    public Map<String,List<Vehicle>> getAllVehicles(){
+
+        return dbManager.getVehiclesForAllUsers();
+
     }
 
     /**
@@ -189,20 +202,14 @@ public class UserManager implements IUserAuthenticator,Serializable {
     }
 
     /**
-     * For testing purposes
-     * @return
+     * @return arraylist with all users username
      */
-    public String[] getAllRegisteredUsers() {
-        StringBuilder builder = new StringBuilder();
-        String[] userData = new String[registeredUsers.size()];
-        int i = 0;
-        for (User user : registeredUsers) {
-            builder.append(user.name).append(" ").append(user.password).append(" ").append(user.age);
-            userData[i] = builder.toString();
-            i++;
+    public ArrayList<String> getAllRegisteredUsersUsername() {
+        ArrayList<String> usernames = new ArrayList<>();
+        for (User x : registeredUsers){
+            usernames.add(x.name);
         }
-
-        return userData;
+        return usernames;
     }
 
     /**
@@ -213,7 +220,6 @@ public class UserManager implements IUserAuthenticator,Serializable {
      * @param age the user's age
      */
     public void addToRegisteredUsers(String name, String password, int age){
-        // TODO id
         registerUser(new User(name,password,age));
     }
 

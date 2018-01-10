@@ -159,4 +159,9 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
     public int hashCode() {
         return this.brand.hashCode()*this.model.hashCode()*this.myId;
     }
+
+    @Override
+    public String toString() {
+        return "Brand : " + brand + "\n " + "Model : " + model + "\n " + "Year : " + productionYear + "\n " + "Registration : " + registrationPlate + "\n " + "Next oil : " + nextOilChange + "\n " ;
+    }
 }

@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import model.Stickers.AnnualVignette;
 import model.Stickers.IVignette;
@@ -373,6 +375,24 @@ public class DatabaseManager {
         return vehicles;
     }
 
+    /**
+     * Gets vehicles from all users with taxes, vignettes and insurances
+     * @return TreeMap with user username as key and arraylist of vehicles as value
+     */
+    public Map<String,List<Vehicle>> getVehiclesForAllUsers(){
+        TreeMap<String,List<Vehicle>> vehicleList = new TreeMap<>();
+        getAndStoreAllUsers();
+        ArrayList<String> usersUsernames;
+        usersUsernames =  userManager.getAllRegisteredUsersUsername();
+        for (String x : usersUsernames){
+            try {
+                vehicleList.put(x,getVehiclesForLoggedUser(x));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return vehicleList;
+    }
     /**
      * Gets the vehicle's (specified by registration) tax
      *
