@@ -10,8 +10,10 @@ import java.util.Calendar;
 public interface IVignette extends Serializable {
     boolean isValid();
     double getPrice();
+    void setPrice(double price);
     String getStartDate();
     String getEndDate();
     String getType();
     Calendar getStartDateAsCalender();
+    Calendar getEndDateAsCalendar();
 }

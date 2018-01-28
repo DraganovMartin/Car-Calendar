@@ -14,13 +14,12 @@ public class WeekVignette implements IVignette {
 
     public WeekVignette(){}
 
-    public WeekVignette(int startYear, int startMonth, int startDay,double price){
+    public WeekVignette(int startYear, int startMonth, int startDay){
         startDate.clear();
         startDate.set(startYear,startMonth,startDay);
         endDate.clear();
         endDate.set(startYear,startMonth,startDay);
         endDate.add(Calendar.WEEK_OF_MONTH,+1);
-        this.price = price;
     }
 
     public Calendar getStartDateObject() {
@@ -56,6 +55,13 @@ public class WeekVignette implements IVignette {
     }
 
     @Override
+    public void setPrice(double price) {
+        if (price != 0.0){
+            this.price = price;
+        }
+    }
+
+    @Override
     public String getStartDate() {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         String date = format1.format(startDate.getTime());
@@ -72,6 +78,11 @@ public class WeekVignette implements IVignette {
     @Override
     public Calendar getStartDateAsCalender(){
         return startDate;
+    }
+
+    @Override
+    public Calendar getEndDateAsCalendar() {
+        return endDate;
     }
 
     @Override

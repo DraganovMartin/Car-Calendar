@@ -16,14 +16,11 @@ public class AnnualVignette implements IVignette {
 
     public AnnualVignette(){}
 
-    public AnnualVignette(int startYear, int startMonth, int startDay,double price){
+    public AnnualVignette(int startYear, int startMonth, int startDay){
         startDate.clear();
         startDate.set(startYear,startMonth,startDay);
         endDate.clear();
         endDate.set(startYear+1,Calendar.JANUARY,31);
-
-
-        this.price = price;
     }
 
     public Calendar getStartDateObject() {
@@ -60,6 +57,13 @@ public class AnnualVignette implements IVignette {
     }
 
     @Override
+    public void setPrice(double price) {
+        if (price != 0.0){
+            this.price = price;
+        }
+    }
+
+    @Override
     public String getStartDate() {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         String date = format1.format(startDate.getTime());
@@ -76,6 +80,11 @@ public class AnnualVignette implements IVignette {
     @Override
     public Calendar getStartDateAsCalender(){
         return startDate;
+    }
+
+    @Override
+    public Calendar getEndDateAsCalendar() {
+        return endDate;
     }
 
     @Override

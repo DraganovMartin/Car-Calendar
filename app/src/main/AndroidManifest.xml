@@ -67,16 +67,17 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <receiver
-            android:name=".utils.DateReceiver"
+            android:name=".services.DateReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.DATE_CHANGED" />
+                <!-- action TIME_SET only temporary -->
+                <action android:name="android.intent.action.TIME_SET" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name=".utils.CheckerIntentService"
+            android:name=".services.CheckerIntentService"
             android:exported="false"></service>
     </application>
 
