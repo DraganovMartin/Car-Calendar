@@ -355,7 +355,7 @@
                 android:text="@string/vignette_start_day"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/guideline24"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/guideline14"
@@ -376,7 +376,7 @@
                 android:text="00.00.0000"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/guideline24"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toRightOf="@+id/vignette_start"
                 app:layout_constraintRight_toLeftOf="@+id/guideline14"
@@ -397,12 +397,11 @@
                 android:text="@string/vignette_end_day"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/guideline24"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline14"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline20"
-                app:layout_constraintVertical_bias="0.504"
                 tools:layout_conversion_absoluteHeight="16dp"
                 tools:layout_conversion_absoluteWidth="118dp"
                 tools:layout_conversion_absoluteX="179dp"
@@ -419,7 +418,7 @@
                 android:text="00.00.0000"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/guideline24"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toRightOf="@+id/vignette_end_TV"
                 app:layout_constraintRight_toRightOf="parent"
@@ -686,53 +685,94 @@
                 tools:layout_conversion_absoluteY="339dp" />
 
             <android.support.constraint.Guideline
+                android:id="@+id/guideline14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/guideline14"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.5" />
 
             <android.support.constraint.Guideline
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/guideline15"
-                app:layout_constraintGuide_begin="56dp"
-                android:orientation="horizontal" />
-
-            <android.support.constraint.Guideline
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="56dp" />
+
+            <android.support.constraint.Guideline
                 android:id="@+id/guideline16"
-                app:layout_constraintGuide_begin="100dp"
-                android:orientation="horizontal" />
-
-            <android.support.constraint.Guideline
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="100dp" />
+
+            <android.support.constraint.Guideline
                 android:id="@+id/guideline17"
-                app:layout_constraintGuide_begin="144dp"
-                android:orientation="horizontal" />
-
-            <android.support.constraint.Guideline
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="144dp" />
+
+            <android.support.constraint.Guideline
                 android:id="@+id/guideline18"
-                app:layout_constraintGuide_begin="205dp"
-                android:orientation="horizontal" />
-
-            <android.support.constraint.Guideline
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="205dp" />
+
+            <android.support.constraint.Guideline
                 android:id="@+id/guideline19"
-                app:layout_constraintGuide_begin="266dp"
-                android:orientation="horizontal" />
-
-            <android.support.constraint.Guideline
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="266dp" />
+
+            <android.support.constraint.Guideline
                 android:id="@+id/guideline20"
-                app:layout_constraintGuide_begin="331dp"
-                android:orientation="horizontal" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="331dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="406dp" />
+
+            <TextView
+                android:id="@+id/vignette_price_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/vignette_price"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline14"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline24" />
+
+            <TextView
+                android:id="@+id/vignettePriceTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:text="0.0"
+                android:textAlignment="center"
+                android:textStyle="italic|bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline14"
+                app:layout_constraintTop_toTopOf="@+id/guideline24" />
 
 
         </android.support.constraint.ConstraintLayout>

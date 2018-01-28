@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,8 @@ public class ViewVehicleFragment extends Fragment {
 
     private TextView vignetteStartLbl;
     private TextView vignetteEndLbl;
+    private TextView vignettePriceLbl;
+    private TextView vignettePrice;
 
     private Vehicle vehicle;
     public ViewVehicleFragment() {
@@ -71,6 +74,8 @@ public class ViewVehicleFragment extends Fragment {
             vignetteEndDate.setVisibility(View.GONE);
             vignetteStartLbl.setVisibility(View.GONE);
             vignetteEndLbl.setVisibility(View.GONE);
+            vignettePriceLbl.setVisibility(View.GONE);
+            vignettePrice.setVisibility(View.GONE);
 
 
         }
@@ -88,6 +93,7 @@ public class ViewVehicleFragment extends Fragment {
                 rangeKM.setText(car.getKmRange());
                 vignetteStartDate.setText(car.getVignette().getStartDate());
                 vignetteEndDate.setText(car.getVignette().getEndDate());
+                vignettePrice.setText(String.valueOf(car.getVignette().getPrice()));
                 insuranceAmount.setText(String.valueOf(car.getInsurance().getPrice()));
                 insuranceStartDay.setText(car.getInsurance().getStartDate());
                 insuranceEndDay.setText(new SimpleDateFormat("yyyy-MM-dd").format(car.getInsurance().getActiveEndDate().getTime()));
@@ -149,6 +155,9 @@ public class ViewVehicleFragment extends Fragment {
         insuranceAmount = (TextView) fragmentView.findViewById(R.id.insurance_amount_TV);
         insuranceStartDay = (TextView) fragmentView.findViewById(R.id.insurance_start_TV);
         insuranceEndDay = (TextView) fragmentView.findViewById(R.id.insurance_end_TV);
+        vignettePriceLbl = (TextView) fragmentView.findViewById(R.id.vignette_price_TV);
+        vignettePrice = (TextView) fragmentView.findViewById(R.id.vignettePriceTV);
+
         updateUI(vehicle);
 
 
