@@ -1,5 +1,9 @@
 package model.Stickers;
 
+import android.util.Pair;
+
+import com.carcalendar.dmdev.carcalendar.utils.CalendarUtils;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,6 +21,7 @@ public class Insurance implements Serializable{
     private  Calendar startDate;
     private Calendar endDate;
     private Calendar[] endDates;
+    private int currentPeriodNumber;
     public  enum Payments {
         ONE (1),
         TWO (2),
@@ -49,7 +54,7 @@ public class Insurance implements Serializable{
      */
     public boolean isValid(){
         Calendar lastDate = endDates[getTypeCount() - 1];
-        Calendar now = Calendar.getInstance();
+        Calendar now = CalendarUtils.getOnlyDateAsCalendar();
 
         if(lastDate != null){
             if(now.before(lastDate) || lastDate.equals(now)){
@@ -62,7 +67,9 @@ public class Insurance implements Serializable{
 
     /**
      * Gets the still active endDate from the specified period.
-     * The method also checks if the insurance is still valid.
+     * The method also checks if the insurance is still valid and
+     * stores the active period number.
+     *
      *
      * @return the active end date of the current period or null if the insurance expired
      */
@@ -75,15 +82,17 @@ public class Insurance implements Serializable{
         // Otherwise the loop will continue to check the dates until it reaches the last date.
         // The last date will not be checked in the loop.
         // It was already checked in the isValid() method so no need to check it again.
-        Calendar now = Calendar.getInstance();
+        Calendar now = CalendarUtils.getOnlyDateAsCalendar();
         for(int currentPeriod = 0; currentPeriod < getTypeCount() - 1; currentPeriod++){
-            if(now.before(endDates[currentPeriod])){
+            if(now.before(endDates[currentPeriod]) || now.equals(endDates[currentPeriod])){
+                currentPeriodNumber = currentPeriod;
                 return endDates[currentPeriod];
             }
         }
 
         // if the insurance is valid and non of the
-        return endDates[getTypeCount() - 1];
+        currentPeriodNumber = getTypeCount() - 1;
+        return endDates[currentPeriodNumber];
     }
 
     public int getTypeCount() {
@@ -171,6 +180,34 @@ public class Insurance implements Serializable{
      * @return final end date formatted as string " yyyy-MM-dd "
      */
     public String getTotalEndDate() {return new SimpleDateFormat("yyyy-MM-dd").format(endDates[type - 1].getTime());}
+
+
+    /**
+     * Finds the number of days after which the insurance expires and the current insurance interval.
+     *
+     * @param notificationInterval the interval (in days) during which the app notifies the user
+     * @return A Pair. The first Integer: the number of days after which the tax expires, -1 if the tax has already expired
+     * and -2 if the remaining days are more than the days in the notificationInterval
+     * The second object in the pair is the current insurance interval number.
+     *
+     * If the insurance has expired the insurance interval is set to 0
+     * And if the insurance has a single payment period the insurance interval is set to -1.
+     */
+    public Pair<Integer, Integer> getRemainingDaysAndPeriodNumber(int notificationInterval) {
+        Calendar today = CalendarUtils.getOnlyDateAsCalendar();
+
+        Calendar activeEnDate = getActiveEndDate(); // calculates the currentPeriodNumber
+        if (activeEnDate == null) {
+            return new Pair<>(-1, 0);
+        }
+
+        int remainingDays = CalendarUtils.getDaysBetween(today, activeEnDate, notificationInterval);
+        if(getTypeCount() == Payments.ONE.levelCode) {
+            currentPeriodNumber = -1;
+        }
+
+        return new Pair<>(remainingDays, currentPeriodNumber);
+    }
 
     public String getTypeForDB(){
         switch (type){

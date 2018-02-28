@@ -9,12 +9,12 @@ import model.Stickers.IVignette;
  */
 
 public class Car extends Vehicle implements Serializable {
+    private static final String VEHICLE_TYPE = "Car"; // TODO set in strings.xml;
 
     private String engineType;
     private String carType;
     private String kmRange;
     private IVignette vignette;
-
 
     public Car(){
         super();
@@ -70,5 +70,10 @@ public class Car extends Vehicle implements Serializable {
     }
     public IVignette getVignette(){
         return vignette;
+    }
+
+    @Override
+    public String getVehicleType() {
+        return VEHICLE_TYPE;
     }
 }

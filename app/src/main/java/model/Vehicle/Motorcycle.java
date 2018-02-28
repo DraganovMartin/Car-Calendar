@@ -5,6 +5,8 @@ package model.Vehicle;
  */
 
 public class Motorcycle extends Vehicle {
+    private static final String VEHICLE_TYPE = "Motorcycle"; // TODO set in strings.xml;
+
     private String engineType;
     private String motorcycleType;
     private String kmRange;
@@ -54,4 +56,8 @@ public class Motorcycle extends Vehicle {
         }
     }
 
+    @Override
+    public String getVehicleType() {
+        return VEHICLE_TYPE;
+    }
 }

@@ -75,6 +75,11 @@ public class WeekVignette implements IVignette {
     }
 
     @Override
+    public Calendar getEndDateAsCalendar() {
+        return endDate;
+    }
+
+    @Override
     public String getType() {
         return "week-vignette";
     }
