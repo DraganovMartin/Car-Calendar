@@ -61,7 +61,8 @@
         <activity
             android:name=".AddVehicleCarActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".HoldViewVehicleFragmentActivity" />
+        <activity android:name=".HoldViewVehicleFragmentActivity"
+            android:parentActivityName=".LoaderActivity" />
         <activity
             android:name=".AddVehicleMotorcycleActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
@@ -69,15 +70,16 @@
         <receiver
             android:name=".utils.DateReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.DATE_CHANGED" />
+                <!-- action TIME_SET only temporary -->
+                <action android:name="android.intent.action.TIME_SET" />
             </intent-filter>
         </receiver>
 
         <service
             android:name=".utils.CheckerIntentService"
-            android:exported="false"></service>
+            android:exported="false"/>
     </application>
 
 </manifest>
