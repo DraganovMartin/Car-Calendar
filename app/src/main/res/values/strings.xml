@@ -93,6 +93,7 @@
     <string name="vehicle_tax_amount">Tax amount</string>
     <string name="next_tax_payment">Next Tax payment</string>
     <string name="insurance_period_type">Insurance period</string>
+    <string name="vignette_price">Vignette price</string>
 
 
 </resources>

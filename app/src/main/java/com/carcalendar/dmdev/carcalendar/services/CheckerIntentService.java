@@ -1,4 +1,4 @@
-package com.carcalendar.dmdev.carcalendar.utils;
+package com.carcalendar.dmdev.carcalendar.services;
 
 import android.app.IntentService;
 import android.content.Intent;

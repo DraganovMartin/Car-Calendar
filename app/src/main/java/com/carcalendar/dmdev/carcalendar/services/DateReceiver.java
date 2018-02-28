@@ -1,8 +1,5 @@
-package com.carcalendar.dmdev.carcalendar.utils;
+package com.carcalendar.dmdev.carcalendar.services;
 
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

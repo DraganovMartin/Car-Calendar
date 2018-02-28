@@ -31,6 +31,7 @@ public interface IVignette extends Serializable {
 
     boolean isValid();
     double getPrice();
+    void setPrice(double price);
     String getStartDate();
     String getEndDate();
     String getType();

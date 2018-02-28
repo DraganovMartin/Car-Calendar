@@ -14,13 +14,12 @@ public class WeekVignette implements IVignette {
 
     public WeekVignette(){}
 
-    public WeekVignette(int startYear, int startMonth, int startDay,double price){
+    public WeekVignette(int startYear, int startMonth, int startDay){
         startDate.clear();
         startDate.set(startYear,startMonth,startDay);
         endDate.clear();
         endDate.set(startYear,startMonth,startDay);
         endDate.add(Calendar.WEEK_OF_MONTH,+1);
-        this.price = price;
     }
 
     public Calendar getStartDateObject() {
@@ -53,6 +52,13 @@ public class WeekVignette implements IVignette {
     @Override
     public double getPrice() {
         return price;
+    }
+
+    @Override
+    public void setPrice(double price) {
+        if (price != 0.0){
+            this.price = price;
+        }
     }
 
     @Override

@@ -64,6 +64,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
     private boolean taxDatePickerActivated = false;
     private boolean inEditMode = false;
     private UserManager manager = UserManager.getInstance();
+    private EditText vignettePrice;
 
     private Uri photoURIFromCamera;
     private Bitmap cameraBitmap;
@@ -115,6 +116,7 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
         insuranceTypeSpinner = (Spinner) findViewById(R.id.insurance_spinner);
         yearText = (EditText) findViewById(R.id.yearEText);
         rangeText = (EditText) findViewById(R.id.rangeEText);
+        vignettePrice = (EditText) findViewById(R.id.vignettePriceET);
 
         car = new Car();
 
@@ -529,6 +531,13 @@ public class AddVehicleCarActivity extends FragmentActivity implements DatePicke
                     oilET.requestFocus();
                 } else {
                     car.setNextOilChange(oilET.getText().toString());
+                }
+
+                if (vignettePrice.getText().toString().isEmpty()){
+                    vignettePrice.setError("Please enter vignette price");
+                } else {
+                    // todo : fix vignette class, so money are not hard coded
+                    car.getVignette().setPrice(Double.parseDouble(vignettePrice.getText().toString()));
                 }
 
                 DatabaseManager databaseManager = new DatabaseManager(getApplicationContext());

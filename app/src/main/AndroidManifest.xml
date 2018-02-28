@@ -68,7 +68,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <receiver
-            android:name=".utils.DateReceiver"
+            android:name=".services.DateReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -78,8 +78,8 @@
         </receiver>
 
         <service
-            android:name=".utils.CheckerIntentService"
-            android:exported="false"/>
+            android:name=".services.CheckerIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

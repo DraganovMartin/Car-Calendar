@@ -470,22 +470,22 @@ public class DatabaseManager {
             case "annual-vignette":
                 vignette = new AnnualVignette(parsedDate.get(Calendar.YEAR),
                         parsedDate.get(Calendar.MONTH),
-                        parsedDate.get(Calendar.DAY_OF_MONTH),
-                        price);
+                        parsedDate.get(Calendar.DAY_OF_MONTH));
+                vignette.setPrice(price);
                 break;
 
             case "month-vignette":
                 vignette = new MonthVignette(parsedDate.get(Calendar.YEAR),
                         parsedDate.get(Calendar.MONTH),
-                        parsedDate.get(Calendar.DAY_OF_MONTH),
-                        price);
+                        parsedDate.get(Calendar.DAY_OF_MONTH));
+                vignette.setPrice(price);
                 break;
 
             case "week-vignette":
                 vignette = new WeekVignette(parsedDate.get(Calendar.YEAR),
                         parsedDate.get(Calendar.MONTH),
-                        parsedDate.get(Calendar.DAY_OF_MONTH),
-                        price);
+                        parsedDate.get(Calendar.DAY_OF_MONTH));
+                vignette.setPrice(price);
                 break;
 
             default:
