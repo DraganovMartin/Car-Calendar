@@ -74,7 +74,8 @@ public class LoaderActivity extends AppCompatActivity {
                     }
 
                     for (Vehicle x : list) {
-                        ImageUtils.mapImageToVehicle(x, ImageUtils.getBitmapFromPath(x.getPathToImage()));
+                        if(x.getPathToImage() != null)
+                            ImageUtils.mapImageToVehicle(x, ImageUtils.getBitmapFromPath(x.getPathToImage()));
                     }
                     return true;
                 }
