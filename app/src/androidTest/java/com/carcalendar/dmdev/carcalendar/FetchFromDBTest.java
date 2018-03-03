@@ -71,7 +71,7 @@ public class FetchFromDBTest {
 
     @Test
     public void shouldFetchUserVehicleData() throws Exception {
-        List<Vehicle> vehicles = dbManager.getVehiclesForLoggedUser("test");
+        List<Vehicle> vehicles = dbManager.getVehiclesForUser("test");
         assertEquals(1, vehicles.size());
 
         for (Vehicle vehicle : vehicles) {

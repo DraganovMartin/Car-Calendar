@@ -61,7 +61,8 @@
         <activity
             android:name=".AddVehicleCarActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".HoldViewVehicleFragmentActivity" />
+        <activity android:name=".HoldViewVehicleFragmentActivity"
+            android:parentActivityName=".LoaderActivity" />
         <activity
             android:name=".AddVehicleMotorcycleActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />

@@ -296,7 +296,7 @@ public class DatabaseManager {
      * @param username the unique id that identifies which vehicles are owned by this user
      * @return a list of the user's vehicles, null if no vehicles are stored in the db
      */
-    public List<Vehicle> getVehiclesForLoggedUser(String username) throws Exception {
+    public List<Vehicle> getVehiclesForUser(String username) throws Exception {
         Cursor cursor = database.query(DatabaseHelper.VEHICLES_TABLE,
                 DatabaseHelper.VEHICLES_TABLE_COLUMNS,
                 "ownerID = ?",
@@ -377,7 +377,7 @@ public class DatabaseManager {
 
     /**
      * Gets vehicles from all users with taxes, vignettes and insurances
-     * @return TreeMap with user username as key and arraylist of vehicles as value
+     * @return TreeMap with user username as key and arraylist of vehicles as value or an empty map
      */
     public Map<String,List<Vehicle>> getVehiclesForAllUsers(){
         TreeMap<String,List<Vehicle>> vehicleList = new TreeMap<>();
@@ -386,7 +386,9 @@ public class DatabaseManager {
         usersUsernames =  userManager.getAllRegisteredUsersUsername();
         for (String x : usersUsernames){
             try {
-                vehicleList.put(x,getVehiclesForLoggedUser(x));
+                List<Vehicle> vehiclesForCurrUser = getVehiclesForUser(x);
+                if(vehiclesForCurrUser != null)
+                    vehicleList.put(x, vehiclesForCurrUser);
             } catch (Exception e) {
                 e.printStackTrace();
             }

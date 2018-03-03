@@ -143,6 +143,12 @@ public abstract class Vehicle implements Serializable,Comparable<Vehicle> {
         this.tax = tax;
     }
 
+    /**
+     *
+     * @return the type of the vehicle: Car, Motorcycle
+     */
+    public abstract String getVehicleType();
+
     @Override
     public boolean equals(Object obj) {
         Vehicle toCompare = (Vehicle) obj;

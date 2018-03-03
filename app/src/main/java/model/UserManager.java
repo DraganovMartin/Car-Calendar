@@ -9,10 +9,8 @@ import com.carcalendar.dmdev.carcalendar.utils.DatabaseManager;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +47,10 @@ public class UserManager implements IUserAuthenticator,Serializable {
     public void setDbContext(Context context){
         dbManager = new DatabaseManager(context);
         Log.d("DB", "DB created!");
+    }
+
+    public boolean isDbInitialized() {
+        return dbManager != null;
     }
 
     /**
@@ -157,11 +159,11 @@ public class UserManager implements IUserAuthenticator,Serializable {
      */
     public List<Vehicle> getRegisteredUserVehiclesFromDB(){
         try {
-            if (dbManager.getVehiclesForLoggedUser(loggedUser.name) == null){
+            if (dbManager.getVehiclesForUser(loggedUser.name) == null){
                 return null;
             }
             else {
-                ArrayList<Vehicle> tmplist = (ArrayList<Vehicle>) dbManager.getVehiclesForLoggedUser(loggedUser.name);
+                ArrayList<Vehicle> tmplist = (ArrayList<Vehicle>) dbManager.getVehiclesForUser(loggedUser.name);
                 loggedUser.ownedVehicles = new TreeSet<>(tmplist);
                 return tmplist;
             }
@@ -339,8 +341,14 @@ public class UserManager implements IUserAuthenticator,Serializable {
 
         @Override
         public int compareTo(User user) {
-            if(this.id < user.id) return -1;
-            if(this.id == user.id) return 0;
+            // No id's used anymore. Breaks adding two or more users.
+//            if(this.id < user.id) return -1;
+//            if(this.id == user.id) return 0;
+//            return 1;
+
+            if(this.name.equals(user.name)) return 0;
+            if(this.name.charAt(0) > name.charAt(0)) return -1;
+
             return 1;
         }
     }
